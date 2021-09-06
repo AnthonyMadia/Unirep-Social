@@ -3481,9 +3481,9 @@ blake2b-wasm@^1.1.0:
   dependencies:
     nanoassert "^1.0.0"
 
-"blake2b-wasm@git+https://github.com/jbaylina/blake2b-wasm.git":
+"blake2b-wasm@https://github.com/jbaylina/blake2b-wasm.git":
   version "2.1.0"
-  resolved "git+https://github.com/jbaylina/blake2b-wasm.git#0d5f024b212429c7f50a7f533aa3a2406b5b42b3"
+  resolved "https://github.com/jbaylina/blake2b-wasm.git#0d5f024b212429c7f50a7f533aa3a2406b5b42b3"
   dependencies:
     nanoassert "^1.0.0"
 
@@ -3913,6 +3913,11 @@ caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30001109, can
   version "1.0.30001248"
   resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001248.tgz"
   integrity sha512-NwlQbJkxUFJ8nMErnGtT0QTM2TJ33xgz4KXJSMIrjXIbDVdaYueGyjOrLKRtJC+rTiWfi6j5cnZN1NBiSBJGNw==
+
+canvas-renderer@~2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/canvas-renderer/-/canvas-renderer-2.1.1.tgz#d91fe9511ab48056ff9fa8a04514bede76535f55"
+  integrity sha512-/V0XetN7s1Mk3NO7x2wxPZYv0pLMQtGAhecuOuKR88beiYCUle1AbCcFZNLu+4NVzi9RVHS0rXtIgzPEaKidLw==
 
 capture-exit@^2.0.0:
   version "2.0.0"
@@ -7889,6 +7894,14 @@ jake@^10.6.1:
     filelist "^1.0.1"
     minimatch "^3.0.4"
 
+jdenticon@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/jdenticon/-/jdenticon-2.2.0.tgz#6a9d9cb2134a7848ff21d59b3871148cbc6af87f"
+  integrity sha512-WGqwpjN9pab/Sah9pGnFH5tQc3HF3WbLV/tPVbykvk5nuAkxG/zhzQYWC2owvpnS+/A0HmlSx35rtY8kyN+x7Q==
+  dependencies:
+    "@types/node" "*"
+    canvas-renderer "~2.1.1"
+
 jest-changed-files@^26.6.2:
   version "26.6.2"
   resolved "https://registry.npmjs.org/jest-changed-files/-/jest-changed-files-26.6.2.tgz"
@@ -11257,6 +11270,14 @@ react-is@^17.0.1:
   version "17.0.2"
   resolved "https://registry.npmjs.org/react-is/-/react-is-17.0.2.tgz"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
+
+react-jdenticon@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/react-jdenticon/-/react-jdenticon-0.0.9.tgz#5d019a1916a73cf8f63251e54143065bb8c718e3"
+  integrity sha512-NuAoIjNBoL5VpPgRXl52b8IwF5nOEK+imn/9usCslaJlg5qgiUjXw0lVLLI1w19cjPaJo952kjnpC2CtokcTXA==
+  dependencies:
+    jdenticon "^2.2.0"
+    prop-types "^15.7.2"
 
 react-refresh@^0.8.3:
   version "0.8.3"

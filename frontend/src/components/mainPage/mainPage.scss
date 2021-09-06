@@ -57,7 +57,7 @@
 
   .post-field-after {
     width: 100%;
-    height: 350px;
+    height: 287px;
     padding: 10px 8px 16px 8px;
     background-image: radial-gradient(99.12% 159.6% at 92.94% 95.93%, #E4D3FF 0%, #E5EEFF 62.33%, #EEE1FF 69.62%, #DAD7F8 81.02%);
     border-radius: 8px;
@@ -88,24 +88,12 @@
     }
 
     .setting-area {
-      height: 225px;
+      height: 162px;
       margin-top: 17px;
       margin-bottom: 17px;
       background-color: #fff;
       border-radius: 8px;
       padding: 8px 16px;
-
-      h3 {
-        color: $dark-grey;
-        font-size: $smaller-font-size;
-        margin: 8px auto;
-      }
-
-      p {
-        font-size: $small-font-size;
-        color: #333;
-        margin: 8px auto;
-      }
 
       label {
         font-size: $smallest-font-size;

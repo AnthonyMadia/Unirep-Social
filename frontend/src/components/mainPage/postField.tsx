@@ -1,10 +1,11 @@
 import React, { useState, useContext }  from 'react';
+import Jdenticon from 'react-jdenticon';
+
 import { publishPost } from '../../utils';
 import { WebContext } from '../../context/WebContext';
 import { MainPageContext } from '../../context/MainPageContext';
 import './mainPage.scss';
 import Choice from './choices';
-import { getEpochKeys } from '../../utils'
 
 const PostField = () => {
 
@@ -43,9 +44,6 @@ const PostField = () => {
     const switchEpkDropdown = async (event: any|null) => {
         if (event != null) {
             event.stopPropagation();
-        }
-        if (user != null) {
-            const epks = await getEpochKeys(user.identity);
         }
         setIsPostFieldEpkDropdown(!isPostFieldEpkDropdown);
     }
@@ -91,10 +89,8 @@ const PostField = () => {
                 <div className="post-field-after" onClick={shrinkDropdown}>
                     <textarea name="userInput" placeholder="Share something!" onChange={handleUserInput}></textarea>
                     <div className="setting-area">
-                        <h3>Display</h3>
-                        <p>The following selection will display with your comment.</p>
                         <div className="setting-epk">
-                            <label>Epoch Key <span>?</span></label>
+                            <label>Select an Epoch Key to display with your post <span>?</span></label>
                             {isPostFieldEpkDropdown? <div className="epk-dropdown">
                                 <div className="epk" onClick={switchEpkDropdown}>
                                     <img src="/images/arrow-down.png"/>
