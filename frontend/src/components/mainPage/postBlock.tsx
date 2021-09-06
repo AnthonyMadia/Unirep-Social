@@ -1,4 +1,7 @@
-import React, { useState, useContext } from 'react';
+import { useState, useContext } from 'react';
+import Jdenticon from 'react-jdenticon';
+import dateformat from 'dateformat';
+
 import { Post } from '../../constants';
 import { vote, leaveComment } from '../../utils';
 import { WebContext } from '../../context/WebContext';
@@ -11,7 +14,7 @@ type Props = {
 
 const PostBlock = ({ post } : Props) => {
 
-    const date = new Date(post.post_time).toLocaleString();
+    const date = dateformat(new Date(post.post_time), "yyyy/m/dd TT h:MM");
     const [ showComment, setShowComment ] = useState(false);
     const [ comment, setComment ] = useState("");
     const { user, shownPosts, setShownPosts } = useContext(WebContext);
@@ -59,31 +62,29 @@ const PostBlock = ({ post } : Props) => {
     return (
         <div className="post-block">
             <div className="post-block-header">
-                <img src="/images/arrow-down.png"></img>
+                <Jdenticon size="24" value={post.epoch_key} />
                 <div className="rep">80M</div>
                 <div className="epk">{post.epoch_key}</div>
-                <div className="upvote"><img src="/images/upvote.png"></img>{post.upvote}</div>
-                <div className="downvote"><img src="/images/downvote.png"></img>{post.downvote}</div>
-            </div>
-            <div className="divider"></div>
-            <div className="post-block-info">
-                <div className={post.transaction_done? "transaction-text done":"transaction-text pending"}>
-                    {post.transaction_done? "Confirmed":"Pending"}
-                </div>
-                <div className="datetime-text">{date}</div>
-                <img src="/images/share.png"></img>
+                <div className="vote"><img src="/images/upvote.png"></img>{post.upvote}</div>
+                <div className="vote"><img src="/images/downvote.png"></img>{post.downvote}</div>
             </div>
             <div className="post-block-main">
-                {post.content}
+                <div className="post-block-info">
+                    <div className="datetime-text">{date}</div>
+                    <div className="post-share">
+                        <img src="/images/share.png"/>
+                    </div>
+                </div>
+                <div className="post-text">{post.content}</div>
             </div>
             { showComment? 
-                    <div>
-                        <form>
-                            <input type="text" name="userInput" placeholder="say something..." value={comment} onChange={handleUserInput} />
-                        </form>
-                        <div onClick={submitComment}>Comment</div>
-                    </div> : <div></div>
-                }
+                <div>
+                    <form>
+                        <input type="text" name="userInput" placeholder="say something..." value={comment} onChange={handleUserInput} />
+                    </form>
+                    <div onClick={submitComment}>Comment</div>
+                </div> : <div></div>
+            }
         </div>
     );
 };
