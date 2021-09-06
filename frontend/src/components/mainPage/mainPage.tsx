@@ -23,7 +23,7 @@ const MainPage = () => {
     }
 
     return (
-        <div className="overlay" onClick={closeAll}>
+        <div className="default-gesture" onClick={closeAll}>
             <div className="main-content">
                 <MainPageContext.Provider value={{isPostFieldActive, setIsPostFieldActive, isPostFieldEpkDropdown, setIsPostFieldEpkDropdown}}>
                     <PostField />
