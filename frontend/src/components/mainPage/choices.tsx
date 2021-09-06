@@ -1,4 +1,4 @@
-import { MainPageContext } from '../../context/MainPageContext';
+import Jdenticon from 'react-jdenticon';
 
 type Props = {
     className: string,
@@ -15,7 +15,7 @@ const Choice = (props: Props) => {
 
     return (
         <div className={props.className} onClick={doSetState}>
-            <img src="/images/arrow-down.png"/>
+            <Jdenticon size="16" value={props.value} />
             <span>{props.value}</span>
         </div>
     );

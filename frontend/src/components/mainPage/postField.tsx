@@ -93,7 +93,7 @@ const PostField = () => {
                             <label>Select an Epoch Key to display with your post <span>?</span></label>
                             {isPostFieldEpkDropdown? <div className="epk-dropdown">
                                 <div className="epk" onClick={switchEpkDropdown}>
-                                    <img src="/images/arrow-down.png"/>
+                                    <Jdenticon size="16" value={user.epoch_keys[epkNonce]} />
                                     <span>{epkNonce >= 0? user.epoch_keys[epkNonce] : 'Choose an epock key'}</span>
                                     <img src="/images/arrow-down.png"/>
                                 </div>
@@ -104,7 +104,7 @@ const PostField = () => {
                                     ))
                                 }
                             </div> : <div className="epk epk-with-border" onClick={switchEpkDropdown}>
-                                <img src="/images/arrow-down.png"/>
+                                <Jdenticon size="16" value={user.epoch_keys[epkNonce]} />
                                 <span>{epkNonce >= 0? user.epoch_keys[epkNonce] : 'Choose an epock key'}</span>
                                 <img src="/images/arrow-down.png"/>
                             </div>}
