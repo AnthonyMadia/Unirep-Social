@@ -9,8 +9,15 @@
     left: 0;
     background-color: rgba(242, 242, 242, 0.8);
 
+    .shorter {
+      @include popupBox(536px, 487px, $border-width: 1px);
+    }
+
+    .longer {
+      @include popupBox(536px, 545px, $border-width: 1px);
+    }
+
     .signBox {
-      @include popupBox(536px, 407px, $border-width: 1px);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -18,32 +25,12 @@
       .sign-title {
         width: 100%;
         text-align:left;
-        margin-bottom: 20px;
         font-weight: 700;
         font-size: 18px;
       }
 
       .signup-with-twitter {
         @include myButton(300px, 45px, $block-color1:#1DA1F2, $radius:5px, $color:#fff, $font-size: $big-font-size);
-      }
-
-      .sign-private-key {
-        width: 440px;
-        height: 152px;
-        background-color: #F2F2F2;
-        border-radius: 8px;
-        font-size: $smaller-font-size;
-        text-align: left;
-        word-wrap: break-word;
-        padding: 16px 12px;
-
-        textarea {
-          outline: none;
-          border: none;
-          background-color:transparent;
-          width: 416px;
-          height: 152px;
-        }
       }
 
       .sign-message {
@@ -54,27 +41,75 @@
         font-weight: 400;
       }
 
+      .sign-private-key {
+        width: 440px;
+        background-color: #F2F2F2;
+        border-radius: 4px;
+        border: 1px solid #CCD2E3;
+        font-size: $smaller-font-size;
+        text-align: left;
+        word-wrap: break-word;
+        padding: 16px 10px;
+
+        .divider {
+          width: 100%;
+          border: 1px solid $lighter-grey;
+          margin: 10px auto;
+        }
+
+        .copy {
+          width: 100%;
+          color: $purple1;
+          font-size: $smaller-font-size;
+          text-align: center;
+          cursor: pointer;
+        }
+
+        textarea {
+          outline: none;
+          border: none;
+          background-color:transparent;
+          width: 416px;
+          height: 130px;
+        }
+      }
+
+      .long-box {
+        height: 196px;
+      }
+
+      .short-box {
+        height: 160px;
+      }
+
+      .divider-or {
+        width: 100%;
+        margin: 26px auto;
+        text-align: center;
+      }
+
+      .margin-box {
+        height: 26px;
+      }
+
       .sign-error-message {
         width: 440px;
         font-size: $small-font-size;
-        color: #f00;
-        margin: 0 auto;
-      }
-
-      .sign-buttons {
-        display: flex;
-        flex-direction: row;
-        width: 440px;
-        height: 32px;
+        color: #EB5757;
+        margin-top: 12.5px;
       }
 
       .sign-button-purple {
-        @include myButton($width: 207px, $height: 32px, $color: #fff, $block-color1: $purple1, $radius: 20px);
+        @include myButton($width: 440px, $height: 32px, $color: #fff, $block-color1: $purple1, $radius: 20px);
+        box-shadow: 0px 3px 2px rgba(0, 0, 0, 0.1);
+        margin-bottom: 16px;
       }
 
       .sign-button-grey {
-        @include myButton($width: 78px, $height: 32px, $block-color1: $grey, $block-color2: $grey, $radius: 20px);
+        @include myButton($width: 440px, $height: 32px, $block-color1: #fff, $radius: 20px, $color: $dark-grey);
+        border: 1px solid black;
         box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
+        margin-bottom: 16px;
       }
     }
 }

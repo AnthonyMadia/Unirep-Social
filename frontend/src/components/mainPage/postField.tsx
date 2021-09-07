@@ -73,6 +73,7 @@ const PostField = () => {
                     username: 'username',
                     post_time: Date.now(),
                 }
+                setContent('');
                 setShownPosts([newPost, ...shownPosts]);
             } else {
                 console.error('publish post error.');

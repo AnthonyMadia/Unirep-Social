@@ -45,19 +45,25 @@ const SignUp = () => {
 
     const copyPrivateKey = (event: any) => {
         event.stopPropagation();
-        // console.log('copy private key: ' + privateKey);
+        navigator.clipboard.writeText(identity);
     }
 
     const downloadPrivateKey = (event: any) => {
         event.stopPropagation();
-        // console.log('download private key: ' + privateKey);
+
+        const element = document.createElement('a');
+        const file = new Blob([identity], {type: 'text/plain'});
+        element.href = URL.createObjectURL(file);
+        element.download = 'unirep-social-identity.txt';
+        document.body.appendChild(element);
+        element.click();
     }
 
     const handleUserInput = (event: any) => {
         event.stopPropagation();
         setUserInput(event.target.value);
         if (event.target.value !== identity) {
-            setErrorMsg("wrong private key");
+            setErrorMsg("Incorrect private key. Go back to download your key.");
         } else {
             setErrorMsg("");
         }
@@ -69,7 +75,7 @@ const SignUp = () => {
     }
 
     return (
-        <div className="signBox" onClick={preventCloseBox}>
+        <div className={step === 1? "signBox longer" : "signBox shorter"} onClick={preventCloseBox}>
             <div className="sign-title">
                 <h3>{
                     step === 0?
@@ -87,20 +93,25 @@ const SignUp = () => {
                     </div>
                 </div> : step === 1?
                 <div>
-                    <div className="sign-private-key" onClick={copyPrivateKey}>
-                        {identity}
-                    </div>
                     <div className="sign-message">
                         Record this private key and store it safely. You will need it to regain access to your reputation score.
                     </div>
+                    <div className="sign-private-key long-box" onClick={copyPrivateKey}>
+                        {identity}
+                        <div className="divider"></div>
+                        <div className="copy" onClick={copyPrivateKey}>Copy to Clipboard</div>
+                    </div>
+                    <div className="divider-or">- or -</div>
                     <div className="sign-buttons">
                         <div className="sign-button-purple" onClick={downloadPrivateKey}>Download Private Key</div>
-                        <div className="margin-box"></div>
                         <div className="sign-button-grey" onClick={nextStep}>Next</div>
                     </div>
                 </div> : step === 2?
                 <div>
-                    <div className="sign-private-key">
+                    <div className="sign-message">
+                        Record this private key and store it safely. You will need it to regain access to your reputation score.
+                    </div>
+                    <div className="sign-private-key short-box">
                         <textarea name="userInput" placeholder="enter your private key" onChange={handleUserInput} />
                     </div>
                     {errorMsg !== ''? 
@@ -108,14 +119,9 @@ const SignUp = () => {
                             {errorMsg}
                         </div> : <div></div>
                     }
-                    <div className="sign-message">
-                        ... some message
-                    </div>
-                    <div className="sign-buttons">
-                        <div className="sign-button-grey" onClick={previousStep}>{"<<Back"}</div>
-                        <div className="margin-box"></div>
-                        <div className="sign-button-purple" onClick={closeBox}>Confirm</div>
-                    </div>
+                    <div className="margin-box"></div>
+                    <div className="sign-button-purple" onClick={closeBox}>Confirm</div>
+                    <div className="sign-button-grey" onClick={previousStep}>Back</div>
                 </div> : <div>{errorMsg}</div>
             } 
         </div>
