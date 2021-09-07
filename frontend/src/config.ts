@@ -14,8 +14,8 @@ const DEFAULT_NUM_ATTESTATIONS_PER_EPOCH_KEY = 6
 const DEFAULT_EPOCH_LENGTH = 30
 const DEFAULT_ATTESTING_FEE = ethers.utils.parseEther("0.01")
 const DEFAULT_TREE_DEPTHS_CONFIG = 'circuit'
-const DEFAULT_POST_KARMA = 10 // 5
-const DEFAULT_COMMENT_KARMA = 5
+const DEFAULT_POST_KARMA = 5
+const DEFAULT_COMMENT_KARMA = 3
 const MAX_KARMA_BUDGET = 10
 const DEFAULT_AIRDROPPED_KARMA = 20
 
@@ -24,11 +24,11 @@ const UNIREP_SOCIAL = '0xa513E6E4b8f2a923D98304ec87F64353C4D5C853'
 
 const circuitGlobalStateTreeDepth = 4;
 const circuitUserStateTreeDepth = 4;
-const circuitEpochTreeDepth = 8;
+const circuitEpochTreeDepth = 32;
 const circuitNullifierTreeDepth = 128;
 const globalStateTreeDepth = 4;
 const userStateTreeDepth = 4;
-const epochTreeDepth = 4;
+const epochTreeDepth = 32;
 const nullifierTreeDepth = 128;
 const maxUsers = 2 ** globalStateTreeDepth - 1;
 const attestingFee = ethers.utils.parseEther("0.01")
