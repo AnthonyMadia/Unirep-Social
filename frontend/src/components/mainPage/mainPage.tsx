@@ -3,6 +3,7 @@ import { WebContext } from '../../context/WebContext';
 import { MainPageContext } from '../../context/MainPageContext';
 import PostsList from './postsList';
 import PostField from './postField';
+import Feed from './feed';
 import './mainPage.scss';
 
 const MainPage = () => {
@@ -27,6 +28,7 @@ const MainPage = () => {
             <div className="main-content">
                 <MainPageContext.Provider value={{isPostFieldActive, setIsPostFieldActive, isPostFieldEpkDropdown, setIsPostFieldEpkDropdown}}>
                     <PostField />
+                    <Feed />
                     <div className="post-list"><PostsList posts={shownPosts} /></div>
                     <div className="main-page-button" onClick={loadMorePosts}>Load More Posts</div>
                 </MainPageContext.Provider>
