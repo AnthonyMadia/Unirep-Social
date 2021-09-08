@@ -10,7 +10,6 @@ import { DEFAULT_POST_KARMA } from '../../config';
 
 const PostField = () => {
 
-    const date = new Date().toUTCString();
     const [content, setContent] = useState("");
     const [errorMsg, setErrorMsg] = useState("");
     const [reputation, setReputation] = useState(DEFAULT_POST_KARMA);
@@ -86,7 +85,7 @@ const PostField = () => {
                     reputation,
                 }
                 init();
-                
+
                 setShownPosts([newPost, ...shownPosts]);
                 const reputations = (await getUserState(user.identity)).userState.getRep();
                 setUser({...user, reputations})
@@ -94,7 +93,6 @@ const PostField = () => {
                 console.error('publish post error.');
             }
         }
-        // after submit, all input are cleared and initialized
     }
 
     return (

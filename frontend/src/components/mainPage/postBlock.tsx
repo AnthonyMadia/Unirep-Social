@@ -65,8 +65,8 @@ const PostBlock = ({ post } : Props) => {
                 <Jdenticon size="24" value={post.epoch_key} />
                 <div className="rep">{post.reputation}</div>
                 <div className="epk">{post.epoch_key}</div>
-                <div className="vote"><img src="/images/upvote.png"></img>{post.upvote}</div>
-                <div className="vote"><img src="/images/downvote.png"></img>{post.downvote}</div>
+                <div className="vote" onClick={upvote}><img src="/images/upvote.png"></img>{post.upvote}</div>
+                <div className="vote" onClick={downvote}><img src="/images/downvote.png"></img>{post.downvote}</div>
             </div>
             <div className="post-block-main">
                 <div className="post-block-info">
