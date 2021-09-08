@@ -156,6 +156,10 @@ class UserState {
         }
     }
 
+    public getRep = (space = 0): number => {
+        return this.transitionedPosRep - this.transitionedNegRep - this.currentEpochNegRep;
+    }
+
     public toJSON = (space = 0): string => {
         return JSON.stringify(
             {

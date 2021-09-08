@@ -11,7 +11,7 @@ import { genEpochKey, genUserStateFromContract } from './core/utils'
 import { add0x } from './crypto/SMT'
 import { genVerifyReputationProofAndPublicSignals, getSignalByNameViaSym, verifyProveReputationProof, formatProofForVerifierContract } from './circuits'
 
-const getUserState = async (identity: string) => {
+export const getUserState = async (identity: string) => {
     const provider = new ethers.providers.JsonRpcProvider(config.DEFAULT_ETH_PROVIDER)
 
     const unirepSocialContract = new ethers.Contract(
@@ -58,7 +58,7 @@ export const getEpochKeys = async (identity: string) => {
     }
     console.log(epks)
 
-    return epks
+    return {epks, userState}
 }
 
 const genProof = async (identity: string, epkNonce: number = 0, proveKarmaAmount: number, minRep: number = 0) => {

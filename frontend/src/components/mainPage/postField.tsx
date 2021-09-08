@@ -1,27 +1,36 @@
 import { useState, useContext }  from 'react';
 import Jdenticon from 'react-jdenticon';
 
-import { publishPost } from '../../utils';
+import { publishPost, getUserState } from '../../utils';
 import { WebContext } from '../../context/WebContext';
 import { MainPageContext } from '../../context/MainPageContext';
 import './mainPage.scss';
 import Choice from './choices';
+import { DEFAULT_POST_KARMA } from '../../config';
 
 const PostField = () => {
 
     const date = new Date().toUTCString();
     const [content, setContent] = useState("");
     const [errorMsg, setErrorMsg] = useState("");
-    const [reputation, setReputation] = useState(0);
+    const [reputation, setReputation] = useState(DEFAULT_POST_KARMA);
     const [epkNonce, setEpkNonce] = useState(0); // maybe it should be the first available epk
 
-    const { user, shownPosts, setShownPosts } = useContext(WebContext);
+    const { user, setUser, shownPosts, setShownPosts } = useContext(WebContext);
     const { 
         isPostFieldActive, 
         setIsPostFieldActive,
         isPostFieldEpkDropdown, 
         setIsPostFieldEpkDropdown 
     } = useContext(MainPageContext);
+
+    const init = () => {
+        setIsPostFieldEpkDropdown(false);
+        setIsPostFieldActive(false);
+        setContent('');
+        setReputation(DEFAULT_POST_KARMA);
+        setEpkNonce(0);
+    }
 
     const shrinkDropdown = (event:any) => {
         event.stopPropagation();
@@ -38,7 +47,9 @@ const PostField = () => {
     }
 
     const changeReputation = (event: any) => {
-        setReputation(event.target.value);
+        if (event.target.value >= reputation) {
+            setReputation(event.target.value);
+        }
     }
 
     const switchEpkDropdown = async (event: any|null) => {
@@ -72,9 +83,13 @@ const PostField = () => {
                     epoch_key: ret.epk,
                     username: 'username',
                     post_time: Date.now(),
+                    reputation,
                 }
-                setContent('');
+                init();
+                
                 setShownPosts([newPost, ...shownPosts]);
+                const reputations = (await getUserState(user.identity)).userState.getRep();
+                setUser({...user, reputations})
             } else {
                 console.error('publish post error.');
             }

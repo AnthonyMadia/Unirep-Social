@@ -18,6 +18,7 @@ const SignUp = () => {
     const [identity, setIdentity] = useState("");
     const [commitment, setCommitment] = useState("");
     const [epks, setEpks] = useState<string[]>([]);
+    const [reputations, setReputations] = useState(0);
 
     const preventCloseBox = (event: any) => {
         event.stopPropagation();
@@ -30,8 +31,9 @@ const SignUp = () => {
             const {i, c} = await userSignUp();
             setIdentity(i);
             setCommitment(c);
-            const epks = await getEpochKeys(i);
-            setEpks(epks);
+            const ret = await getEpochKeys(i);
+            setEpks(ret.epks);
+            setReputations(ret.userState.getRep());
         }
 
         setStep((prevState) => (prevState + 1));
@@ -71,7 +73,7 @@ const SignUp = () => {
 
     const closeBox = async () => {
         setPageStatus(Constants.PageStatus.None);
-        setUser({ identity: identity, epoch_keys: epks });
+        setUser({ identity: identity, epoch_keys: epks, reputations });
     }
 
     return (

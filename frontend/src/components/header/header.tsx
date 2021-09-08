@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { WebContext } from '../../context/WebContext';
-import { FaUser, FaSearch } from 'react-icons/fa';
 import * as Constants from '../../constants';
+import { getUserState } from '../../utils';
 import './header.scss';
 
 const Header = () => {
@@ -19,10 +19,15 @@ const Header = () => {
         setPageStatus(Constants.PageStatus.SignIn);
     }
 
-    const printUser = () => {
+    const printUser = async () => {
         if (user != null) {
-            console.log('user is ' + user.identity);
+            const ret = await getUserState(user.identity);
+            setUser({...user, reputations: ret.userState.getRep()})
         }
+    }
+
+    const logout = () => {
+        setUser(null);
     }
 
     const handleSearchInput = (event: any) => {
@@ -44,11 +49,12 @@ const Header = () => {
             </div> */}
             {user && user.identity? 
                 <div className="navButtons">
-                    <div className="userInfo" onClick={printUser}><FaUser /></div>
+                    <div className="purpleButton" onClick={printUser}>{user.reputations}</div>
+                    <div className="whiteButton" onClick={logout}>Log out</div>
                 </div> :
                 <div className="navButtons">
-                    <div className="signupButton" onClick={signUp}> Sign Up</div>
-                    <div className="signinButton" onClick={signIn}> Sign In</div>
+                    <div className="purpleButton" onClick={signUp}> Sign Up</div>
+                    <div className="whiteButton" onClick={signIn}> Sign In</div>
                 </div>
                 
             }   

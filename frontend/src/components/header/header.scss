@@ -73,16 +73,12 @@ header {
       display: flex;
       padding-right: 10px;
 
-      .signupButton {
-        @include myButton(102px, 32px, $color: #FFF, $block-color1: $purple2, $block-color2: $purple1, $radius: 20px);
+      .purpleButton {
+        @include myButton(99px, 32px, $color: #FFF, $block-color1: $purple2, $block-color2: $purple1, $radius: 20px);
       }
 
-      .signinButton {
-        @include myButton(94px, 32px, $color: $purple1, $radius: 20px, $border: 2px, $border-color: $purple1);
-      }
-
-      .userInfo {
-        @include myButton(45px, 45px, $radius: 22px);
+      .whiteButton {
+        @include myButton(99px, 32px, $color: $purple1, $radius: 20px, $border: 2px, $border-color: $purple1);
       }
     }
   }

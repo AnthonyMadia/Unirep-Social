@@ -63,7 +63,7 @@ const PostBlock = ({ post } : Props) => {
         <div className="post-block">
             <div className="post-block-header">
                 <Jdenticon size="24" value={post.epoch_key} />
-                <div className="rep">80M</div>
+                <div className="rep">{post.reputation}</div>
                 <div className="epk">{post.epoch_key}</div>
                 <div className="vote"><img src="/images/upvote.png"></img>{post.upvote}</div>
                 <div className="vote"><img src="/images/downvote.png"></img>{post.downvote}</div>

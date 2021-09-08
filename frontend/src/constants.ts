@@ -5,6 +5,7 @@ export const shownPostsKey = "shownPosts";
 export interface User {
     identity: string,
     epoch_keys: string[],
+    reputations: number,
 }
 
 export interface Post {
@@ -16,6 +17,7 @@ export interface Post {
     epoch_key: string,
     username: string,
     post_time: number,
+    reputation: number,
 }
 
 export enum PageStatus {
