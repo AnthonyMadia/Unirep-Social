@@ -12,7 +12,6 @@
         "buildUserStateTransitionSnark": "./scripts/buildUserStateTransitionSnark.sh",
         "buildProveReputationSnark": "./scripts/buildProveReputationSnark.sh",
         "buildProveReputationFromAttesterSnark": "./scripts/buildProveReputationFromAttesterSnark.sh",
-        "downloadPtau": "./scripts/downloadPtau.sh",
         "test-cli": "./scripts/testCLI.sh",
         "test": "yarn run contractUnitTests && yarn run circuitUnitTests && yarn run databaseTests && yarn run integrationTest",
         "contractUnitTests": "NODE_OPTIONS=--max-old-space-size=4096 npx hardhat test --no-compile $(find test/contracts -name '*.ts')",

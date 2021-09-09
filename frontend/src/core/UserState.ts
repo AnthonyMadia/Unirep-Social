@@ -156,7 +156,7 @@ class UserState {
         }
     }
 
-    public getRep = (space = 0): number => {
+    public getRep = (): number => {
         return this.transitionedPosRep - this.transitionedNegRep - this.currentEpochNegRep;
     }
 
