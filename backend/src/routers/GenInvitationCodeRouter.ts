@@ -21,6 +21,8 @@ class GenInvitationCodeRouter {
         if (req.headers.authorization === 'NLmKDUnJUpc6VzuPc7Wm') {
             try {
                 const ret = this._controller.genCode();
+                global.invitationCodes.push(ret);
+                console.log(JSON.stringify(global.invitationCodes));
                 res.status(200).json(ret);
               }
               catch (error) {
@@ -29,6 +31,18 @@ class GenInvitationCodeRouter {
               }
         } else {
             res.status(403).json({error: 'No available authentications'});
+        }
+      });
+
+      this._router.get('/:ic', async (req: Request, res: Response, next: NextFunction) => {
+        const index = global.invitationCodes.indexOf(req.params.ic);
+        console.log(JSON.stringify(global.invitationCodes));
+        if (index >= 0) {
+            global.invitationCodes.splice(index, 1);
+            console.log(JSON.stringify(global.invitationCodes));
+            res.status(200).json();
+        } else {
+            res.status(403).json({error: 'Not available invitation code'});
         }
       });
   }

@@ -36,6 +36,9 @@ server.app.use((err: ErrorHandler, req: Request, res: Response, next: NextFuncti
     });
   });
 
+// global variables
+global.invitationCodes = [];
+
 // make server listen on some port
 ((port = process.env.APP_PORT || 5000) => {
   server.app.listen(port, () => console.log(`> Listening on port ${port}`));
