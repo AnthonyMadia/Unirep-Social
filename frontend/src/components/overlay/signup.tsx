@@ -120,7 +120,10 @@ const SignUp = () => {
                     <div className="sign-private-key" onClick={copyPrivateKey}>
                         {identity}
                         <div className="divider"></div>
-                        <div className="copy" onClick={copyPrivateKey}>Copy to Clipboard</div>
+                        <div className="copy" onClick={copyPrivateKey}>
+                            <img src="/images/copy.png" />
+                            <span>Copy to Clipboard</span>
+                        </div>
                     </div>
                     <div className="divider-or">- or -</div>
                     <div className="sign-buttons">
@@ -137,7 +140,8 @@ const SignUp = () => {
                     </div>
                     {errorMsg !== ''? 
                         <div className="sign-error-message">
-                            {errorMsg}
+                            <img src="/images/warning.png" />
+                            <span>{errorMsg}</span>
                         </div> : <div></div>
                     }
                     <div className="margin-box"></div>

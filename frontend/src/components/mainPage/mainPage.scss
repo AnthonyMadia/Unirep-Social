@@ -274,6 +274,10 @@
     flex-direction: row;
     align-items: center;
 
+    .epk-icon {
+      @include epkIcon(30px);
+    }
+
     .rep {
       flex: 1;
       margin-left: 8px;
@@ -338,6 +342,31 @@
 
     .post-text {
       margin-top: 20px;
+    }
+  }
+
+  .post-voters {
+    width: 100%;
+    padding: 0px 15px;
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+
+    .voter {
+      @include epkIcon(24px);
+      margin-left: -5px;
+    }
+
+    .voter-text {
+      font-size: $small-font-size;
+      color: $dark-grey;
+      line-height: 24px;
+      vertical-align: middle;
+      margin-left: 10px;
+    }
+
+    .voter-more {
+      text-decoration: underline;
     }
   }
 

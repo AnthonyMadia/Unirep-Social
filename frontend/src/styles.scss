@@ -65,6 +65,17 @@ $smallest-font-size: 10px;
     border: $border-width solid #000;
   }
 }
+
+@mixin epkIcon($size) {
+  width: $size;
+  height: $size;
+  border-radius: $size * 0.5;
+  border: 1px solid $lighter-grey;
+  background-color: white;
+  line-height: $size * 0.9;
+  padding-left: 2.5px;
+  padding-right: 2.5px;
+}
 // widgets//
 
 body {

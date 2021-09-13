@@ -77,6 +77,7 @@ const PostField = () => {
                     id: ret.postId,
                     title: 'title',
                     content,
+                    vote: [],
                     upvote: 0,
                     downvote: 0,
                     epoch_key: ret.epk,

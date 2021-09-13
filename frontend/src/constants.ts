@@ -8,10 +8,17 @@ export interface User {
     reputations: number,
 }
 
+export interface Vote {
+    upvote: number,
+    downvote: number,
+    epoch_key: string,
+}
+
 export interface Post {
     id: string,
     title: string,
     content: string,
+    vote: Vote[],
     upvote: number,
     downvote: number,
     epoch_key: string,

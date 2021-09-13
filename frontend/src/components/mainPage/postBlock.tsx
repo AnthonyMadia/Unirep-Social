@@ -3,7 +3,7 @@ import Jdenticon from 'react-jdenticon';
 import dateformat from 'dateformat';
 
 import { Post } from '../../constants';
-import { vote, leaveComment } from '../../utils';
+import { vote, leaveComment, getUserState } from '../../utils';
 import { WebContext } from '../../context/WebContext';
 import './mainPage.scss';
 
@@ -17,7 +17,8 @@ const PostBlock = ({ post } : Props) => {
     const date = dateformat(new Date(post.post_time), "yyyy/m/dd TT h:MM");
     const [ showComment, setShowComment ] = useState(false);
     const [ comment, setComment ] = useState("");
-    const { user, shownPosts, setShownPosts } = useContext(WebContext);
+    const { user, setUser, shownPosts, setShownPosts } = useContext(WebContext);
+    const shownVoters = 4;
 
     const upvote = async () => {
         if (user === null) {
@@ -26,8 +27,19 @@ const PostBlock = ({ post } : Props) => {
             const ret = await vote(user.identity, 1, undefined, post.id, post.epoch_key);
             console.log('upvote ret: ' + JSON.stringify(ret))
             const filteredPosts = shownPosts.filter((p) => p.id != post.id)
-            post.upvote += 1
+            
+            const newVote = {
+                upvote: 1,
+                downvote: 0,
+                epoch_key: user.epoch_keys[0],
+            }
+
+            post.vote = [...post.vote, newVote];
+            post.upvote += 1;
             setShownPosts([post, ...filteredPosts])
+
+            const reputations = (await getUserState(user.identity)).userState.getRep();
+            setUser({...user, reputations})
         }
     }
 
@@ -38,8 +50,18 @@ const PostBlock = ({ post } : Props) => {
             const ret = await vote(user.identity, undefined, 1, post.id, post.epoch_key);
             console.log('downvote ret: ' + JSON.stringify(ret))
             const filteredPosts = shownPosts.filter((p) => p.id != post.id)
-            post.downvote += 1
+            
+            const newVote = {
+                upvote: 1,
+                downvote: 0,
+                epoch_key: user.epoch_keys[0],
+            }
+            post.vote = [...post.vote, newVote];
+            post.downvote += 1;
             setShownPosts([post, ...filteredPosts])
+
+            const reputations = (await getUserState(user.identity)).userState.getRep();
+            setUser({...user, reputations})
         }
     }
 
@@ -62,7 +84,7 @@ const PostBlock = ({ post } : Props) => {
     return (
         <div className="post-block">
             <div className="post-block-header">
-                <Jdenticon size="24" value={post.epoch_key} />
+                <div className="epk-icon"><Jdenticon size="24" value={post.epoch_key} /></div>
                 <div className="rep">{post.reputation}</div>
                 <div className="epk">{post.epoch_key}</div>
                 <div className="vote" onClick={upvote}><img src="/images/upvote.png"></img>{post.upvote}</div>
@@ -76,6 +98,18 @@ const PostBlock = ({ post } : Props) => {
                     </div>
                 </div>
                 <div className="post-text">{post.content}</div>
+            </div>
+
+            <div className='post-voters'>
+                {
+                    post.vote.slice(0, shownVoters).map((vote) => (
+                        <div className="voter"><Jdenticon size="19" value={vote.epoch_key} /></div>
+                    ))
+                }
+                {
+                    post.vote.length > shownVoters? <div className="voter-text">+{post.vote.length - shownVoters}</div> : <div></div>
+                }
+                <div className="voter-text voter-more">show</div>
             </div>
             { showComment? 
                 <div>
