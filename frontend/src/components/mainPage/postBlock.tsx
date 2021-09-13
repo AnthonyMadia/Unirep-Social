@@ -109,7 +109,7 @@ const PostBlock = ({ post } : Props) => {
                 {
                     post.vote.length > shownVoters? <div className="voter-text">+{post.vote.length - shownVoters}</div> : <div></div>
                 }
-                <div className="voter-text voter-more">show</div>
+                <div className="voter-text voter-more">show </div>
             </div>
             { showComment? 
                 <div>
