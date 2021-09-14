@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { WebContext } from '../../context/WebContext';
 import { MainPageContext } from '../../context/MainPageContext';
+import { Post } from '../../constants';
 import PostsList from './postsList';
 import PostField from './postField';
 import VoteBox from './voteBox';
@@ -15,6 +16,7 @@ const MainPage = () => {
     const [isPostFieldEpkDropdown, setIsPostFieldEpkDropdown] = useState(false);
     const [isUpVoteBoxOn, setIsUpVoteBoxOn] = useState(false);
     const [isDownVoteBoxOn, setIsDownVoteBoxOn] = useState(false);
+    const [voteReceiver, setVoteReceiver] = useState<Post|null>(null);
 
     const loadMorePosts = () => {
         // setShownPosts([...shownPosts, examplePost]);
@@ -26,6 +28,7 @@ const MainPage = () => {
         setIsPostFieldEpkDropdown(false);
         setIsUpVoteBoxOn(false);
         setIsDownVoteBoxOn(false);
+        setVoteReceiver(null);
     }
 
     return (
@@ -34,14 +37,15 @@ const MainPage = () => {
                     isPostFieldActive, setIsPostFieldActive, 
                     isPostFieldEpkDropdown, setIsPostFieldEpkDropdown, 
                     isUpVoteBoxOn, setIsUpVoteBoxOn, 
-                    isDownVoteBoxOn, setIsDownVoteBoxOn}}>
+                    isDownVoteBoxOn, setIsDownVoteBoxOn,
+                    voteReceiver, setVoteReceiver}}>
                 <div className="main-content">
                     <PostField />
                     <Feed />
                     <div className="post-list"><PostsList posts={shownPosts} /></div>
                     <div className="main-page-button" onClick={loadMorePosts}>Load More Posts</div>
                 </div>
-                { isUpVoteBoxOn? <VoteBox isUpvote={true} /> : isDownVoteBoxOn? <VoteBox isUpvote={false} /> : <div></div>}
+                { isUpVoteBoxOn? <VoteBox isUpvote={true} post={voteReceiver} /> : isDownVoteBoxOn? <VoteBox isUpvote={false} post={voteReceiver} /> : <div></div>}
             </MainPageContext.Provider>
         </div>
     );

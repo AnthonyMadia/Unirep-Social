@@ -3,7 +3,7 @@ import Jdenticon from 'react-jdenticon';
 import dateformat from 'dateformat';
 
 import { Post } from '../../constants';
-import { vote, leaveComment, getUserState } from '../../utils';
+import { leaveComment, getUserState } from '../../utils';
 import { WebContext } from '../../context/WebContext';
 import { MainPageContext } from '../../context/MainPageContext';
 import './mainPage.scss';
@@ -19,64 +19,19 @@ const PostBlock = ({ post } : Props) => {
     const [ showComment, setShowComment ] = useState(false);
     const [ comment, setComment ] = useState("");
     const { user, setUser, shownPosts, setShownPosts } = useContext(WebContext);
-    const { setIsUpVoteBoxOn, setIsDownVoteBoxOn } = useContext(MainPageContext);
+    const { setIsUpVoteBoxOn, setIsDownVoteBoxOn, setVoteReceiver } = useContext(MainPageContext);
     const shownVoters = 4;
 
     const openUpvote = (event: any) => {
         event.stopPropagation();
         setIsUpVoteBoxOn(true);
+        setVoteReceiver(post);
     }
 
     const openDownvote = (event: any) => {
         event.stopPropagation();
         setIsDownVoteBoxOn(true);
-    }
-
-    const upvote = async () => {
-        if (user === null) {
-            console.error('user not login!');
-        } else {
-            const ret = await vote(user.identity, 1, undefined, post.id, post.epoch_key);
-            console.log('upvote ret: ' + JSON.stringify(ret))
-            const filteredPosts = shownPosts.filter((p) => p.id != post.id)
-            
-            const newVote = {
-                upvote: 1,
-                downvote: 0,
-                epoch_key: user.epoch_keys[0],
-            }
-
-            post.vote = [...post.vote, newVote];
-            post.upvote += 1;
-            setShownPosts([post, ...filteredPosts]);
-
-            const reputations = (await getUserState(user.identity)).userState.getRep();
-            setUser({...user, reputations});
-            setIsUpVoteBoxOn(false);
-        }
-    }
-
-    const downvote = async () => {
-        if (user === null) {
-            console.error('user not login!');
-        } else {
-            const ret = await vote(user.identity, undefined, 1, post.id, post.epoch_key);
-            console.log('downvote ret: ' + JSON.stringify(ret))
-            const filteredPosts = shownPosts.filter((p) => p.id != post.id)
-            
-            const newVote = {
-                upvote: 1,
-                downvote: 0,
-                epoch_key: user.epoch_keys[0],
-            }
-            post.vote = [...post.vote, newVote];
-            post.downvote += 1;
-            setShownPosts([post, ...filteredPosts]);
-
-            const reputations = (await getUserState(user.identity)).userState.getRep();
-            setUser({...user, reputations});
-            setIsDownVoteBoxOn(false);
-        }
+        setVoteReceiver(post);
     }
 
     const handleUserInput = (event: any) => {

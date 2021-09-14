@@ -1,4 +1,5 @@
 import { createContext } from 'react';
+import { Post } from '../constants';
 
 type MainPageContent = {
     isPostFieldActive: boolean;
@@ -9,6 +10,8 @@ type MainPageContent = {
     setIsUpVoteBoxOn: (value: boolean) => void;
     isDownVoteBoxOn: boolean;
     setIsDownVoteBoxOn: (value: boolean) => void;
+    voteReceiver: null | Post;
+    setVoteReceiver: (value: null|Post) => void;
 }
 
 export const MainPageContext = createContext<MainPageContent>({
@@ -20,4 +23,6 @@ export const MainPageContext = createContext<MainPageContent>({
     setIsUpVoteBoxOn: () => {},
     isDownVoteBoxOn: false,
     setIsDownVoteBoxOn: () => {},
+    voteReceiver: null,
+    setVoteReceiver: () => {},
 });

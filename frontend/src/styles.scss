@@ -53,7 +53,7 @@ $smallest-font-size: 10px;
   }
 }
 
-@mixin popupBox($width, $height: auto, $block-color:#fff, $border-width: 0) {
+@mixin popupBox($width, $height: auto, $block-color:#fff, $border-width: 0, $border-color: black) {
   width:$width;
   height:$height;
   margin: 10% auto;
@@ -62,7 +62,7 @@ $smallest-font-size: 10px;
   background-color: $block-color;
 
   @if $border-width > 0 {
-    border: $border-width solid #000;
+    border: $border-width solid $border-color;
   }
 }
 
