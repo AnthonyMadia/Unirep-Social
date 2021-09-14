@@ -19,6 +19,14 @@ const VoteBox = (props: Props) => {
         setVoteReceiver(null);
     }
 
+    const doVote = () => {
+        if (props.isUpvote) {
+            upvote(); 
+        } else {
+            downvote();
+        }
+    }
+
     const upvote = async () => {
         if (user === null) {
             console.error('user not login!');
@@ -92,6 +100,11 @@ const VoteBox = (props: Props) => {
                 <p>Enter an amount up to 10 to give to @{props.post?.epoch_key}</p>
                 <div className="vote-margin"></div>
                 <input type="number" placeholder="max 10" onChange={handleUserInput} value={givenAmount} />
+                <div className="vote-margin"></div>
+                <div className="vote-button" onClick={doVote}>
+                    {props.isUpvote? (<img src="/images/upvote-purple.png" />):(<img src="/images/downvote-purple.png" />)}
+                    {props.isUpvote? (<p>Up Vote</p>):(<p>Down Vote</p>)}
+                </div>
             </div>
         </div>
     );
