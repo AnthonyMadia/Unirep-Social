@@ -1,5 +1,3 @@
-
-
 const Feed = () => {
     return (
         <div>

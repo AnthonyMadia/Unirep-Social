@@ -35,8 +35,10 @@ class VoteController {
       )
 
       const attestingFee = await unirepContract.attestingFee()
-      const ethAddr = ethers.utils.computeAddress(DEPLOYER_PRIV_KEY)
-      const attesterId = await unirepContract.attesters(ethAddr)
+      // const ethAddr = ethers.utils.computeAddress(DEPLOYER_PRIV_KEY)
+      // const attesterId = await unirepContract.attesters(ethAddr)
+      const attesterId = await unirepContract.attesters(unirepSocialContract.address)
+      console.log(attesterId)
       if (attesterId.toNumber() == 0) {
         console.error('Error: attester has not registered yet')
         return
@@ -53,7 +55,6 @@ class VoteController {
 
       // Sign the message
       const message = ethers.utils.solidityKeccak256(["address", "address"], [wallet.address, unirepAddress])
-      const attesterSig = await wallet.signMessage(ethers.utils.arrayify(message))
 
       // set vote fee
       const voteFee = attestingFee.mul(2)
@@ -62,7 +63,6 @@ class VoteController {
       let tx
       try {
           tx = await unirepSocialContract.vote(
-              attesterSig,
               attestationToEpochKey,
               BigInt(add0x(data.receiver)),
               BigInt(add0x(data.epk)),
@@ -71,7 +71,7 @@ class VoteController {
               data.proof,
               { value: voteFee, gasLimit: 3000000 }
           )
-      } catch(e) {
+      } catch(e: any) {
           console.error('Error: the transaction failed')
           if (e.message) {
               console.error(e.message)

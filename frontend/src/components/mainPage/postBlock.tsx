@@ -5,6 +5,7 @@ import dateformat from 'dateformat';
 import { Post } from '../../constants';
 import { vote, leaveComment, getUserState } from '../../utils';
 import { WebContext } from '../../context/WebContext';
+import { MainPageContext } from '../../context/MainPageContext';
 import './mainPage.scss';
 
 
@@ -18,7 +19,18 @@ const PostBlock = ({ post } : Props) => {
     const [ showComment, setShowComment ] = useState(false);
     const [ comment, setComment ] = useState("");
     const { user, setUser, shownPosts, setShownPosts } = useContext(WebContext);
+    const { isUpVoteBoxOn, setIsUpVoteBoxOn, isDownVoteBoxOn, setIsDownVoteBoxOn} = useContext(MainPageContext);
     const shownVoters = 4;
+
+    const openVoteBox = (isUpvote: boolean) => {
+        if (isUpvote) {
+            setIsUpVoteBoxOn(true);
+            console.log('is up vote? ' + isUpVoteBoxOn);
+        } else {
+            setIsDownVoteBoxOn(true);
+            console.log('is down vote? ' + isDownVoteBoxOn);
+        }    
+    }
 
     const upvote = async () => {
         if (user === null) {
@@ -36,10 +48,11 @@ const PostBlock = ({ post } : Props) => {
 
             post.vote = [...post.vote, newVote];
             post.upvote += 1;
-            setShownPosts([post, ...filteredPosts])
+            setShownPosts([post, ...filteredPosts]);
 
             const reputations = (await getUserState(user.identity)).userState.getRep();
-            setUser({...user, reputations})
+            setUser({...user, reputations});
+            setIsUpVoteBoxOn(false);
         }
     }
 
@@ -58,10 +71,11 @@ const PostBlock = ({ post } : Props) => {
             }
             post.vote = [...post.vote, newVote];
             post.downvote += 1;
-            setShownPosts([post, ...filteredPosts])
+            setShownPosts([post, ...filteredPosts]);
 
             const reputations = (await getUserState(user.identity)).userState.getRep();
-            setUser({...user, reputations})
+            setUser({...user, reputations});
+            setIsDownVoteBoxOn(false);
         }
     }
 
@@ -87,14 +101,15 @@ const PostBlock = ({ post } : Props) => {
                 <div className="epk-icon"><Jdenticon size="24" value={post.epoch_key} /></div>
                 <div className="rep">{post.reputation}</div>
                 <div className="epk">{post.epoch_key}</div>
+                {/* <div className="vote" onClick={() => openVoteBox(true)}><img src="/images/upvote.png"></img>{post.upvote}</div> */}
                 <div className="vote" onClick={upvote}><img src="/images/upvote.png"></img>{post.upvote}</div>
-                <div className="vote" onClick={downvote}><img src="/images/downvote.png"></img>{post.downvote}</div>
+                <div className="vote" onClick={() => openVoteBox(false)}><img src="/images/downvote.png"></img>{post.downvote}</div>
             </div>
             <div className="post-block-main">
                 <div className="post-block-info">
                     <div className="datetime-text">{date}</div>
                     <div className="post-share">
-                        <img src="/images/share.png"/>
+                        <img src="/images/share.png" />
                     </div>
                 </div>
                 <div className="post-text">{post.content}</div>
@@ -102,14 +117,14 @@ const PostBlock = ({ post } : Props) => {
 
             <div className='post-voters'>
                 {
-                    post.vote.slice(0, shownVoters).map((vote) => (
-                        <div className="voter"><Jdenticon size="19" value={vote.epoch_key} /></div>
+                    post.vote.slice(0, shownVoters).map((vote, index) => (
+                        <div className="voter" key={vote.epoch_key + '-' + index}><Jdenticon size="19" value={vote.epoch_key} /></div>
                     ))
                 }
                 {
                     post.vote.length > shownVoters? <div className="voter-text">+{post.vote.length - shownVoters}</div> : <div></div>
                 }
-                <div className="voter-text voter-more">show </div>
+                <div className="voter-text voter-more">show</div>
             </div>
             { showComment? 
                 <div>
