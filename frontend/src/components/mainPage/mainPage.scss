@@ -352,7 +352,15 @@
 
       img {
         margin-right: 7px;
+        width: 20px;
+        height: 10px;
       }
+    }
+
+    .vote-purple {
+      color: $purple1;
+      flex: 3;
+      border: 1px solid $purple1;
     }
   }
 

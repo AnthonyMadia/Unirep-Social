@@ -201,13 +201,11 @@ export const publishPost = async (content: string, epkNonce: number, identity: s
     return {epk: ret.epk, transaction, postId}
 }
 
-export const vote = async(identity: string, upvote: number|undefined, downvote: number|undefined, postId: string, receiver: string, epkNonce: number = 0, minRep: number = 0) => {
+export const vote = async(identity: string, upvote: number, downvote: number, postId: string, receiver: string, epkNonce: number = 0, minRep: number = 0) => {
     // upvote / downvote user 
     const graffiti = BigInt(0)
     const overwriteGraffiti = false
-    const upvoteValue = upvote != null ? upvote : 0
-    const downvoteValue = downvote != null ? downvote : 0
-    const voteValue = upvoteValue + downvoteValue
+    const voteValue = upvote + downvote
 
     const ret = await genProof(identity, epkNonce, voteValue, minRep)
     if (ret === undefined) {
@@ -218,8 +216,8 @@ export const vote = async(identity: string, upvote: number|undefined, downvote: 
     // send publicsignals, proof, voted post id, receiver epoch key, graffiti to backend  
     const apiURL = makeURL('vote', {})
     const data = {
-       upvote: upvoteValue,
-       downvote: downvoteValue,
+       upvote,
+       downvote,
        graffiti,
        overwriteGraffiti,
        epk: ret.epk,

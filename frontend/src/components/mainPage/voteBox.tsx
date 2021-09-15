@@ -11,11 +11,12 @@ type Props = {
 const VoteBox = (props: Props) => {
 
     const { user, setUser, shownPosts, setShownPosts } = useContext(WebContext);
-    const { setIsUpVoteBoxOn, setVoteReceiver } = useContext(MainPageContext);
+    const { setIsUpVoteBoxOn, setIsDownVoteBoxOn, setVoteReceiver } = useContext(MainPageContext);
     const [ givenAmount, setGivenAmount ] = useState<undefined|number>(1);
 
     const init = () => {
         setIsUpVoteBoxOn(false);
+        setIsDownVoteBoxOn(false);
         setVoteReceiver(null);
     }
 
@@ -35,7 +36,7 @@ const VoteBox = (props: Props) => {
         } else if (givenAmount === undefined) {
             console.error('no enter any given amount');
         } else {
-            const ret = await vote(user.identity, givenAmount, undefined, props.post.id, props.post.epoch_key);
+            const ret = await vote(user.identity, givenAmount, 0, props.post.id, props.post.epoch_key, 1);
             console.log('upvote ret: ' + JSON.stringify(ret))
             const filteredPosts = shownPosts.filter((p) => p.id != props.post?.id)
             
@@ -47,6 +48,7 @@ const VoteBox = (props: Props) => {
 
             props.post.vote = [...props.post.vote, newVote];
             props.post.upvote += givenAmount;
+            props.post.isUpvoted = true;
             setShownPosts([props.post, ...filteredPosts]);
 
             const reputations = (await getUserState(user.identity)).userState.getRep();
@@ -63,7 +65,7 @@ const VoteBox = (props: Props) => {
         } else if (givenAmount === undefined) {
             console.error('no enter any given amount');
         } else {
-            const ret = await vote(user.identity, undefined, givenAmount, props.post.id, props.post.epoch_key);
+            const ret = await vote(user.identity, 0, givenAmount, props.post.id, props.post.epoch_key);
             console.log('downvote ret: ' + JSON.stringify(ret))
             const filteredPosts = shownPosts.filter((p) => p.id != props.post?.id)
             
@@ -74,6 +76,7 @@ const VoteBox = (props: Props) => {
             }
             props.post.vote = [...props.post.vote, newVote];
             props.post.downvote += givenAmount;
+            props.post.isDownvoted = true;
             setShownPosts([props.post, ...filteredPosts]);
 
             const reputations = (await getUserState(user.identity)).userState.getRep();
