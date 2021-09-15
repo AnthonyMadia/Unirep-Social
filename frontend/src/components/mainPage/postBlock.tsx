@@ -56,8 +56,8 @@ const PostBlock = ({ post } : Props) => {
                 <div className="epk-icon"><Jdenticon size="24" value={post.epoch_key} /></div>
                 <div className="rep">{post.reputation}</div>
                 <div className="epk">{post.epoch_key}</div>
-                <div className="vote" onClick={openUpvote}><img src="/images/upvote.png"></img>{post.upvote}</div>
-                <div className="vote" onClick={openDownvote}><img src="/images/downvote.png"></img>{post.downvote}</div>
+                <div className="vote" onClick={openUpvote}><img src={post.isUpvoted? "/images/upvote-purple.png":"/images/upvote.png"}></img>{post.upvote}</div>
+                <div className="vote" onClick={openDownvote}><img src={post.isDownvoted? "/images/downvote-purple.png":"/images/downvote.png"}></img>{post.downvote}</div>
             </div>
             <div className="post-block-main">
                 <div className="post-block-info">

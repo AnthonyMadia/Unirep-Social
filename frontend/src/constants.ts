@@ -14,6 +14,15 @@ export interface Vote {
     epoch_key: string,
 }
 
+export interface Comment {
+    post_time: number,
+    epoch_key: string,
+    vote: Vote[],
+    upvote: number,
+    downvote: number,
+    content: string, 
+}
+
 export interface Post {
     id: string,
     title: string,
@@ -21,6 +30,8 @@ export interface Post {
     vote: Vote[],
     upvote: number,
     downvote: number,
+    isUpvoted: boolean,
+    isDownvoted: boolean,
     epoch_key: string,
     username: string,
     post_time: number,

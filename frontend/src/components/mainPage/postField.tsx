@@ -80,6 +80,8 @@ const PostField = () => {
                     vote: [],
                     upvote: 0,
                     downvote: 0,
+                    isUpvoted: false,
+                    isDownvoted: false,
                     epoch_key: ret.epk,
                     username: 'username',
                     post_time: Date.now(),

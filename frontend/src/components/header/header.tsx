@@ -2,11 +2,12 @@ import React, { useContext, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { WebContext } from '../../context/WebContext';
 import * as Constants from '../../constants';
+import { Post } from '../../constants';
 import { getUserState } from '../../utils';
 import './header.scss';
 
 const Header = () => {
-    const { user, setUser, pageStatus, setPageStatus } = useContext(WebContext);
+    const { user, setUser, setPageStatus, shownPosts, setShownPosts } = useContext(WebContext);
     const [searchInput, setSearchInput] = useState<string>("");
 
     const signUp = () => {
@@ -28,6 +29,9 @@ const Header = () => {
 
     const logout = () => {
         setUser(null);
+        setShownPosts([...shownPosts].map(p => {
+            return {...p, isUpvoted: false, isDownvoted: false};
+        }));
     }
 
     const handleSearchInput = (event: any) => {
