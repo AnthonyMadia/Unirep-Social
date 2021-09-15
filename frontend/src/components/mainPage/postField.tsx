@@ -2,6 +2,7 @@ import { useState, useContext }  from 'react';
 import Jdenticon from 'react-jdenticon';
 
 import { publishPost, getUserState } from '../../utils';
+import { Post } from '../../constants';
 import { WebContext } from '../../context/WebContext';
 import { MainPageContext } from '../../context/MainPageContext';
 import './mainPage.scss';
@@ -73,7 +74,7 @@ const PostField = () => {
         } else {
             const ret = await publishPost(content, epkNonce, user.identity, 0); // content, epkNonce, identity, minRep
             if (ret !== undefined) {
-                const newPost = {
+                const newPost: Post = {
                     id: ret.postId,
                     title: 'title',
                     content,

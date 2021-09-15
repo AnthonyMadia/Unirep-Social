@@ -2,7 +2,7 @@ import { useState, useContext } from 'react';
 import { vote, getUserState } from '../../utils';
 import { WebContext } from '../../context/WebContext';
 import { MainPageContext } from '../../context/MainPageContext';
-import { Post } from '../../constants';
+import { Post, Vote } from '../../constants';
 
 type Props = {
     isUpvote: boolean,
@@ -35,11 +35,11 @@ const VoteBox = (props: Props) => {
         } else if (givenAmount === undefined) {
             console.error('no enter any given amount');
         } else {
-            const ret = await vote(user.identity, 1, undefined, props.post.id, props.post.epoch_key);
+            const ret = await vote(user.identity, givenAmount, undefined, props.post.id, props.post.epoch_key);
             console.log('upvote ret: ' + JSON.stringify(ret))
             const filteredPosts = shownPosts.filter((p) => p.id != props.post?.id)
             
-            const newVote = {
+            const newVote: Vote = {
                 upvote: givenAmount,
                 downvote: 0,
                 epoch_key: user.epoch_keys[0],
@@ -63,11 +63,11 @@ const VoteBox = (props: Props) => {
         } else if (givenAmount === undefined) {
             console.error('no enter any given amount');
         } else {
-            const ret = await vote(user.identity, undefined, 1, props.post.id, props.post.epoch_key);
+            const ret = await vote(user.identity, undefined, givenAmount, props.post.id, props.post.epoch_key);
             console.log('downvote ret: ' + JSON.stringify(ret))
             const filteredPosts = shownPosts.filter((p) => p.id != props.post?.id)
             
-            const newVote = {
+            const newVote: Vote = {
                 upvote: 0,
                 downvote: givenAmount,
                 epoch_key: user.epoch_keys[0],
