@@ -91,7 +91,7 @@ const VoteBox = (props: Props) => {
 
     const handleUserInput = (event: any) => {
         if (event.target.value === '' || (event.target.value <= 10 && event.target.value >= 1)) {
-            setGivenAmount(event.target.value);
+            setGivenAmount(Number(event.target.value));
         }
     }
 
