@@ -3,9 +3,10 @@ import Jdenticon from 'react-jdenticon';
 import dateformat from 'dateformat';
 
 import { Post } from '../../constants';
-import { leaveComment, getUserState } from '../../utils';
+import { leaveComment } from '../../utils';
 import { WebContext } from '../../context/WebContext';
 import { MainPageContext } from '../../context/MainPageContext';
+import VotersList from './votersList';
 import './mainPage.scss';
 
 
@@ -17,8 +18,9 @@ const PostBlock = ({ post } : Props) => {
 
     const date = dateformat(new Date(post.post_time), "yyyy/m/dd TT h:MM");
     const [ showComment, setShowComment ] = useState(false);
+    const [ isVotersListOn, setIsVotersListOn ] = useState(false);
     const [ comment, setComment ] = useState("");
-    const { user, setUser, shownPosts, setShownPosts } = useContext(WebContext);
+    const { user } = useContext(WebContext);
     const { setIsUpVoteBoxOn, setIsDownVoteBoxOn, setVoteReceiver } = useContext(MainPageContext);
     const shownVoters = 4;
 
@@ -43,6 +45,15 @@ const PostBlock = ({ post } : Props) => {
             console.error('user not login!');
         } else {
             const ret = await leaveComment(user.identity, comment, post.id)
+        }
+    }
+
+    const switchVotersList = (event: any) => {
+        event.stopPropagation();
+        if (isVotersListOn) {
+            setIsVotersListOn(false);
+        } else {
+            setIsVotersListOn(true);
         }
     }
 
@@ -81,7 +92,7 @@ const PostBlock = ({ post } : Props) => {
                 <div className="post-text">{post.content}</div>
             </div>
 
-            <div className='post-voters'>
+            <div className='post-voters' onClick={switchVotersList}>
                 {
                     post.vote.slice(0, shownVoters).map((vote, index) => (
                         <div className="voter" key={vote.epoch_key + '-' + index}><Jdenticon size="19" value={vote.epoch_key} /></div>
@@ -90,10 +101,11 @@ const PostBlock = ({ post } : Props) => {
                 {
                     post.vote.length > shownVoters? <div className="voter-text">+{post.vote.length - shownVoters}</div> : <div></div>
                 }
-                {
-                    post.vote.length > shownVoters? <div className="voter-text voter-more">show</div> : <div></div>
-                }
+                <div className="voter-text voter-more">{isVotersListOn? "hide" : "show"}</div>
             </div>
+            { isVotersListOn? 
+                <VotersList votes={post.vote}/> : <div></div>
+            }
             { showComment? 
                 <div>
                     <form>

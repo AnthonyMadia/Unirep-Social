@@ -38,7 +38,7 @@ const MainPage = () => {
                     isPostFieldEpkDropdown, setIsPostFieldEpkDropdown, 
                     isUpVoteBoxOn, setIsUpVoteBoxOn, 
                     isDownVoteBoxOn, setIsDownVoteBoxOn,
-                    voteReceiver, setVoteReceiver}}>
+                    voteReceiver, setVoteReceiver,}}>
                 <div className="main-content">
                     <PostField />
                     <Feed />
