@@ -410,7 +410,7 @@
 
   .post-voters {
     width: 100%;
-    padding: 0px 15px;
+    padding: 0px 15px 8px 15px;
     display: flex;
     flex-direction: row;
     cursor: pointer;
@@ -434,7 +434,7 @@
   }
 
   .voters-list {
-    padding: 16px;
+    padding: 8px 16px 16px 16px;
     width: 100%;
     max-height: 150px;
     overflow-y: scroll;
@@ -470,13 +470,46 @@
     }
   }
 
+  .comment-block {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    padding: 0px 27px;
+
+    .comment-btn {
+      @include myButton(138px, 32px, $radius: 4px, $border: 1px, $border-color: $dark-grey, $font-size: $smaller-font-size);
+      margin-left: 0px;
+      box-shadow: 0px 3px 2px rgba(0, 0, 0, 0.1);
+
+      & > img {
+        width: 14px;
+        height: 14px;
+        margin-right: 8px;
+      }
+    }
+
+    .without-bottom {
+      z-index: 2;
+      border-bottom: none;
+      border-bottom-left-radius: 0px;
+      border-bottom-right-radius: 0px;
+      box-shadow: none;
+    }
+
+    .comment-field {
+      z-index: 1;
+      margin-top: -1px;
+      padding: 8px;
+      background-color: white;
+      border: 1px solid $dark-grey;
+      border-radius: 0px 4px 4px 4px;
+      box-shadow: 0px 3px 2px rgba(0, 0, 0, 0.1);
+    }
+  }
+
   .post-block-comment {
     display: block;
     margin: auto 33px;
-
-    .comment-btn {
-      @include myButton(138px, 32px, $radius: 4px, $block-color1: $light-grey);
-    }
 
     .comment-block {
       background-color: $light-grey;

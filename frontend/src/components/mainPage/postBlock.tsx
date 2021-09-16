@@ -106,14 +106,20 @@ const PostBlock = ({ post } : Props) => {
             { isVotersListOn? 
                 <VotersList votes={post.vote}/> : <div></div>
             }
-            { showComment? 
-                <div>
-                    <form>
-                        <input type="text" name="userInput" placeholder="say something..." value={comment} onChange={handleUserInput} />
-                    </form>
-                    <div onClick={submitComment}>Comment</div>
-                </div> : <div></div>
-            }
+            <div className="comment-block">
+                <div className={showComment? "comment-btn without-bottom" : "comment-btn"} onClick={switchComment}>
+                    <img src="/images/comment.png"/>
+                    <span>Comment</span>
+                </div>
+                { showComment? 
+                    <div className="comment-field">
+                        <form>
+                            <input type="text" name="userInput" placeholder="say something..." value={comment} onChange={handleUserInput} />
+                        </form>
+                        <div onClick={submitComment}>Comment</div>
+                    </div> : <div></div>
+                }
+            </div>
         </div>
     );
 };
