@@ -102,6 +102,7 @@ const PostField = () => {
                     changeEpk={changeEpk}
                     changeRep={changeReputation}
                     submit={submitPost} 
+                    submitBtnName="Post"
                     onClick={preventPropagation}
                 /> : 
                 <div className="post-field-before">

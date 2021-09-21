@@ -12,6 +12,7 @@ type Props = {
     changeEpk: (epkNonce: number) => void,
     changeRep: (reputation: number) => void,
     submit: () => void,
+    submitBtnName: string,
     onClick: (event: any) => void,
 }
 
@@ -64,7 +65,7 @@ const WritingField = (props: Props) => {
                 </div>
             </div>
             <div className="submit-btn" onClick={props.submit}>
-                Post
+                {props.submitBtnName}
             </div>
         </div>
     );

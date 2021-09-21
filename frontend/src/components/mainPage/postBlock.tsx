@@ -7,6 +7,7 @@ import { leaveComment } from '../../utils';
 import { WebContext } from '../../context/WebContext';
 import { MainPageContext } from '../../context/MainPageContext';
 import VotersList from './votersList';
+import CommentField from './commentField';
 import './mainPage.scss';
 
 
@@ -34,18 +35,6 @@ const PostBlock = ({ post } : Props) => {
         event.stopPropagation();
         setIsDownVoteBoxOn(true);
         setVoteReceiver(post);
-    }
-
-    const handleUserInput = (event: any) => {
-        setComment(event.target.value);
-    }
-
-    const submitComment = async () => {
-        if (user === null) {
-            console.error('user not login!');
-        } else {
-            const ret = await leaveComment(user.identity, comment, post.id)
-        }
     }
 
     const switchVotersList = (event: any) => {
@@ -112,12 +101,7 @@ const PostBlock = ({ post } : Props) => {
                     <span>Comment</span>
                 </div>
                 { showComment? 
-                    <div className="comment-field">
-                        <form>
-                            <input type="text" name="userInput" placeholder="say something..." value={comment} onChange={handleUserInput} />
-                        </form>
-                        <div onClick={submitComment}>Comment</div>
-                    </div> : <div></div>
+                    <CommentField post={post}/> : <div></div>
                 }
             </div>
         </div>
