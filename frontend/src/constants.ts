@@ -17,6 +17,7 @@ export interface Vote {
 export interface Comment {
     type: DataType,
     id: string,
+    post_id: string,
     content: string,
     vote: Vote[],
     upvote: number,

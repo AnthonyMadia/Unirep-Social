@@ -34,6 +34,7 @@ const CommentField = (props: Props) => {
                 let c: Comment = {
                     type: DataType.Comment,
                     id: ret.commentId,
+                    post_id: props.post.id,
                     content: comment,
                     vote: [],
                     upvote: 0,

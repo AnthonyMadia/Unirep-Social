@@ -36,8 +36,6 @@ const VoteBox = (props: Props) => {
                 console.log('downvote ret: ' + JSON.stringify(ret))
             }
 
-            const filteredPosts = shownPosts.filter((p) => p.id != props.data.id)
-            
             const newVote: Vote = {
                 upvote: props.isUpvote? givenAmount:0,
                 downvote: props.isUpvote? 0:givenAmount,
@@ -45,6 +43,7 @@ const VoteBox = (props: Props) => {
             }
             let v = [...props.data.vote, newVote];
             if (props.data.type === DataType.Post) {
+                const filteredPosts = shownPosts.filter((p) => p.id != props.data.id)
                 let p: Post = {...(props.data as Post), 
                     upvote: props.isUpvote? props.data.downvote + givenAmount : 0,
                     downvote: props.isUpvote? 0 : props.data.downvote + givenAmount, 
@@ -53,8 +52,22 @@ const VoteBox = (props: Props) => {
                     vote: v
                 };
                 setShownPosts([p, ...filteredPosts]);
-            } else {
-                /// comment
+            } else if (props.data.type === DataType.Comment) {
+                const selectedPost = shownPosts.filter((p) => p.id === (props.data as Comment).post_id);
+                if (selectedPost.length > 1) {
+                    console.log('error!!!! selecte post of comment is not single!');
+                }
+                const filteredPosts = shownPosts.filter((p) => p.id !== (props.data as Comment).post_id);
+                const filteredComment = selectedPost[0].comments.filter((c) => c.id !== props.data.id);
+                let c: Comment = {...(props.data as Comment), 
+                    upvote: props.isUpvote? props.data.downvote + givenAmount : 0,
+                    downvote: props.isUpvote? 0 : props.data.downvote + givenAmount, 
+                    isUpvoted: props.isUpvote, 
+                    isDownvoted: !props.isUpvote, 
+                    vote: v
+                };
+                let p: Post = {...selectedPost[0], comments: [c, ...filteredComment]}
+                setShownPosts([p, ...filteredPosts]);
             }
             
             const reputations = (await getUserState(user.identity)).userState.getRep();
