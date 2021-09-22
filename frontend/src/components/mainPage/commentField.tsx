@@ -32,6 +32,11 @@ const CommentField = (props: Props) => {
         }
     }
 
+    const setEpk = (epk: number) => {
+        setEpkNonce(epk);
+        setIsEpkDropdown(false);
+    }
+
     return (
         <div className="comment-field">
             <WritingField 
@@ -39,7 +44,7 @@ const CommentField = (props: Props) => {
                 handleUserInput={handleUserInput}
                 isDropdown={isEpkDropdown}
                 epkNonce={epkNonce}
-                changeEpk={setEpkNonce}
+                changeEpk={setEpk}
                 changeRep={setReputation}
                 submit={submitComment} 
                 submitBtnName="Comment"

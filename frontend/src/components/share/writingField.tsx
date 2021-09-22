@@ -40,7 +40,8 @@ const WritingField = (props: Props) => {
             <div className="setting-area">
                 <div className="setting-epk">
                     <label>Select an Epoch Key to display with your post <span>?</span></label>
-                    {props.isDropdown? <div className="epk-dropdown">
+                    {props.isDropdown? 
+                    <div className="epk-dropdown">
                         <div className="epk" onClick={switchDropdown}>
                             <Jdenticon size="16" value={user?.epoch_keys[props.epkNonce]} />
                             <span>{props.epkNonce >= 0? user?.epoch_keys[props.epkNonce] : 'Choose an epock key'}</span>

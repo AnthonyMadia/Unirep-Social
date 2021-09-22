@@ -33,6 +33,7 @@
     }
 
     .setting-area {
+        position: relative;
         height: 162px;
         margin-top: 17px;
         margin-bottom: 17px;
@@ -62,17 +63,21 @@
         }
 
         .setting-epk {
-            .epk {
+            z-index: 7;
             width: 515px; 
-            height:32px;
-            background-color: #fff;
-            padding: 8px 16px;
-            color: #333;
-            font-size: $small-font-size;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            cursor: pointer;
+            position: absolute;
+            top: 8px;
+            .epk {
+                width: 100%;
+                height:32px;
+                background-color: #fff;
+                padding: 8px 16px;
+                color: #333;
+                font-size: $small-font-size;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                cursor: pointer;
 
                 span {
                     flex: 20;
@@ -93,8 +98,7 @@
 
             .epk-dropdown {
                 display: block;
-                position: fixed;
-                width: 515px;
+                width: 100%;
                 background-color: #fff;
                 border-radius: 8px;
                 color: #333;
@@ -107,6 +111,9 @@
         }
 
         .setting-reputation {
+            z-index: 5;
+            position: absolute;
+            bottom: 8px;
             textarea {
                 width: 515px;
             }
