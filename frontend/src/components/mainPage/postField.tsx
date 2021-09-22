@@ -60,8 +60,8 @@ const PostField = () => {
     const submitPost = async () => {
         if (user === null) {
             console.log('not login yet.');
-        } else if (content == "") {
-            console.log('not enter anything yet.');
+        } else if (content.length === 0) {
+            console.error('not enter anything yet.');
         } else {
             const ret = await publishPost(content, epkNonce, user.identity, 0); // content, epkNonce, identity, minRep
             if (ret !== undefined) {

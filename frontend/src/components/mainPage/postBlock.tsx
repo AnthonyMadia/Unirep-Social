@@ -20,7 +20,6 @@ const PostBlock = ({ post } : Props) => {
     const date = dateformat(new Date(post.post_time), "yyyy/m/dd TT h:MM");
     const [ showComment, setShowComment ] = useState(false);
     const [ isVotersListOn, setIsVotersListOn ] = useState(false);
-    const { setIsUpVoteBoxOn, setIsDownVoteBoxOn, setVoteReceiver } = useContext(MainPageContext);
     const shownVoters = 4;
 
     const switchVotersList = (event: any) => {
@@ -75,7 +74,7 @@ const PostBlock = ({ post } : Props) => {
                 }
             </div>
             <div className="comments-list">
-                { post.comments.map(comment => (<CommentBlock comment={comment} />))}
+                { post.comments.map(comment => (<CommentBlock comment={comment} key={comment.id} />))}
             </div>
         </div>
     );

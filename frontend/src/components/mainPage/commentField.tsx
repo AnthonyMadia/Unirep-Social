@@ -28,6 +28,8 @@ const CommentField = (props: Props) => {
     const submitComment = async () => {
         if (user === null) {
             console.error('user not login!');
+        } else if (comment.length === 0) {
+            console.error('nothing happened, no input.')
         } else {
             const ret = await leaveComment(user.identity, comment, props.post.id, epkNonce)
             if (ret !== undefined) {
@@ -41,7 +43,7 @@ const CommentField = (props: Props) => {
                     downvote: 0,
                     isUpvoted: false,
                     isDownvoted: false,
-                    epoch_key: ret.epk,
+                    epoch_key: user.epoch_keys[epkNonce],
                     username: 'username',
                     post_time: Date.now(),
                     reputation,
