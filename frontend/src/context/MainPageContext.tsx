@@ -10,8 +10,8 @@ type MainPageContent = {
     setIsUpVoteBoxOn: (value: boolean) => void;
     isDownVoteBoxOn: boolean;
     setIsDownVoteBoxOn: (value: boolean) => void;
-    voteReceiver: null | Post;
-    setVoteReceiver: (value: null|Post) => void;
+    voteReceiver: null | Post | Comment;
+    setVoteReceiver: (value: any) => void;
 }
 
 export const MainPageContext = createContext<MainPageContent>({

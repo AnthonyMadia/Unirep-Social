@@ -1,7 +1,7 @@
 import { leaveComment, getUserState } from '../../utils';
 import { WebContext } from '../../context/WebContext';
 import { useState, useContext } from 'react';
-import { Post, Comment } from '../../constants';
+import { Post, Comment, DataType } from '../../constants';
 import WritingField from '../share/writingField';
 import { DEFAULT_COMMENT_KARMA } from '../../config';
 
@@ -32,6 +32,7 @@ const CommentField = (props: Props) => {
             const ret = await leaveComment(user.identity, comment, props.post.id, epkNonce)
             if (ret !== undefined) {
                 let c: Comment = {
+                    type: DataType.Comment,
                     id: ret.commentId,
                     content: comment,
                     vote: [],

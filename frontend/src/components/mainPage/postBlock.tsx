@@ -6,6 +6,7 @@ import { Post } from '../../constants';
 import { MainPageContext } from '../../context/MainPageContext';
 import VotersList from './votersList';
 import CommentField from './commentField';
+import CommentBlock from './commentBlock';
 import BlockHeader from '../share/blockHeader';
 import './mainPage.scss';
 
@@ -21,18 +22,6 @@ const PostBlock = ({ post } : Props) => {
     const [ isVotersListOn, setIsVotersListOn ] = useState(false);
     const { setIsUpVoteBoxOn, setIsDownVoteBoxOn, setVoteReceiver } = useContext(MainPageContext);
     const shownVoters = 4;
-
-    const openUpvote = (event: any) => {
-        event.stopPropagation();
-        setIsUpVoteBoxOn(true);
-        setVoteReceiver(post);
-    }
-
-    const openDownvote = (event: any) => {
-        event.stopPropagation();
-        setIsDownVoteBoxOn(true);
-        setVoteReceiver(post);
-    }
 
     const switchVotersList = (event: any) => {
         event.stopPropagation();
@@ -50,9 +39,7 @@ const PostBlock = ({ post } : Props) => {
     return (
         <div className="post-block">
             <BlockHeader 
-                post={post}
-                openUpvote={openUpvote}
-                openDownvote={openDownvote}
+                data={post}
             />
             <div className="post-block-main">
                 <div className="post-block-info">
@@ -86,6 +73,9 @@ const PostBlock = ({ post } : Props) => {
                 { showComment? 
                     <CommentField post={post} closeComment={() => setShowComment(false)}/> : <div></div>
                 }
+            </div>
+            <div className="comments-list">
+                { post.comments.map(comment => (<CommentBlock comment={comment} />))}
             </div>
         </div>
     );

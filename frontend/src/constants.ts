@@ -15,6 +15,7 @@ export interface Vote {
 }
 
 export interface Comment {
+    type: DataType,
     id: string,
     content: string,
     vote: Vote[],
@@ -29,8 +30,8 @@ export interface Comment {
 }
 
 export interface Post {
+    type: DataType,
     id: string,
-    title: string,
     content: string,
     vote: Vote[],
     upvote: number,
@@ -48,4 +49,9 @@ export enum PageStatus {
     None = 'none',
     SignUp = 'signup',
     SignIn = 'signin',
+}
+
+export enum DataType {
+    Post = 'post',
+    Comment = 'comment',
 }

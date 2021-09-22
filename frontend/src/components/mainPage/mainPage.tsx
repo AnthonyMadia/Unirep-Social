@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react';
 import { WebContext } from '../../context/WebContext';
 import { MainPageContext } from '../../context/MainPageContext';
-import { Post } from '../../constants';
+import { Post, Comment } from '../../constants';
 import PostsList from './postsList';
 import PostField from './postField';
-import VoteBox from './voteBox';
+import VoteBox from '../share/voteBox';
 import Feed from './feed';
 import './mainPage.scss';
 
@@ -16,10 +16,9 @@ const MainPage = () => {
     const [isPostFieldEpkDropdown, setIsPostFieldEpkDropdown] = useState(false);
     const [isUpVoteBoxOn, setIsUpVoteBoxOn] = useState(false);
     const [isDownVoteBoxOn, setIsDownVoteBoxOn] = useState(false);
-    const [voteReceiver, setVoteReceiver] = useState<Post|null>(null);
+    const [voteReceiver, setVoteReceiver] = useState<any>(null);
 
     const loadMorePosts = () => {
-        // setShownPosts([...shownPosts, examplePost]);
         console.log("load more posts, now posts: " + shownPosts.length);
     }
 
@@ -45,7 +44,10 @@ const MainPage = () => {
                     <div className="post-list"><PostsList posts={shownPosts} /></div>
                     <div className="main-page-button" onClick={loadMorePosts}>Load More Posts</div>
                 </div>
-                { isUpVoteBoxOn? <VoteBox isUpvote={true} post={voteReceiver} /> : isDownVoteBoxOn? <VoteBox isUpvote={false} post={voteReceiver} /> : <div></div>}
+                { voteReceiver !== null?
+                    (isUpVoteBoxOn? <VoteBox isUpvote={true} data={voteReceiver} /> : 
+                    isDownVoteBoxOn? <VoteBox isUpvote={false} data={voteReceiver} /> : <div></div>) : <div></div>
+                }
             </MainPageContext.Provider>
         </div>
     );

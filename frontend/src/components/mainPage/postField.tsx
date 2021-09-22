@@ -1,7 +1,7 @@
 import { useState, useContext }  from 'react';
 
 import { publishPost, getUserState } from '../../utils';
-import { Post } from '../../constants';
+import { Post, DataType } from '../../constants';
 import { WebContext } from '../../context/WebContext';
 import { MainPageContext } from '../../context/MainPageContext';
 import './mainPage.scss';
@@ -66,8 +66,8 @@ const PostField = () => {
             const ret = await publishPost(content, epkNonce, user.identity, 0); // content, epkNonce, identity, minRep
             if (ret !== undefined) {
                 const newPost: Post = {
+                    type: DataType.Post,
                     id: ret.postId,
-                    title: 'title',
                     content,
                     vote: [],
                     upvote: 0,

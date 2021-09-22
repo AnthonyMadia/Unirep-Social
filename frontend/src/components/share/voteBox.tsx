@@ -2,11 +2,12 @@ import { useState, useContext } from 'react';
 import { vote, getUserState } from '../../utils';
 import { WebContext } from '../../context/WebContext';
 import { MainPageContext } from '../../context/MainPageContext';
-import { Post, Vote } from '../../constants';
+import { Post, Vote, Comment, DataType } from '../../constants';
+import './voteBox.scss';
 
 type Props = {
     isUpvote: boolean,
-    post: null|Post,
+    data: Post|Comment,
 }
 const VoteBox = (props: Props) => {
 
@@ -20,65 +21,42 @@ const VoteBox = (props: Props) => {
         setVoteReceiver(null);
     }
 
-    const doVote = () => {
-        if (props.isUpvote) {
-            upvote(); 
-        } else {
-            downvote();
-        }
-    }
-
-    const upvote = async () => {
+    const doVote = async () => {
         if (user === null) {
             console.error('user not login!');
-        } else if (props.post === null) {
-            console.error('no post to attest!');
         } else if (givenAmount === undefined) {
             console.error('no enter any given amount');
         } else {
-            const ret = await vote(user.identity, givenAmount, 0, props.post.id, props.post.epoch_key, 1);
-            console.log('upvote ret: ' + JSON.stringify(ret))
-            const filteredPosts = shownPosts.filter((p) => p.id != props.post?.id)
-            
-            const newVote: Vote = {
-                upvote: givenAmount,
-                downvote: 0,
-                epoch_key: user.epoch_keys[0],
+            let ret: any;
+            if (props.isUpvote) {
+                ret = await vote(user.identity, givenAmount, 0, props.data.id, props.data.epoch_key, 1);
+                console.log('upvote ret: ' + JSON.stringify(ret))
+            } else {
+                ret = await vote(user.identity, 0, givenAmount, props.data.id, props.data.epoch_key, 1);
+                console.log('downvote ret: ' + JSON.stringify(ret))
             }
 
-            props.post.vote = [...props.post.vote, newVote];
-            props.post.upvote += givenAmount;
-            props.post.isUpvoted = true;
-            setShownPosts([props.post, ...filteredPosts]);
-
-            const reputations = (await getUserState(user.identity)).userState.getRep();
-            setUser({...user, reputations});
-            init();
-        }
-    }
-
-    const downvote = async () => {
-        if (user === null) {
-            console.error('user not login!');
-        } else if (props.post === null) {
-            console.error('no post to attest!');
-        } else if (givenAmount === undefined) {
-            console.error('no enter any given amount');
-        } else {
-            const ret = await vote(user.identity, 0, givenAmount, props.post.id, props.post.epoch_key);
-            console.log('downvote ret: ' + JSON.stringify(ret))
-            const filteredPosts = shownPosts.filter((p) => p.id != props.post?.id)
+            const filteredPosts = shownPosts.filter((p) => p.id != props.data.id)
             
             const newVote: Vote = {
-                upvote: 0,
-                downvote: givenAmount,
+                upvote: props.isUpvote? givenAmount:0,
+                downvote: props.isUpvote? 0:givenAmount,
                 epoch_key: user.epoch_keys[0],
             }
-            props.post.vote = [...props.post.vote, newVote];
-            props.post.downvote += givenAmount;
-            props.post.isDownvoted = true;
-            setShownPosts([props.post, ...filteredPosts]);
-
+            let v = [...props.data.vote, newVote];
+            if (props.data.type === DataType.Post) {
+                let p: Post = {...(props.data as Post), 
+                    upvote: props.isUpvote? props.data.downvote + givenAmount : 0,
+                    downvote: props.isUpvote? 0 : props.data.downvote + givenAmount, 
+                    isUpvoted: props.isUpvote, 
+                    isDownvoted: !props.isUpvote, 
+                    vote: v
+                };
+                setShownPosts([p, ...filteredPosts]);
+            } else {
+                /// comment
+            }
+            
             const reputations = (await getUserState(user.identity)).userState.getRep();
             setUser({...user, reputations});
             init();
@@ -100,7 +78,7 @@ const VoteBox = (props: Props) => {
             <div className="vote-box" onClick={preventClose}>
                 <h3>{user?.reputations} Points Available</h3>
                 <div className="vote-margin"></div>
-                <p>Enter an amount up to 10 to give to @{props.post?.epoch_key}</p>
+                <p>Enter an amount up to 10 to give to @{props.data.epoch_key}</p>
                 <div className="vote-margin"></div>
                 <input type="number" placeholder="max 10" onChange={handleUserInput} value={givenAmount} />
                 <div className="vote-margin"></div>
