@@ -78,6 +78,7 @@ const PostField = () => {
                     username: 'username',
                     post_time: Date.now(),
                     reputation,
+                    comments: [],
                 }
                 init();
 

@@ -15,12 +15,17 @@ export interface Vote {
 }
 
 export interface Comment {
-    post_time: number,
-    epoch_key: string,
+    id: string,
+    content: string,
     vote: Vote[],
     upvote: number,
     downvote: number,
-    content: string, 
+    isUpvoted: boolean,
+    isDownvoted: boolean,
+    epoch_key: string,
+    username: string,
+    post_time: number,
+    reputation: number,
 }
 
 export interface Post {
@@ -36,6 +41,7 @@ export interface Post {
     username: string,
     post_time: number,
     reputation: number,
+    comments: Comment[],
 }
 
 export enum PageStatus {

@@ -3,11 +3,10 @@ import Jdenticon from 'react-jdenticon';
 import dateformat from 'dateformat';
 
 import { Post } from '../../constants';
-import { leaveComment } from '../../utils';
-import { WebContext } from '../../context/WebContext';
 import { MainPageContext } from '../../context/MainPageContext';
 import VotersList from './votersList';
 import CommentField from './commentField';
+import BlockHeader from '../share/blockHeader';
 import './mainPage.scss';
 
 
@@ -20,8 +19,6 @@ const PostBlock = ({ post } : Props) => {
     const date = dateformat(new Date(post.post_time), "yyyy/m/dd TT h:MM");
     const [ showComment, setShowComment ] = useState(false);
     const [ isVotersListOn, setIsVotersListOn ] = useState(false);
-    const [ comment, setComment ] = useState("");
-    const { user } = useContext(WebContext);
     const { setIsUpVoteBoxOn, setIsDownVoteBoxOn, setVoteReceiver } = useContext(MainPageContext);
     const shownVoters = 4;
 
@@ -52,25 +49,11 @@ const PostBlock = ({ post } : Props) => {
 
     return (
         <div className="post-block">
-            <div className="post-block-header">
-                <div className="epk-icon"><Jdenticon size="24" value={post.epoch_key} /></div>
-                <div className="rep">{post.reputation}</div>
-                <div className="epk">{post.epoch_key}</div>
-                {
-                    post.isUpvoted? (
-                        <div className="vote vote-purple"><img src="/images/upvote-purple.png"></img>{post.upvote}</div>
-                    ) : (
-                        <div className="vote" onClick={openUpvote}><img src="/images/upvote.png"></img>{post.upvote}</div>
-                    )
-                }
-                {
-                    post.isDownvoted? (
-                        <div className="vote vote-purple"><img src="/images/downvote-purple.png"></img>{post.downvote}</div>
-                    ) : (
-                        <div className="vote" onClick={openDownvote}><img src="/images/downvote.png"></img>{post.downvote}</div>
-                    ) 
-                }
-            </div>
+            <BlockHeader 
+                post={post}
+                openUpvote={openUpvote}
+                openDownvote={openDownvote}
+            />
             <div className="post-block-main">
                 <div className="post-block-info">
                     <div className="datetime-text">{date}</div>
@@ -101,7 +84,7 @@ const PostBlock = ({ post } : Props) => {
                     <span>Comment</span>
                 </div>
                 { showComment? 
-                    <CommentField post={post}/> : <div></div>
+                    <CommentField post={post} closeComment={() => setShowComment(false)}/> : <div></div>
                 }
             </div>
         </div>
