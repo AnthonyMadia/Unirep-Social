@@ -30,7 +30,10 @@ const Header = () => {
     const logout = () => {
         setUser(null);
         setShownPosts([...shownPosts].map(p => {
-            return {...p, isUpvoted: false, isDownvoted: false};
+            const commentsLogout = p.comments.map(c => {
+                return {...c, isUpvoted: false, isDownvoted: false};
+            });
+            return {...p, isUpvoted: false, isDownvoted: false, comments: commentsLogout};
         }));
     }
 
