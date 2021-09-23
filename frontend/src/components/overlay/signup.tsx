@@ -20,6 +20,8 @@ const SignUp = () => {
     const [commitment, setCommitment] = useState("");
     const [epks, setEpks] = useState<string[]>([]);
     const [reputations, setReputations] = useState(0);
+    const [isCopied, setIsCopied] = useState(false);
+    const [isDownloaded, setIsDownloaded] = useState(false);
 
     const preventCloseBox = (event: any) => {
         event.stopPropagation();
@@ -50,6 +52,7 @@ const SignUp = () => {
     const copyPrivateKey = (event: any) => {
         event.stopPropagation();
         navigator.clipboard.writeText(identity);
+        setIsCopied(true);
     }
 
     const downloadPrivateKey = (event: any) => {
@@ -61,6 +64,8 @@ const SignUp = () => {
         element.download = 'unirep-social-identity.txt';
         document.body.appendChild(element);
         element.click();
+
+        setIsDownloaded(true);
     }
 
     const handleInvitationCode = (event: any) => {
@@ -97,7 +102,7 @@ const SignUp = () => {
             <div className="sign-title">
                 <h3>{
                     step === 0?
-                    "Sign Up With" : step === 1?
+                    "Join the Unirep Community" : step === 1?
                     "Protect Your Private Key" : step === 2?
                     "Confirm Your Private Key" : "Sign Up Error"
                 }</h3> 
@@ -105,8 +110,11 @@ const SignUp = () => {
             {
                 step === 0?
                 <div className="signup-with">
-                    <input name="invitationCode" placeholder="enter your invitation code" onChange={handleInvitationCode} />
-                    <div className="sign-button-purple" onClick={submitInvitationCode}>Submit</div>
+                    <div className="sign-message">
+                        UnirRep is an invite only social community. Enter your 8 character invitation code below.
+                    </div>
+                    <input name="invitationCode" placeholder="Invite code" onChange={handleInvitationCode} />
+                    <div className="sign-button-purple" onClick={submitInvitationCode}>Sign Up</div>
                     {errorMsg !== ''? 
                         <div className="sign-error-message">
                             {errorMsg}
@@ -120,15 +128,18 @@ const SignUp = () => {
                     <div className="sign-private-key" onClick={copyPrivateKey}>
                         {identity}
                         <div className="divider"></div>
-                        <div className="copy" onClick={copyPrivateKey}>
-                            <img src="/images/copy.png" />
-                            <span>Copy to Clipboard</span>
+                        <div className={isCopied? "copy copied":"copy"} onClick={copyPrivateKey}>
+                            <img src={isCopied? "/images/check.png":"/images/copy.png"} />
+                            <span>{isCopied? "Copied" : "Copy to Clipboard"}</span>
                         </div>
                     </div>
                     <div className="divider-or">- or -</div>
                     <div className="sign-buttons">
-                        <div className="sign-button-purple" onClick={downloadPrivateKey}>Download Private Key</div>
-                        <div className="sign-button-grey" onClick={nextStep}>Next</div>
+                        {isDownloaded? 
+                            <div className="sign-button-grey" onClick={downloadPrivateKey}>Private Key Downloaded</div> :
+                            <div className="sign-button-purple" onClick={downloadPrivateKey}>Download Private Key</div>
+                        }
+                        <div className={isDownloaded? "sign-button-purple":"sign-button-white"} onClick={nextStep}>Next</div>
                     </div>
                 </div> : step === 2?
                 <div>
@@ -146,7 +157,7 @@ const SignUp = () => {
                     }
                     <div className="margin-box"></div>
                     <div className="sign-button-purple" onClick={closeBox}>Confirm</div>
-                    <div className="sign-button-grey" onClick={previousStep}>Back</div>
+                    <div className="sign-button-white" onClick={previousStep}>Back</div>
                 </div> : <div>{errorMsg}</div>
             } 
         </div>
