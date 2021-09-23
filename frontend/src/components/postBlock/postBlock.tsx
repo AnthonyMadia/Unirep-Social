@@ -4,10 +4,10 @@ import Jdenticon from 'react-jdenticon';
 import dateformat from 'dateformat';
 
 import { Post, Page } from '../../constants';
-import VotersList from '../mainPage/votersList';
-import CommentField from '../mainPage/commentField';
-import CommentBlock from '../mainPage/commentBlock';
-import BlockHeader from './blockHeader';
+import VotersList from './votersList';
+import CommentField from './commentField';
+import CommentBlock from './commentBlock';
+import BlockHeader from '../share/blockHeader';
 import './postBlock.scss';
 
 

@@ -1,7 +1,5 @@
-import { useState } from 'react';
 import { Vote } from '../../constants';
 import Jdenticon from 'react-jdenticon';
-import './mainPage.scss';
 
 type Props = {
     votes: Vote[],

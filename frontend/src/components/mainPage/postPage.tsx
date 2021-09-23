@@ -3,11 +3,11 @@ import { useParams } from 'react-router-dom';
 import { Page, Params } from '../../constants';
 import { WebContext } from '../../context/WebContext';
 import { PostPageContext } from '../../context/PostPageContext';
-import PostBlock from '../share/postBlock';
+import PostBlock from '../postBlock/postBlock';
 import VoteBox from '../share/voteBox';
 
 const PostPage = () => {
-    const { user, shownPosts } = useContext(WebContext);
+    const { shownPosts } = useContext(WebContext);
     const { id } = useParams<Params>();
     const postToShow = shownPosts.find((p) => p.id === id);
 
