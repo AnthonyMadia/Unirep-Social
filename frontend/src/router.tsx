@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 
 import useLocalStorage from './useLocalStorage';
@@ -7,6 +6,7 @@ import * as Constants from './constants';
 import Header from './components/header/header';
 import Overlay from './components/overlay/overlay';
 import MainPage from './components/mainPage/mainPage';
+import PostPage from './components/mainPage/postPage';
 
 import { WebContext } from './context/WebContext';
 
@@ -24,6 +24,7 @@ const AppRouter = () => {
                 
                 <Switch>
                     <Route component={MainPage} path="/" exact={true} />
+                    <Route component={PostPage} path="/post/:id" />
                     <Route component={() => <Redirect to="/" />} />
                 </Switch>
 

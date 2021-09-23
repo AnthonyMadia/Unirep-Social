@@ -6,12 +6,12 @@ type MainPageContent = {
     setIsPostFieldActive: (value: boolean) => void;
     isPostFieldEpkDropdown: boolean;
     setIsPostFieldEpkDropdown: (value: boolean) => void;
-    isUpVoteBoxOn: boolean;
-    setIsUpVoteBoxOn: (value: boolean) => void;
-    isDownVoteBoxOn: boolean;
-    setIsDownVoteBoxOn: (value: boolean) => void;
-    voteReceiver: null | Post | Comment;
-    setVoteReceiver: (value: any) => void;
+    isMainPageUpVoteBoxOn: boolean;
+    setIsMainPageUpVoteBoxOn: (value: boolean) => void;
+    isMainPageDownVoteBoxOn: boolean;
+    setIsMainPageDownVoteBoxOn: (value: boolean) => void;
+    mainPageVoteReceiver: null | Post | Comment;
+    setMainPageVoteReceiver: (value: any) => void;
 }
 
 export const MainPageContext = createContext<MainPageContent>({
@@ -19,10 +19,10 @@ export const MainPageContext = createContext<MainPageContent>({
     setIsPostFieldActive: () => {},
     isPostFieldEpkDropdown: false,
     setIsPostFieldEpkDropdown: () => {},
-    isUpVoteBoxOn: false,
-    setIsUpVoteBoxOn: () => {},
-    isDownVoteBoxOn: false,
-    setIsDownVoteBoxOn: () => {},
-    voteReceiver: null,
-    setVoteReceiver: () => {},
+    isMainPageUpVoteBoxOn: false,
+    setIsMainPageUpVoteBoxOn: () => {},
+    isMainPageDownVoteBoxOn: false,
+    setIsMainPageDownVoteBoxOn: () => {},
+    mainPageVoteReceiver: null,
+    setMainPageVoteReceiver: () => {},
 });

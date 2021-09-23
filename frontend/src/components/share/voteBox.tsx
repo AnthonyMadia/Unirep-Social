@@ -12,7 +12,7 @@ type Props = {
 const VoteBox = (props: Props) => {
 
     const { user, setUser, shownPosts, setShownPosts } = useContext(WebContext);
-    const { setIsUpVoteBoxOn, setIsDownVoteBoxOn, setVoteReceiver } = useContext(MainPageContext);
+    const { setIsMainPageUpVoteBoxOn: setIsUpVoteBoxOn, setIsMainPageDownVoteBoxOn: setIsDownVoteBoxOn, setMainPageVoteReceiver: setVoteReceiver } = useContext(MainPageContext);
     const [ givenAmount, setGivenAmount ] = useState<undefined|number>(1);
 
     const init = () => {
@@ -53,21 +53,22 @@ const VoteBox = (props: Props) => {
                 };
                 setShownPosts([p, ...filteredPosts]);
             } else if (props.data.type === DataType.Comment) {
-                const selectedPost = shownPosts.filter((p) => p.id === (props.data as Comment).post_id);
-                if (selectedPost.length > 1) {
-                    console.log('error!!!! selecte post of comment is not single!');
+                const selectedPost = shownPosts.find((p) => p.id === (props.data as Comment).post_id);
+                if (selectedPost === undefined) {
+                    console.error('no such post!?????');
+                } else {
+                    const filteredPosts = shownPosts.filter((p) => p.id !== (props.data as Comment).post_id);
+                    const filteredComment = selectedPost.comments.filter((c) => c.id !== props.data.id);
+                    let c: Comment = {...(props.data as Comment), 
+                        upvote: props.isUpvote? props.data.downvote + givenAmount : 0,
+                        downvote: props.isUpvote? 0 : props.data.downvote + givenAmount, 
+                        isUpvoted: props.isUpvote, 
+                        isDownvoted: !props.isUpvote, 
+                        vote: v
+                    };
+                    let p: Post = {...selectedPost, comments: [c, ...filteredComment]}
+                    setShownPosts([p, ...filteredPosts]);
                 }
-                const filteredPosts = shownPosts.filter((p) => p.id !== (props.data as Comment).post_id);
-                const filteredComment = selectedPost[0].comments.filter((c) => c.id !== props.data.id);
-                let c: Comment = {...(props.data as Comment), 
-                    upvote: props.isUpvote? props.data.downvote + givenAmount : 0,
-                    downvote: props.isUpvote? 0 : props.data.downvote + givenAmount, 
-                    isUpvoted: props.isUpvote, 
-                    isDownvoted: !props.isUpvote, 
-                    vote: v
-                };
-                let p: Post = {...selectedPost[0], comments: [c, ...filteredComment]}
-                setShownPosts([p, ...filteredPosts]);
             }
             
             const reputations = (await getUserState(user.identity)).userState.getRep();

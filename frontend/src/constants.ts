@@ -56,3 +56,12 @@ export enum DataType {
     Post = 'post',
     Comment = 'comment',
 }
+
+export enum Page {
+    Home = 'home',
+    Post = 'post',
+}
+
+export interface Params {
+    id: string,
+}

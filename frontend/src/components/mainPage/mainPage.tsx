@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { WebContext } from '../../context/WebContext';
 import { MainPageContext } from '../../context/MainPageContext';
-import { Post, Comment } from '../../constants';
 import PostsList from './postsList';
 import PostField from './postField';
 import VoteBox from '../share/voteBox';
@@ -35,9 +34,9 @@ const MainPage = () => {
             <MainPageContext.Provider value={{
                     isPostFieldActive, setIsPostFieldActive, 
                     isPostFieldEpkDropdown, setIsPostFieldEpkDropdown, 
-                    isUpVoteBoxOn, setIsUpVoteBoxOn, 
-                    isDownVoteBoxOn, setIsDownVoteBoxOn,
-                    voteReceiver, setVoteReceiver,}}>
+                    isMainPageUpVoteBoxOn: isUpVoteBoxOn, setIsMainPageUpVoteBoxOn: setIsUpVoteBoxOn, 
+                    isMainPageDownVoteBoxOn: isDownVoteBoxOn, setIsMainPageDownVoteBoxOn: setIsDownVoteBoxOn,
+                    mainPageVoteReceiver: voteReceiver, setMainPageVoteReceiver: setVoteReceiver,}}>
                 <div className="main-content">
                     <PostField />
                     <Feed />

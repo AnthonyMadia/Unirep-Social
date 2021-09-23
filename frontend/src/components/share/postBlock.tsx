@@ -1,21 +1,24 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Jdenticon from 'react-jdenticon';
 import dateformat from 'dateformat';
 
-import { Post } from '../../constants';
-import { MainPageContext } from '../../context/MainPageContext';
-import VotersList from './votersList';
-import CommentField from './commentField';
-import CommentBlock from './commentBlock';
-import BlockHeader from '../share/blockHeader';
-import './mainPage.scss';
+import { Post, Page } from '../../constants';
+import VotersList from '../mainPage/votersList';
+import CommentField from '../mainPage/commentField';
+import CommentBlock from '../mainPage/commentBlock';
+import BlockHeader from './blockHeader';
+import './postBlock.scss';
 
 
 type Props = {
     post: Post,
+    page: Page,
 }
 
-const PostBlock = ({ post } : Props) => {
+const PostBlock = ({ post, page } : Props) => {
+
+    const history = useHistory();
 
     const date = dateformat(new Date(post.post_time), "yyyy/m/dd TT h:MM");
     const [ showComment, setShowComment ] = useState(false);
@@ -39,6 +42,7 @@ const PostBlock = ({ post } : Props) => {
         <div className="post-block">
             <BlockHeader 
                 data={post}
+                page={page}
             />
             <div className="post-block-main">
                 <div className="post-block-info">
@@ -73,9 +77,18 @@ const PostBlock = ({ post } : Props) => {
                     <CommentField post={post} closeComment={() => setShowComment(false)}/> : <div></div>
                 }
             </div>
-            <div className="comments-list">
-                { post.comments.map(comment => (<CommentBlock comment={comment} key={comment.id} />))}
-            </div>
+            { post.comments.length > 0? 
+                <div className="comments-list">
+                    {
+                        page === Page.Home? (
+                            <div>
+                                <CommentBlock comment={post.comments[0]} page={page} />
+                                <div className="view-more-comments" onClick={() => history.push(`/post/${post.id}`)}>View more comments</div>
+                            </div>
+                        ) : post.comments.map(comment => (<CommentBlock comment={comment} key={comment.id} page={page} />))
+                    }
+                </div> : <div></div>
+            }
         </div>
     );
 };
