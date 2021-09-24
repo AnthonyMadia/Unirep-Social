@@ -2,7 +2,6 @@
 
 .writing-field {
     width: 100%;
-    height: 287px;
     padding: 10px 8px 16px 8px;
     background-image: radial-gradient(99.12% 159.6% at 92.94% 95.93%, #E4D3FF 0%, #E5EEFF 62.33%, #EEE1FF 69.62%, #DAD7F8 81.02%);
     border-radius: 8px;
@@ -17,6 +16,27 @@
         font-size: $small-font-size;
         font-weight: 400;
         padding: 7px 16px;
+    }
+
+    .error {
+        width: 100%;
+        font-size: $small-font-size;
+        color: #EB5757;
+        text-align: center;
+        margin: 12.5px auto;
+
+        img {
+          width: 18px;
+          height: 18px;
+          margin-right: 11px;
+        }
+      }
+
+    .note {
+        width: 100%;
+        margin: 10px auto 0px auto;
+        text-align: center;
+        font-size: $smaller-font-size;
     }
 
     .submit-btn {

@@ -3,7 +3,6 @@ import { WebContext } from '../../context/WebContext';
 import { useState, useContext } from 'react';
 import { Post, Comment, DataType } from '../../constants';
 import WritingField from '../share/writingField';
-import { DEFAULT_COMMENT_KARMA } from '../../config';
 
 type Props = {
     post: Post,
@@ -11,33 +10,27 @@ type Props = {
 }
 
 const CommentField = (props: Props) => {
-    const [ comment, setComment ] = useState("");
     const [ isEpkDropdown, setIsEpkDropdown] = useState(false);
-    const [ epkNonce, setEpkNonce ] = useState(0); 
-    const [ reputation, setReputation ] = useState(DEFAULT_COMMENT_KARMA); 
+    const [ epkNonce, setEpkNonce ] = useState(0);
     const { user, setUser, shownPosts, setShownPosts } = useContext(WebContext);
-
-    const handleUserInput = (event: any) => {
-        setComment(event.target.value);
-    }
 
     const preventPropagation = (event: any) => {
         event.stopPropagation();
     }
 
-    const submitComment = async () => {
+    const submitComment = async (reputation: number, content: string) => {
         if (user === null) {
             console.error('user not login!');
-        } else if (comment.length === 0) {
+        } else if (content.length === 0) {
             console.error('nothing happened, no input.')
         } else {
-            const ret = await leaveComment(user.identity, comment, props.post.id, epkNonce)
+            const ret = await leaveComment(user.identity, content, props.post.id, epkNonce)
             if (ret !== undefined) {
                 let c: Comment = {
                     type: DataType.Comment,
                     id: ret.commentId,
                     post_id: props.post.id,
-                    content: comment,
+                    content,
                     vote: [],
                     upvote: 0,
                     downvote: 0,
@@ -70,13 +63,12 @@ const CommentField = (props: Props) => {
 
     return (
         <div className="comment-field">
-            <WritingField 
+            <WritingField
+                type={DataType.Comment} 
                 setIsDropdown={setIsEpkDropdown}
-                handleUserInput={handleUserInput}
                 isDropdown={isEpkDropdown}
                 epkNonce={epkNonce}
                 changeEpk={setEpk}
-                changeRep={setReputation}
                 submit={submitComment} 
                 submitBtnName="Comment"
                 onClick={preventPropagation}

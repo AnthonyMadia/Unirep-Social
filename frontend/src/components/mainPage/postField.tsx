@@ -6,13 +6,9 @@ import { WebContext } from '../../context/WebContext';
 import { MainPageContext } from '../../context/MainPageContext';
 import './mainPage.scss';
 import WritingField from '../share/writingField';
-import { DEFAULT_POST_KARMA } from '../../config';
 
 const PostField = () => {
 
-    const [content, setContent] = useState("");
-    const [errorMsg, setErrorMsg] = useState("");
-    const [reputation, setReputation] = useState(DEFAULT_POST_KARMA);
     const [epkNonce, setEpkNonce] = useState(0); // maybe it should be the first available epk
 
     const { user, setUser, shownPosts, setShownPosts } = useContext(WebContext);
@@ -26,8 +22,6 @@ const PostField = () => {
     const init = () => {
         setIsPostFieldEpkDropdown(false);
         setIsPostFieldActive(false);
-        setContent('');
-        setReputation(DEFAULT_POST_KARMA);
         setEpkNonce(0);
     }
 
@@ -40,16 +34,6 @@ const PostField = () => {
         setIsPostFieldActive(true);
     }
 
-    const handleUserInput = (event: any) => {
-        setContent(event.target.value);
-    }
-
-    const changeReputation = (value: number) => {
-        if (value >= reputation) {
-            setReputation(value);
-        }
-    }
-
     const changeEpk = (epk: number) => {
         if (user != null) {
             setEpkNonce(epk);
@@ -57,7 +41,7 @@ const PostField = () => {
         }  
     }
 
-    const submitPost = async () => {
+    const submitPost = async (reputation: number, content: string) => {
         if (user === null) {
             console.log('not login yet.');
         } else if (content.length === 0) {
@@ -96,18 +80,17 @@ const PostField = () => {
             <div className="post-title">Post</div>
             {isPostFieldActive && user && user.identity ?
                 <WritingField 
+                    type={DataType.Post} 
                     setIsDropdown={setIsPostFieldEpkDropdown}
-                    handleUserInput={handleUserInput}
                     isDropdown={isPostFieldEpkDropdown}
                     epkNonce={epkNonce}
                     changeEpk={changeEpk}
-                    changeRep={changeReputation}
                     submit={submitPost} 
                     submitBtnName="Post"
                     onClick={preventPropagation}
                 /> : 
                 <div className="post-field-before">
-                    <div className="input-field" onClick={activateInput}>{content.length > 0? content : "Share something!"}</div>
+                    <div className="input-field" onClick={activateInput}>Share something!</div>
                 </div>
             }
         </div>
