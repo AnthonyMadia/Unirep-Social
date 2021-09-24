@@ -8,13 +8,20 @@ type Props = {
 }
 
 const CommentBlock = ({comment, page}: Props) => {
-    const date = dateformat(new Date(comment.post_time), "yyyy/m/dd TT h:MM");
+    const date = dateformat(new Date(comment.post_time), "dd/mm/yyyy hh:MM TT");
 
     return (
         <div className="comment">
             <BlockHeader data={comment} page={page} />
             <div className="divider" />
-            <div className="datetime-text">{date}</div>
+            <div className="comment-block-info">
+                <div className="datetime-text">{date}</div>
+                <div className="datetime-text">|</div>
+                <div className="etherscan"> 
+                    <span>Etherscan</span>
+                    <img src="/images/etherscan.png" />
+                </div>
+            </div>
             <p>{comment.content}</p>
         </div>
     );

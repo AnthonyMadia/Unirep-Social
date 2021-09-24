@@ -20,7 +20,7 @@ const PostBlock = ({ post, page } : Props) => {
 
     const history = useHistory();
 
-    const date = dateformat(new Date(post.post_time), "yyyy/m/dd TT h:MM");
+    const date = dateformat(new Date(post.post_time), "dd/mm/yyyy hh:MM TT");
     const [ showComment, setShowComment ] = useState(false);
     const [ isVotersListOn, setIsVotersListOn ] = useState(false);
     const shownVoters = 4;
@@ -47,6 +47,11 @@ const PostBlock = ({ post, page } : Props) => {
             <div className="post-block-main">
                 <div className="post-block-info">
                     <div className="datetime-text">{date}</div>
+                    <div className="datetime-text">|</div>
+                    <div className="etherscan"> 
+                        <span>Etherscan</span>
+                        <img src="/images/etherscan.png" />
+                    </div>
                     <div className="post-share">
                         <img src="/images/share.png" />
                     </div>
