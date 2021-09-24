@@ -1,8 +1,10 @@
 import { useState, useContext } from 'react';
+import Jdenticon from 'react-jdenticon';
 import { vote, getUserState } from '../../utils';
 import { WebContext } from '../../context/WebContext';
 import { MainPageContext } from '../../context/MainPageContext';
 import { Post, Vote, Comment, DataType } from '../../constants';
+import Choice from './choices';
 import './voteBox.scss';
 
 type Props = {
@@ -14,10 +16,13 @@ const VoteBox = (props: Props) => {
     const { user, setUser, shownPosts, setShownPosts } = useContext(WebContext);
     const { setIsMainPageUpVoteBoxOn: setIsUpVoteBoxOn, setIsMainPageDownVoteBoxOn: setIsDownVoteBoxOn, setMainPageVoteReceiver: setVoteReceiver } = useContext(MainPageContext);
     const [ givenAmount, setGivenAmount ] = useState<undefined|number>(1);
+    const [ epkNonce, setEpkNonce ] = useState(0); 
+    const [ isDropdown, setIsDropdown ] = useState(false);
 
     const init = () => {
         setIsUpVoteBoxOn(false);
         setIsDownVoteBoxOn(false);
+        setIsDropdown(false);
         setVoteReceiver(null);
     }
 
@@ -87,6 +92,11 @@ const VoteBox = (props: Props) => {
         }
     }
 
+    const changeEpkNonce = (value: number) => {
+        setEpkNonce(value);
+        setIsDropdown(false);
+    }
+
     return (
         <div className="vote-overlay">
             <div className="vote-box" onClick={preventClose}>
@@ -95,6 +105,28 @@ const VoteBox = (props: Props) => {
                 <p>Enter an amount up to 10 to give to @{props.data.epoch_key}</p>
                 <div className="vote-margin"></div>
                 <input type="number" placeholder="max 10" onChange={handleUserInput} value={givenAmount} />
+                <div className="vote-margin"></div>
+                <div className="epk-choices-block">
+                    {
+                        isDropdown && user !== null? 
+                            <div className="epk-choices">
+                                <div className="epk" onClick={() => setIsDropdown(false)}>
+                                    <Jdenticon size="16" value={user?.epoch_keys[epkNonce]} />
+                                    <span>{epkNonce >= 0? user?.epoch_keys[epkNonce] : 'Choose an epock key'}</span>
+                                    <img src="/images/arrow-down.png"/>
+                                </div>
+                                <div className="divider"></div>
+                                {user.epoch_keys.map((epk, i) => (<Choice className="epk" value={epk} setState={() => changeEpkNonce(i)} key={i}/>))}
+                            </div> :
+                            <div className="epk-choices">
+                                <div className="epk" onClick={() => setIsDropdown(true)}>
+                                    <Jdenticon size="16" value={user?.epoch_keys[epkNonce]} />
+                                    <span>{epkNonce >= 0? user?.epoch_keys[epkNonce] : 'Choose an epock key'}</span>
+                                    <img src="/images/arrow-down.png"/>
+                                </div>
+                            </div>
+                    }
+                </div>
                 <div className="vote-margin"></div>
                 <div className="vote-button" onClick={doVote}>
                     {props.isUpvote? (<img src="/images/upvote-purple.png" />):(<img src="/images/downvote-purple.png" />)}

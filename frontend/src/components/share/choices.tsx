@@ -3,14 +3,14 @@ import Jdenticon from 'react-jdenticon';
 type Props = {
     className: string,
     value: string,
-    setState: (value: string) => void,
+    setState: () => void,
 }
 
 const Choice = (props: Props) => {
 
     const doSetState = (event: any) => {
         event.stopPropagation();
-        props.setState(props.value);
+        props.setState();
     }
 
     return (

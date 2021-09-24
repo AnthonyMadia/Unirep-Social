@@ -11,7 +11,7 @@
     background: radial-gradient(99.12% 159.6% at 92.94% 95.93%, rgba(228, 211, 255, 0.8) 0%, rgba(229, 238, 255, 0.8) 62.33%, rgba(238, 225, 255, 0.8) 69.62%, rgba(218, 215, 248, 0.8) 81.02%);
   
     .vote-box {
-      @include popupBox(275px, 300px, $border-width: 1px, $border-color: $purple1);
+      @include popupBox(275px, 330px, $border-width: 1px, $border-color: $purple1);
       padding: 36px;
     }
   
@@ -50,7 +50,57 @@
       padding: 8px;
       text-align: center;
       outline: none;
-      border: solid 1px $purple2;
+      border: 1px solid $purple2;
+      // border-image-source: radial-gradient(99.12% 159.6% at 92.94% 95.93%, #E4D3FF 0%, #E5EEFF 62.33%, #EEE1FF 69.62%, #DAD7F8 81.02%);
       background-color:transparent;
+      box-shadow: 0px 4px 4px 0px #69637040 inset;
+    }
+
+    .epk-choices-block {
+      width: 100%;
+      height: 32px;
+      position: relative;
+
+      .epk-choices {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        border: 1px solid $grey1;
+        border-radius: 8px;
+        box-shadow: 0px 3px 2px rgba(0, 0, 0, 0.1);
+        background-color: white;
+  
+        .divider {
+          width: 100%;
+          height: 1px;
+          background-color: $grey1;
+          margin: 0 auto;
+        }
+        
+        .epk {
+          width: 100%;
+          color: #333;
+          font-size: $small-font-size;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          cursor: pointer;
+          padding: 7.5px 16px;
+
+          &:hover {
+            background-color: $grey;
+          }
+  
+          span {
+              flex: 20;
+              margin-left: 8px;
+          }
+  
+          img {
+              width: 12px;
+              height: 6px;
+          }
+        }
+      }
     }
   }
