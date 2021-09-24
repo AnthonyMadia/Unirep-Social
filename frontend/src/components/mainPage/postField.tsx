@@ -44,9 +44,9 @@ const PostField = () => {
         setContent(event.target.value);
     }
 
-    const changeReputation = (event: any) => {
-        if (event.target.value >= reputation) {
-            setReputation(event.target.value);
+    const changeReputation = (value: number) => {
+        if (value >= reputation) {
+            setReputation(value);
         }
     }
 
