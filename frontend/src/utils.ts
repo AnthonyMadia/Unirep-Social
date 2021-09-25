@@ -162,6 +162,21 @@ export const userSignUp = async () => {
     return {i: config.identityPrefix + encodedIdentity, c: config.identityCommitmentPrefix + encodedIdentityCommitment}
 }
 
+export const userSignIn = async (identityInput: string) => {
+    const encodedIdentity = identityInput.slice(config.identityPrefix.length)
+    const decodedIdentity = base64url.decode(encodedIdentity)
+    const id = unSerialiseIdentity(decodedIdentity)
+    const commitment = genIdentityCommitment(id)
+    const serializedCommitment = commitment.toString(16)
+    const encodedCommitment = base64url.encode(serializedCommitment)
+    
+    const apiURL = makeURL('signin', {commitment: config.identityCommitmentPrefix + encodedCommitment})
+    
+    let isSuccess
+    await fetch(apiURL).then(response => isSuccess = response);
+    return isSuccess
+}
+
 export const publishPost = async (content: string, epkNonce: number, identity: string, minRep: number = 0) => {
     const ret = await genProof(identity, epkNonce, config.DEFAULT_POST_KARMA, minRep, )
 

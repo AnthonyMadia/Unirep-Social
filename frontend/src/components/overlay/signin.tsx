@@ -1,10 +1,11 @@
 import React, { useState, useContext } from 'react';
 import { WebContext } from '../../context/WebContext';
 import * as Constants from '../../constants';
+import { userSignIn, getEpochKeys, getUserState } from '../../utils';
 import './overlay.scss';
 
 const SignUp = () => {
-    const { setUser, setPageStatus } = useContext(WebContext);
+    const { setUser, setPageStatus, shownPosts, setShownPosts } = useContext(WebContext);
     
     const [userInput, setUserInput] = useState<string>("");
     const [errorMsg, setErrorMsg] = useState<string>("");
@@ -19,9 +20,55 @@ const SignUp = () => {
         console.log('user input: ' + userInput);
     }
 
-    const closeBox = () => {
-        setPageStatus(Constants.PageStatus.None);
-        // setUser({ identity: userInput }); // check if the user exists and login with the private identity
+    const closeBox = async () => {
+        const ret = await userSignIn(userInput);
+        
+        if (ret) {
+            const reputations = (await getUserState(userInput)).userState.getRep();
+            const ret = await getEpochKeys(userInput);
+
+            setUser({
+                identity: userInput,
+                epoch_keys: ret.epks,
+                reputations,
+            });
+
+            setShownPosts([...shownPosts].map(p => {
+                let isUpvoted: boolean = false, isDownvoted: boolean = false;
+                p.vote.forEach(v => {
+                    if (v.epoch_key in ret.epks) {
+                        if (v.upvote > 0) {
+                            isUpvoted = true;
+                        }
+                        if (v.downvote > 0) {
+                            isDownvoted = true;
+                        }
+                    }
+                });
+                let comments = [...p.comments].map(c => {
+                    let isUpvotedC: boolean = false, isDownvotedC: boolean = false;
+                    c.vote.forEach(v => {
+                        if (v.epoch_key in ret.epks) {
+                            if (v.upvote > 0) {
+                                isUpvotedC = true;
+                            }
+                            if (v.downvote > 0) {
+                                isDownvotedC = true;
+                            }
+                        }
+                    });
+                    let newComment: Constants.Comment = {...c, isUpvoted: isUpvotedC, isDownvoted: isDownvotedC};
+                    return newComment;
+                });
+                let newPost: Constants.Post = {...p, isUpvoted, isDownvoted, comments};
+                return newPost;
+            }));
+
+            setPageStatus(Constants.PageStatus.None);
+        } else {
+            console.log(ret);
+        }
+        
     }
 
     return (
