@@ -29,16 +29,15 @@ const SignUp = () => {
             <div className="sign-title">
                 <h3>Sign In With Private Key</h3> 
             </div>
+            <div className="sign-message">
+                Enter your private key to sign back in.
+            </div>
             <div className="sign-confirm">
                 <div className="sign-private-key">
-                    <form>
-                        <input type="text" name="userInput" placeholder="enter your private key" onChange={handleUserInput} />
-                    </form>
+                    <textarea name="userInput" placeholder="enter your private key" onChange={handleUserInput} />
                 </div>
-                <div className="sign-message">
-                    ... some message
-                </div>
-                <div className="sign-button-black" onClick={closeBox}>Confirm</div>
+                <div className="margin-box"></div>
+                <div className="sign-button-purple" onClick={closeBox}>Confirm</div>
             </div>
         </div>
     );

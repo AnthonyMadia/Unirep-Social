@@ -34,26 +34,26 @@ const VoteBox = (props: Props) => {
         } else {
             let ret: any;
             if (props.isUpvote) {
-                ret = await vote(user.identity, givenAmount, 0, props.data.id, props.data.epoch_key, 1);
+                ret = await vote(user.identity, givenAmount, 0, props.data.id, props.data.epoch_key, epkNonce);
                 console.log('upvote ret: ' + JSON.stringify(ret))
             } else {
-                ret = await vote(user.identity, 0, givenAmount, props.data.id, props.data.epoch_key, 1);
+                ret = await vote(user.identity, 0, givenAmount, props.data.id, props.data.epoch_key, epkNonce);
                 console.log('downvote ret: ' + JSON.stringify(ret))
             }
 
             const newVote: Vote = {
                 upvote: props.isUpvote? givenAmount:0,
                 downvote: props.isUpvote? 0:givenAmount,
-                epoch_key: user.epoch_keys[0],
+                epoch_key: user.epoch_keys[epkNonce],
             }
             let v = [...props.data.vote, newVote];
             if (props.data.type === DataType.Post) {
                 const filteredPosts = shownPosts.filter((p) => p.id != props.data.id)
                 let p: Post = {...(props.data as Post), 
-                    upvote: props.isUpvote? props.data.downvote + givenAmount : 0,
-                    downvote: props.isUpvote? 0 : props.data.downvote + givenAmount, 
-                    isUpvoted: props.isUpvote, 
-                    isDownvoted: !props.isUpvote, 
+                    upvote: props.data.upvote + (props.isUpvote? givenAmount : 0),
+                    downvote: props.data.downvote + (props.isUpvote? 0 : givenAmount), 
+                    isUpvoted: props.isUpvote || props.data.isUpvoted, 
+                    isDownvoted: !props.isUpvote || props.data.isDownvoted, 
                     vote: v
                 };
                 setShownPosts([p, ...filteredPosts]);
@@ -65,10 +65,10 @@ const VoteBox = (props: Props) => {
                     const filteredPosts = shownPosts.filter((p) => p.id !== (props.data as Comment).post_id);
                     const filteredComment = selectedPost.comments.filter((c) => c.id !== props.data.id);
                     let c: Comment = {...(props.data as Comment), 
-                        upvote: props.isUpvote? props.data.downvote + givenAmount : 0,
-                        downvote: props.isUpvote? 0 : props.data.downvote + givenAmount, 
-                        isUpvoted: props.isUpvote, 
-                        isDownvoted: !props.isUpvote, 
+                        upvote: props.data.upvote + (props.isUpvote? givenAmount : 0),
+                        downvote: props.data.downvote + (props.isUpvote? 0 : givenAmount), 
+                        isUpvoted: props.isUpvote || props.data.isUpvoted, 
+                        isDownvoted: !props.isUpvote || props.data.isDownvoted, 
                         vote: v
                     };
                     let p: Post = {...selectedPost, comments: [c, ...filteredComment]}
