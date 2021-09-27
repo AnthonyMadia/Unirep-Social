@@ -62,6 +62,11 @@ export enum Page {
     Post = 'post',
 }
 
+export enum ChoiceType {
+    Feed = 'feed',
+    Epk = 'epk',
+}
+
 export interface Params {
     id: string,
 }
