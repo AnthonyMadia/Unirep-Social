@@ -72,7 +72,7 @@ const WritingField = (props: Props) => {
                 <div className="setting-epk">
                     <label>Select an Epoch Key to display with your post <span>?</span></label>
                     {props.isDropdown? 
-                    <div className="epk-dropdown">
+                    <div className="epk-choices">
                         <div className="epk" onClick={switchDropdown}>
                             <Jdenticon size="16" value={user?.epoch_keys[props.epkNonce]} />
                             <span>{props.epkNonce >= 0? user?.epoch_keys[props.epkNonce] : 'Choose an epock key'}</span>
@@ -84,10 +84,13 @@ const WritingField = (props: Props) => {
                                 <Choice className="epk" key={epk} setState={() => props.changeEpk(index)} value={user.epoch_keys[index]}/>
                             ))
                         }
-                    </div> : <div className="epk epk-with-border" onClick={switchDropdown}>
-                        <Jdenticon size="16" value={user?.epoch_keys[props.epkNonce]} />
-                        <span>{props.epkNonce >= 0? user?.epoch_keys[props.epkNonce] : 'Choose an epock key'}</span>
-                        <img src="/images/arrow-down.png"/>
+                    </div> : 
+                    <div className="epk-choices">
+                        <div className="epk" onClick={switchDropdown}>
+                            <Jdenticon size="16" value={user?.epoch_keys[props.epkNonce]} />
+                            <span>{props.epkNonce >= 0? user?.epoch_keys[props.epkNonce] : 'Choose an epock key'}</span>
+                            <img src="/images/arrow-down.png"/>
+                        </div>
                     </div>}
                 </div>
                 <div className="setting-reputation">
