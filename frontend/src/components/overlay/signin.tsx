@@ -36,7 +36,8 @@ const SignUp = () => {
             setShownPosts([...shownPosts].map(p => {
                 let isUpvoted: boolean = false, isDownvoted: boolean = false;
                 p.vote.forEach(v => {
-                    if (v.epoch_key in ret.epks) {
+                    const e = ret.epks.find(_e => _e === v.epoch_key);
+                    if (e !== undefined) {
                         if (v.upvote > 0) {
                             isUpvoted = true;
                         }
@@ -48,7 +49,8 @@ const SignUp = () => {
                 let comments = [...p.comments].map(c => {
                     let isUpvotedC: boolean = false, isDownvotedC: boolean = false;
                     c.vote.forEach(v => {
-                        if (v.epoch_key in ret.epks) {
+                        const e = ret.epks.find(_e => _e === v.epoch_key);
+                        if (e !== undefined) {
                             if (v.upvote > 0) {
                                 isUpvotedC = true;
                             }
