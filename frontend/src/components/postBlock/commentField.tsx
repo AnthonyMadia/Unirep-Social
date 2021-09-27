@@ -42,7 +42,7 @@ const CommentField = (props: Props) => {
                     reputation,
                 };
                 const filteredPosts = shownPosts.filter((p) => p.id != props.post?.id)
-                let comments = props.post.comments.length > 0? [...props.post.comments, c] : [c];
+                let comments = props.post.comments.length > 0? [c, ...props.post.comments] : [c];
                 let p = {...props.post, comments};
 
                 setShownPosts([p, ...filteredPosts]);

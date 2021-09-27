@@ -9,12 +9,10 @@ type Props = {
 }
 
 const PostsList = ({ posts }: Props) => {
-    const sortedPosts = posts.sort((a, b) => a.post_time > b.post_time? -1 : 1); // newest show upper
-
     return (
         <div>
-            {sortedPosts.length > 0? (
-                sortedPosts.map((post) => (
+            {posts.length > 0? (
+                posts.map((post) => (
                     <PostBlock 
                         key={post.id} 
                         post={post} 
