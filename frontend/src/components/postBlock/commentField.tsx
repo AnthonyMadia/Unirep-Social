@@ -2,7 +2,7 @@ import { leaveComment, getUserState } from '../../utils';
 import { WebContext } from '../../context/WebContext';
 import { useState, useContext } from 'react';
 import { Post, Comment, DataType } from '../../constants';
-import WritingField from '../share/writingField';
+import WritingField from '../writingField/writingField';
 
 type Props = {
     post: Post,
@@ -30,7 +30,7 @@ const CommentField = (props: Props) => {
                     id: ret.commentId,
                     post_id: props.post.id,
                     content,
-                    vote: [],
+                    votes: [],
                     upvote: 0,
                     downvote: 0,
                     isUpvoted: false,
@@ -46,7 +46,7 @@ const CommentField = (props: Props) => {
 
                 setShownPosts([p, ...filteredPosts]);
                 const rep = (await getUserState(user.identity)).userState.getRep();
-                setUser({...user, reputations: rep})
+                setUser({...user, reputation: rep})
 
                 props.closeComment();
             } else {

@@ -15,7 +15,7 @@ const UserHeader = () => {
                     <img src="/images/user.png" />
                 </div>
                 <div className="user-reputations">
-                    <h2>{user?.reputations}</h2>
+                    <h2>{user?.reputation}</h2>
                     <p>My Page</p>
                 </div>
             </div>

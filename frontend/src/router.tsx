@@ -6,7 +6,7 @@ import * as Constants from './constants';
 import Header from './components/header/header';
 import Overlay from './components/overlay/overlay';
 import MainPage from './components/mainPage/mainPage';
-import PostPage from './components/mainPage/postPage';
+import PostPage from './components/postPage/postPage';
 import UserPage from './components/userPage/userPage';
 
 import { WebContext } from './context/WebContext';

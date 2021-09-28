@@ -7,7 +7,7 @@ import { Post, Page } from '../../constants';
 import VotersList from './votersList';
 import CommentField from './commentField';
 import CommentBlock from './commentBlock';
-import BlockHeader from '../share/blockHeader';
+import BlockHeader from './blockHeader';
 import './postBlock.scss';
 
 
@@ -61,17 +61,17 @@ const PostBlock = ({ post, page } : Props) => {
 
             <div className='post-voters' onClick={switchVotersList}>
                 {
-                    post.vote.slice(0, shownVoters).map((vote, index) => (
+                    post.votes.slice(0, shownVoters).map((vote, index) => (
                         <div className="voter" key={vote.epoch_key + '-' + index}><Jdenticon size="19" value={vote.epoch_key} /></div>
                     ))
                 }
                 {
-                    post.vote.length > shownVoters? <div className="voter-text">+{post.vote.length - shownVoters}</div> : <div></div>
+                    post.votes.length > shownVoters? <div className="voter-text">+{post.votes.length - shownVoters}</div> : <div></div>
                 }
                 <div className="voter-text voter-more">{isVotersListOn? "hide" : "show"}</div>
             </div>
             { isVotersListOn? 
-                <VotersList votes={post.vote}/> : <div></div>
+                <VotersList votes={post.votes}/> : <div></div>
             }
             <div className="comment-block">
                 <div className={showComment? "comment-btn without-bottom" : "comment-btn"} onClick={switchComment}>

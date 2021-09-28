@@ -1,8 +1,8 @@
 import { useContext } from 'react';
 
-import PostField from '../share/postField';
-import Feed from '../mainPage/feed';
-import PostsList from '../mainPage/postsList';
+import PostField from '../postField/postField';
+import Feed from '../feed/feed';
+import PostsList from '../postsList/postsList';
 import { WebContext } from '../../context/WebContext';
 import { Page } from '../../constants';
 

@@ -2,7 +2,7 @@ import { useContext } from 'react';
 
 import PostBlock from '../postBlock/postBlock';
 import { Post, Page } from '../../constants';
-import './mainPage.scss';
+import './postsList.scss';
 
 type Props = {
     posts: Post[],

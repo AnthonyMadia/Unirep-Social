@@ -1,7 +1,8 @@
 import { useState, useContext } from 'react';
 import { WebContext } from '../../context/WebContext';
-import Dropdown from '../share/dropdown';
+import Dropdown from '../dropdown/dropdown';
 import { ChoiceType, Post } from '../../constants';
+import './feed.scss';
 
 const popularChoices = [
     ['most', 'fewest'],
@@ -75,9 +76,9 @@ const Feed = () => {
                 }
             } else if (feed[1] === 2) { /// sort by vote count
                 if (feed[0] === 0) {
-                    filteredPosts.sort((a, b) => a.vote.length > b.vote.length? -1 : 1);
+                    filteredPosts.sort((a, b) => a.votes.length > b.votes.length? -1 : 1);
                 } else {
-                    filteredPosts.sort((a, b) => a.vote.length < b.vote.length? -1 : 1);
+                    filteredPosts.sort((a, b) => a.votes.length < b.votes.length? -1 : 1);
                 }
             } else { /// sort by up vote
                 if (feed[0] === 0) {

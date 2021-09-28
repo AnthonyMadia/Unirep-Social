@@ -30,12 +30,12 @@ const SignUp = () => {
             setUser({
                 identity: userInput,
                 epoch_keys: ret.epks,
-                reputations,
+                reputation: reputations,
             });
 
             setShownPosts([...shownPosts].map(p => {
                 let isUpvoted: boolean = false, isDownvoted: boolean = false;
-                p.vote.forEach(v => {
+                p.votes.forEach(v => {
                     const e = ret.epks.find(_e => _e === v.epoch_key);
                     if (e !== undefined) {
                         if (v.upvote > 0) {
@@ -48,7 +48,7 @@ const SignUp = () => {
                 });
                 let comments = [...p.comments].map(c => {
                     let isUpvotedC: boolean = false, isDownvotedC: boolean = false;
-                    c.vote.forEach(v => {
+                    c.votes.forEach(v => {
                         const e = ret.epks.find(_e => _e === v.epoch_key);
                         if (e !== undefined) {
                             if (v.upvote > 0) {

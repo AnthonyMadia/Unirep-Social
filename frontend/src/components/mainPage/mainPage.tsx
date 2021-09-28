@@ -2,10 +2,10 @@ import React, { useContext, useState } from 'react';
 import { WebContext } from '../../context/WebContext';
 import { MainPageContext } from '../../context/MainPageContext';
 import { Page } from '../../constants';
-import PostsList from './postsList';
-import PostField from '../share/postField';
-import VoteBox from '../share/voteBox';
-import Feed from './feed';
+import PostsList from '../postsList/postsList';
+import PostField from '../postField/postField';
+import VoteBox from '../voteBox/voteBox';
+import Feed from '../feed/feed';
 import './mainPage.scss';
 
 const MainPage = () => {

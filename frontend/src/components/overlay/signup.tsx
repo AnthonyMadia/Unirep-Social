@@ -94,7 +94,7 @@ const SignUp = () => {
 
     const closeBox = async () => {
         setPageStatus(Constants.PageStatus.None);
-        setUser({ identity: identity, epoch_keys: epks, reputations });
+        setUser({ identity: identity, epoch_keys: epks, reputation: reputations });
     }
 
     return (

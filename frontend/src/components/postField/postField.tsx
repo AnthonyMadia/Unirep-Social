@@ -6,7 +6,7 @@ import { WebContext } from '../../context/WebContext';
 import { MainPageContext } from '../../context/MainPageContext';
 import { UserPageContext } from '../../context/UserPageContext';
 import './postField.scss';
-import WritingField from '../share/writingField';
+import WritingField from '../writingField/writingField';
 
 type Props = {
     page: Page,
@@ -67,7 +67,7 @@ const PostField = ({ page }: Props) => {
                     type: DataType.Post,
                     id: ret.postId,
                     content,
-                    vote: [],
+                    votes: [],
                     upvote: 0,
                     downvote: 0,
                     isUpvoted: false,
@@ -82,7 +82,7 @@ const PostField = ({ page }: Props) => {
 
                 setShownPosts([newPost, ...shownPosts]);
                 const reputations = (await getUserState(user.identity)).userState.getRep();
-                setUser({...user, reputations})
+                setUser({...user, reputation: reputations})
             } else {
                 console.error('publish post error.');
             }

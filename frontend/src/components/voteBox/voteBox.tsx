@@ -3,7 +3,7 @@ import { vote, getUserState } from '../../utils';
 import { WebContext } from '../../context/WebContext';
 import { MainPageContext } from '../../context/MainPageContext';
 import { Post, Vote, Comment, DataType, ChoiceType } from '../../constants';
-import Dropdown from './dropdown';
+import Dropdown from '../dropdown/dropdown';
 import './voteBox.scss';
 
 type Props = {
@@ -45,7 +45,7 @@ const VoteBox = (props: Props) => {
                 downvote: props.isUpvote? 0:givenAmount,
                 epoch_key: user.epoch_keys[epkNonce],
             }
-            let v = [...props.data.vote, newVote];
+            let v = [...props.data.votes, newVote];
             if (props.data.type === DataType.Post) {
                 const filteredPosts = shownPosts.filter((p) => p.id != props.data.id)
                 let p: Post = {...(props.data as Post), 
@@ -53,7 +53,7 @@ const VoteBox = (props: Props) => {
                     downvote: props.data.downvote + (props.isUpvote? 0 : givenAmount), 
                     isUpvoted: props.isUpvote || props.data.isUpvoted, 
                     isDownvoted: !props.isUpvote || props.data.isDownvoted, 
-                    vote: v
+                    votes: v
                 };
                 setShownPosts([p, ...filteredPosts]);
             } else if (props.data.type === DataType.Comment) {
@@ -68,7 +68,7 @@ const VoteBox = (props: Props) => {
                         downvote: props.data.downvote + (props.isUpvote? 0 : givenAmount), 
                         isUpvoted: props.isUpvote || props.data.isUpvoted, 
                         isDownvoted: !props.isUpvote || props.data.isDownvoted, 
-                        vote: v
+                        votes: v
                     };
                     let p: Post = {...selectedPost, comments: [c, ...filteredComment]}
                     setShownPosts([p, ...filteredPosts]);
@@ -76,7 +76,7 @@ const VoteBox = (props: Props) => {
             }
             
             const reputations = (await getUserState(user.identity)).userState.getRep();
-            setUser({...user, reputations});
+            setUser({...user, reputation: reputations});
             init();
         }
     }
@@ -99,7 +99,7 @@ const VoteBox = (props: Props) => {
     return (
         <div className="vote-overlay">
             <div className="vote-box" onClick={preventClose}>
-                <h3>{user?.reputations} Points Available</h3>
+                <h3>{user?.reputation} Points Available</h3>
                 <div className="vote-margin"></div>
                 <p>Enter an amount up to 10 to give to @{props.data.epoch_key}</p>
                 <div className="vote-margin"></div>

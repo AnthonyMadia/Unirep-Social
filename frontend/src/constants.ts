@@ -5,7 +5,7 @@ export const shownPostsKey = "shownPosts";
 export interface User {
     identity: string,
     epoch_keys: string[],
-    reputations: number,
+    reputation: number,
 }
 
 export interface Vote {
@@ -19,7 +19,7 @@ export interface Comment {
     id: string,
     post_id: string,
     content: string,
-    vote: Vote[],
+    votes: Vote[],
     upvote: number,
     downvote: number,
     isUpvoted: boolean,
@@ -34,7 +34,7 @@ export interface Post {
     type: DataType,
     id: string,
     content: string,
-    vote: Vote[],
+    votes: Vote[],
     upvote: number,
     downvote: number,
     isUpvoted: boolean,

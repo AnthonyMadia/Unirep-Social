@@ -4,7 +4,8 @@ import { Page, Params } from '../../constants';
 import { WebContext } from '../../context/WebContext';
 import { PostPageContext } from '../../context/PostPageContext';
 import PostBlock from '../postBlock/postBlock';
-import VoteBox from '../share/voteBox';
+import VoteBox from '../voteBox/voteBox';
+import './postPage.scss';
 
 const PostPage = () => {
     const { shownPosts } = useContext(WebContext);

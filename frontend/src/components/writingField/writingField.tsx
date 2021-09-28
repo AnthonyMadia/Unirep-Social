@@ -1,6 +1,6 @@
 import { useState, useContext }  from 'react';
 import { WebContext } from '../../context/WebContext';
-import Dropdown from './dropdown';
+import Dropdown from '../dropdown/dropdown';
 import { DataType, ChoiceType } from '../../constants';
 import './writingField.scss';
 import { DEFAULT_POST_KARMA, DEFAULT_COMMENT_KARMA } from '../../config';
@@ -54,10 +54,10 @@ const WritingField = (props: Props) => {
             setErrorMsg('Please sign up or sign in');
         } else if (isNaN(reputation)) {
             setErrorMsg('Please input reputation in number');
-        } else if (user.reputations < defaultRep) {
+        } else if (user.reputation < defaultRep) {
             setErrorMsg('Sorry. You don\'t have enough reputation to perform post action.');
-        } else if (reputation < defaultRep || reputation > user.reputations) {
-            setErrorMsg('Please input reputation between ' + defaultRep + ' and ' + user.reputations);
+        } else if (reputation < defaultRep || reputation > user.reputation) {
+            setErrorMsg('Please input reputation between ' + defaultRep + ' and ' + user.reputation);
         } else if (content.length === 0) {
             setErrorMsg('Please share something in order to post');
         } else {
@@ -85,7 +85,7 @@ const WritingField = (props: Props) => {
                 <div className="setting-reputation">
                     <label>{"Enter a reputation score " + defaultRep + " or greather (optional)"} <span>?</span></label>
                     <br/>
-                    <textarea name="repInput" placeholder={"MAX " + user?.reputations} onChange={changeReputation}></textarea>
+                    <textarea name="repInput" placeholder={"MAX " + user?.reputation} onChange={changeReputation}></textarea>
                 </div>
             </div>
             {

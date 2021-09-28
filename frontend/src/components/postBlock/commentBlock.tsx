@@ -1,4 +1,4 @@
-import BlockHeader from '../share/blockHeader';
+import BlockHeader from './blockHeader';
 import { Comment, Page } from '../../constants';
 import dateformat from 'dateformat';
 

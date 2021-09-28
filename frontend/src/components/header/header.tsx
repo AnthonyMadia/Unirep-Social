@@ -53,7 +53,7 @@ const Header = () => {
                 <div className="navButtons">
                     <div className="lightPurpleButton" onClick={() => history.push(`/user`)}>
                         <img src="/images/user-purple.png" />
-                        <span>{user.reputations}</span>
+                        <span>{user.reputation}</span>
                     </div>
                     <div className="whiteButton" onClick={logout}>Log out</div>
                 </div> :
