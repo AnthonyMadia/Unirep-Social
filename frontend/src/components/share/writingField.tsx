@@ -8,8 +8,6 @@ import { DEFAULT_POST_KARMA, DEFAULT_COMMENT_KARMA } from '../../config';
 
 type Props = {
     type: DataType,
-    setIsDropdown: (isDropdown: boolean) => void,
-    isDropdown: boolean,
     epkNonce: number,
     changeEpk: (epkNonce: number) => void,
     submit: (rep: number, content: string) => void,
@@ -25,10 +23,11 @@ const WritingField = (props: Props) => {
     const [ reputation, setReputation ] = useState(defaultRep);
     const [ content, setContent ] = useState('');
     const [ errorMsg, setErrorMsg ] = useState('');
+    const [ isDropdown, setIsDropdown ] = useState(false);
 
     const switchDropdown = (event: any) => {
         props.onClick(event);
-        props.setIsDropdown(!props.isDropdown);
+        setIsDropdown(!isDropdown);
     }
 
     const changeReputation = (event: any) => {
@@ -42,7 +41,7 @@ const WritingField = (props: Props) => {
 
     const onClickField = (event: any) => {
         props.onClick(event);
-        props.setIsDropdown(false);
+        setIsDropdown(false);
     }
 
     const handleUserInput = (event: any) => {
@@ -55,6 +54,8 @@ const WritingField = (props: Props) => {
             setErrorMsg('Please sign up or sign in');
         } else if (isNaN(reputation)) {
             setErrorMsg('Please input reputation in number');
+        } else if (user.reputations < defaultRep) {
+            setErrorMsg('Sorry. You don\'t have enough reputation to perform post action.');
         } else if (reputation < defaultRep || reputation > user.reputations) {
             setErrorMsg('Please input reputation between ' + defaultRep + ' and ' + user.reputations);
         } else if (content.length === 0) {
@@ -76,6 +77,8 @@ const WritingField = (props: Props) => {
                             defaultChoice={user.epoch_keys[props.epkNonce]}
                             choices={user.epoch_keys}
                             onChoose={props.changeEpk}
+                            isDropdown={isDropdown}
+                            setIsDropdown={setIsDropdown}
                         /> : <div></div>
                     }
                 </div>
@@ -97,8 +100,8 @@ const WritingField = (props: Props) => {
             </div>
             <div className="note">
                 {props.type === DataType.Post? 
-                    "Posting will use " + DEFAULT_POST_KARMA + " reputation points" : 
-                    "Commenting will use " + DEFAULT_COMMENT_KARMA + " reputation points" }
+                    "Posting will use " + defaultRep + " reputation points" : 
+                    "Commenting will use " + defaultRep + " reputation points" }
             </div>
         </div>
     );

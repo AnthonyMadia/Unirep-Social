@@ -1,26 +1,41 @@
 import { useState, useContext }  from 'react';
 
 import { publishPost, getUserState } from '../../utils';
-import { Post, DataType } from '../../constants';
+import { Post, DataType, Page } from '../../constants';
 import { WebContext } from '../../context/WebContext';
 import { MainPageContext } from '../../context/MainPageContext';
+import { UserPageContext } from '../../context/UserPageContext';
 import './mainPage.scss';
 import WritingField from '../share/writingField';
 
-const PostField = () => {
+type Props = {
+    page: Page,
+}
+
+const PostField = ({ page }: Props) => {
 
     const [epkNonce, setEpkNonce] = useState(0); // maybe it should be the first available epk
 
     const { user, setUser, shownPosts, setShownPosts } = useContext(WebContext);
     const { 
-        isPostFieldActive, 
-        setIsPostFieldActive,
-        isPostFieldEpkDropdown, 
-        setIsPostFieldEpkDropdown 
+        isPostFieldActive: isMainPagePostFieldActive, 
+        setIsPostFieldActive: setIsMainPagePostFieldActive
     } = useContext(MainPageContext);
 
+    const { 
+        isPostFieldActive: isUserPagePostFieldActive, 
+        setIsPostFieldActive: setIsUserPagePostFieldActive
+    } = useContext(UserPageContext);
+
+    const setIsPostFieldActive = (value: boolean) => {
+        if (page === Page.Home) {
+            setIsMainPagePostFieldActive(value);
+        } else if (page === Page.User) {
+            setIsUserPagePostFieldActive(value);
+        }
+    }
+
     const init = () => {
-        setIsPostFieldEpkDropdown(false);
         setIsPostFieldActive(false);
         setEpkNonce(0);
     }
@@ -37,7 +52,6 @@ const PostField = () => {
     const changeEpk = (epk: number) => {
         if (user != null) {
             setEpkNonce(epk);
-            setIsPostFieldEpkDropdown(!isPostFieldEpkDropdown);
         }  
     }
 
@@ -77,11 +91,9 @@ const PostField = () => {
 
     return (
         <div className="post-field">
-            {isPostFieldActive && user && user.identity ?
+            {(page === Page.Home? isMainPagePostFieldActive : isUserPagePostFieldActive) && user && user.identity ?
                 <WritingField 
                     type={DataType.Post} 
-                    setIsDropdown={setIsPostFieldEpkDropdown}
-                    isDropdown={isPostFieldEpkDropdown}
                     epkNonce={epkNonce}
                     changeEpk={changeEpk}
                     submit={submitPost} 

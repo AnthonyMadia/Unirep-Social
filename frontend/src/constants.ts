@@ -60,6 +60,7 @@ export enum DataType {
 export enum Page {
     Home = 'home',
     Post = 'post',
+    User = 'user',
 }
 
 export enum ChoiceType {

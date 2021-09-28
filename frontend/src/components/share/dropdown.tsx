@@ -33,29 +33,45 @@ type Props = {
     defaultChoice: string,
     choices: string[],
     onChoose: (value: any) => void,
+    isDropdown: boolean,
+    setIsDropdown: (value: boolean) => void,
 }
 
-const Dropdown = ({ type, defaultChoice, choices, onChoose }: Props) => {
+const Dropdown = ({ type, defaultChoice, choices, onChoose, isDropdown, setIsDropdown }: Props) => {
     const [on, setOn] = useState(false);
 
     const switchDropdown = () => {
-        setOn(!on);
+        if (type === ChoiceType.Feed) {
+            setOn(!on);
+        } else {
+            setIsDropdown(!isDropdown);
+        }
     }
 
     const choose = (value: number) => {
         onChoose(value);
-        setOn(false);
+        if (type === ChoiceType.Feed) {
+            setOn(false);
+        } else {
+            setIsDropdown(false);
+        }
     }
 
     return (
         <div className="dropdown-field">
             <div className="dropdown-box">
                 <Choice setState={switchDropdown} value={defaultChoice} type={type} upArrow={on? true:false} downArrow={on? false:true} />
-                { on? <div className="divider"></div> : <div></div>}
-                { on? 
-                    <div>
-                    {choices.map((choice, i) => <Choice setState={() => choose(i)} value={choice} type={type} upArrow={false} downArrow={false} key={choice} />)}
-                    </div> : <div></div>
+                { type === ChoiceType.Feed? 
+                    (on? <div className="divider"></div> : <div></div>) : 
+                    (isDropdown? <div className="divider"></div> : <div></div>)
+                }
+                { type === ChoiceType.Feed? 
+                    (on? <div>
+                        {choices.map((choice, i) => <Choice setState={() => choose(i)} value={choice} type={type} upArrow={false} downArrow={false} key={choice} />)}
+                        </div> : <div></div>) :
+                    (isDropdown? <div>
+                        {choices.map((choice, i) => <Choice setState={() => choose(i)} value={choice} type={type} upArrow={false} downArrow={false} key={choice} />)}
+                        </div> : <div></div>)    
                 }
             </div>
         </div>

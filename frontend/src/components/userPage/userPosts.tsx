@@ -4,6 +4,7 @@ import PostField from '../mainPage/postField';
 import Feed from '../mainPage/feed';
 import PostsList from '../mainPage/postsList';
 import { WebContext } from '../../context/WebContext';
+import { Page } from '../../constants';
 
 const UserPosts = () => {
     const { user, shownPosts } = useContext(WebContext); 
@@ -11,7 +12,7 @@ const UserPosts = () => {
 
     return (
         <div className="user-page-posts">
-            <PostField />
+            <PostField page={Page.User} />
             <h3>My Posts</h3>
             <Feed />
             <div className="post-list"><PostsList posts={userPosts} /></div>

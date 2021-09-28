@@ -10,7 +10,6 @@ type Props = {
 }
 
 const CommentField = (props: Props) => {
-    const [ isEpkDropdown, setIsEpkDropdown] = useState(false);
     const [ epkNonce, setEpkNonce ] = useState(0);
     const { user, setUser, shownPosts, setShownPosts } = useContext(WebContext);
 
@@ -58,15 +57,12 @@ const CommentField = (props: Props) => {
 
     const setEpk = (epk: number) => {
         setEpkNonce(epk);
-        setIsEpkDropdown(false);
     }
 
     return (
         <div className="comment-field">
             <WritingField
                 type={DataType.Comment} 
-                setIsDropdown={setIsEpkDropdown}
-                isDropdown={isEpkDropdown}
                 epkNonce={epkNonce}
                 changeEpk={setEpk}
                 submit={submitComment} 

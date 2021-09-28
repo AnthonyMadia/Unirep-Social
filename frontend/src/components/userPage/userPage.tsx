@@ -8,14 +8,18 @@ import './userPage.scss';
 
 const UserPage = () => {
 
-    const [page, setPage] = useState<UserPageType>(UserPageType.Posts)
+    const [page, setPage] = useState<UserPageType>(UserPageType.Posts);
+    const [isPostFieldActive, setIsPostFieldActive] = useState(false);
 
     const closeAll = () => {
+        setIsPostFieldActive(false);
     }
 
     return (
         <div className="default-gesture" onClick={closeAll}>
-            <UserPageContext.Provider value={{page, switchPage: setPage}}>
+            <UserPageContext.Provider value={{
+                    page, switchPage: setPage, 
+                    isPostFieldActive, setIsPostFieldActive}}>
                 <UserHeader />
                 { page === UserPageType.Posts? <UserPosts /> : <div></div>}
             </UserPageContext.Provider>

@@ -125,6 +125,8 @@ const Feed = () => {
                                     type={ChoiceType.Feed}  
                                     onChoose={(value) => onTapTimeFeed(index, value)}
                                     defaultChoice={timeChoices[index][timeFeed[index]]}
+                                    isDropdown={false}
+                                    setIsDropdown={() => {}}
                                 />
                             </div>
                         )}
@@ -137,6 +139,8 @@ const Feed = () => {
                                     type={ChoiceType.Feed}  
                                     onChoose={(value) => onTapPopularFeed(index, value)}
                                     defaultChoice={popularChoices[index][popularFeed[index]]}
+                                    isDropdown={false}
+                                    setIsDropdown={() => {}}
                                 />
                             </div>
                         )}

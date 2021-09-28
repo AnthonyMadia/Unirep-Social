@@ -112,6 +112,8 @@ const VoteBox = (props: Props) => {
                             defaultChoice={user.epoch_keys[epkNonce]}
                             choices={user.epoch_keys}
                             onChoose={changeEpkNonce}
+                            isDropdown={isDropdown}
+                            setIsDropdown={setIsDropdown}
                         /> : <div></div>
                     }
                 </div>

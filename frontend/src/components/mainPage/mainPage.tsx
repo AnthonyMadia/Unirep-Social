@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { WebContext } from '../../context/WebContext';
 import { MainPageContext } from '../../context/MainPageContext';
+import { Page } from '../../constants';
 import PostsList from './postsList';
 import PostField from './postField';
 import VoteBox from '../share/voteBox';
@@ -12,7 +13,6 @@ const MainPage = () => {
     const { shownPosts } = useContext(WebContext);
 
     const [isPostFieldActive, setIsPostFieldActive] = useState(false);
-    const [isPostFieldEpkDropdown, setIsPostFieldEpkDropdown] = useState(false);
     const [isUpVoteBoxOn, setIsUpVoteBoxOn] = useState(false);
     const [isDownVoteBoxOn, setIsDownVoteBoxOn] = useState(false);
     const [voteReceiver, setVoteReceiver] = useState<any>(null);
@@ -23,7 +23,6 @@ const MainPage = () => {
 
     const closeAll = () => {
         setIsPostFieldActive(false);
-        setIsPostFieldEpkDropdown(false);
         setIsUpVoteBoxOn(false);
         setIsDownVoteBoxOn(false);
         setVoteReceiver(null);
@@ -32,13 +31,12 @@ const MainPage = () => {
     return (
         <div className="default-gesture" onClick={closeAll}>
             <MainPageContext.Provider value={{
-                    isPostFieldActive, setIsPostFieldActive, 
-                    isPostFieldEpkDropdown, setIsPostFieldEpkDropdown, 
+                    isPostFieldActive, setIsPostFieldActive,
                     isMainPageUpVoteBoxOn: isUpVoteBoxOn, setIsMainPageUpVoteBoxOn: setIsUpVoteBoxOn, 
                     isMainPageDownVoteBoxOn: isDownVoteBoxOn, setIsMainPageDownVoteBoxOn: setIsDownVoteBoxOn,
                     mainPageVoteReceiver: voteReceiver, setMainPageVoteReceiver: setVoteReceiver,}}>
                 <div className="main-content">
-                    <PostField />
+                    <PostField page={Page.Home}/>
                     <Feed />
                     <div className="post-list"><PostsList posts={shownPosts} /></div>
                     <div className="main-page-button" onClick={loadMorePosts}>Load More Posts</div>
