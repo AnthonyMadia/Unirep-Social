@@ -5,7 +5,7 @@ import { Post, DataType, Page } from '../../constants';
 import { WebContext } from '../../context/WebContext';
 import { MainPageContext } from '../../context/MainPageContext';
 import { UserPageContext } from '../../context/UserPageContext';
-import './mainPage.scss';
+import './postField.scss';
 import WritingField from '../share/writingField';
 
 type Props = {

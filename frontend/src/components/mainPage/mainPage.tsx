@@ -3,7 +3,7 @@ import { WebContext } from '../../context/WebContext';
 import { MainPageContext } from '../../context/MainPageContext';
 import { Page } from '../../constants';
 import PostsList from './postsList';
-import PostField from './postField';
+import PostField from '../share/postField';
 import VoteBox from '../share/voteBox';
 import Feed from './feed';
 import './mainPage.scss';

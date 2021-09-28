@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 
-import PostField from '../mainPage/postField';
+import PostField from '../share/postField';
 import Feed from '../mainPage/feed';
 import PostsList from '../mainPage/postsList';
 import { WebContext } from '../../context/WebContext';
@@ -11,7 +11,7 @@ const UserPosts = () => {
     const userPosts = user !== null? [...shownPosts].filter((p) => user.epoch_keys.find(epk => epk === p.epoch_key) !== undefined) : shownPosts;
 
     return (
-        <div className="user-page-posts">
+        <div className="user-page-main-content">
             <PostField page={Page.User} />
             <h3>My Posts</h3>
             <Feed />
