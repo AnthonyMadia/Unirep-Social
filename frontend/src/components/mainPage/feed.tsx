@@ -55,10 +55,12 @@ const Feed = () => {
                 }
             }
         } else { /// sort by popularity
-            // get posts in right time, then sort that part, then sort the remaining according to time -> popularity
+            // get posts in right time, then sort that part, then sort the remaining according to time
             const today = Date.now();
             const filteredPosts = shownPosts.filter((p) => diffDays(today, p.post_time) <= text2Days[feed[2]]);
             const otherPosts = shownPosts.filter((p) => diffDays(today, p.post_time) > text2Days[feed[2]]);
+            otherPosts.sort((a, b) => a.post_time > b.post_time? -1 : 1);
+            
             if (feed[1] === 0) { /// sort by comments count
                 if (feed[0] === 0) {
                     filteredPosts.sort((a, b) => a.comments.length > b.comments.length? -1 : 1);
