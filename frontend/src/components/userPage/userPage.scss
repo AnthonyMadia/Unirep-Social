@@ -46,4 +46,21 @@
             }
         }
     }
+
+    .page-switches {
+        width: 50%;
+        padding: 8px;
+        display: flex;
+        margin: auto;
+
+        .switch {
+            padding: 4px;
+            margin-right: 20px;
+            cursor: pointer;
+        }
+
+        .chosen {
+            border-bottom: 1px solid $purple1;
+        }
+    }
 }

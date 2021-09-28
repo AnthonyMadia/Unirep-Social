@@ -68,9 +68,9 @@ export enum ChoiceType {
 }
 
 export enum UserPageType {
-    Posts = 'posts',
-    History = 'history',
-    Settings = 'settings',
+    Posts = 'Posts',
+    History = 'History',
+    Settings = 'Settings',
 }
 
 export interface Params {
