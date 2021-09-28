@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { WebContext } from '../../context/WebContext';
 import * as Constants from '../../constants';
 import { Post } from '../../constants';
@@ -7,6 +7,8 @@ import { getUserState } from '../../utils';
 import './header.scss';
 
 const Header = () => {
+    const history = useHistory();
+
     const { user, setUser, setPageStatus, shownPosts, setShownPosts } = useContext(WebContext);
     const [searchInput, setSearchInput] = useState<string>("");
 
@@ -18,13 +20,6 @@ const Header = () => {
     const signIn = () => {
         console.log('open sign in! set ' + Constants.PageStatus.SignIn);
         setPageStatus(Constants.PageStatus.SignIn);
-    }
-
-    const printUser = async () => {
-        if (user != null) {
-            const ret = await getUserState(user.identity);
-            setUser({...user, reputations: ret.userState.getRep()})
-        }
     }
 
     const logout = () => {
@@ -56,7 +51,7 @@ const Header = () => {
             </div> */}
             {user && user.identity? 
                 <div className="navButtons">
-                    <div className="purpleButton" onClick={printUser}>{user.reputations}</div>
+                    <div className="purpleButton" onClick={() => history.push(`/user`)}>{user.reputations}</div>
                     <div className="whiteButton" onClick={logout}>Log out</div>
                 </div> :
                 <div className="navButtons">
