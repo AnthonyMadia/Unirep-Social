@@ -51,7 +51,10 @@ const Header = () => {
             </div> */}
             {user && user.identity? 
                 <div className="navButtons">
-                    <div className="purpleButton" onClick={() => history.push(`/user`)}>{user.reputations}</div>
+                    <div className="lightPurpleButton" onClick={() => history.push(`/user`)}>
+                        <img src="/images/user-purple.png" />
+                        <span>{user.reputations}</span>
+                    </div>
                     <div className="whiteButton" onClick={logout}>Log out</div>
                 </div> :
                 <div className="navButtons">
