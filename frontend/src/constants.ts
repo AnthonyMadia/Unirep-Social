@@ -67,6 +67,12 @@ export enum ChoiceType {
     Epk = 'epk',
 }
 
+export enum UserPageType {
+    Posts = 'posts',
+    History = 'history',
+    Settings = 'settings',
+}
+
 export interface Params {
     id: string,
 }

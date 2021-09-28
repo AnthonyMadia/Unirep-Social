@@ -84,7 +84,7 @@ header {
       }
 
       .lightPurpleButton {
-        @include myButton(99px, 32px, $color: $purple1, $block-color1: #F9F5FF, $radius: 20px, $border: 2px, $border-color: $purple1);
+        @include myButton(99px, 32px, $color: $purple1, $block-color1: $light-purple, $radius: 20px, $border: 2px, $border-color: $purple1);
         display: flex;
         align-items: center;
         justify-content: center;
