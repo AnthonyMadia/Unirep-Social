@@ -4,6 +4,7 @@ import { UserPageContext } from '../../context/UserPageContext';
 import { UserPageType } from '../../constants';
 import UserHeader from './userHeader';
 import UserPosts from './userPosts';
+import UserHistory from './history/userHistory';
 import './userPage.scss';
 
 const UserPage = () => {
@@ -21,7 +22,7 @@ const UserPage = () => {
                     page, switchPage: setPage, 
                     isPostFieldActive, setIsPostFieldActive}}>
                 <UserHeader />
-                { page === UserPageType.Posts? <UserPosts /> : <div></div>}
+                { page === UserPageType.Posts? <UserPosts /> : page === UserPageType.History? <UserHistory /> : <div></div>}
             </UserPageContext.Provider>
         </div>
     );
