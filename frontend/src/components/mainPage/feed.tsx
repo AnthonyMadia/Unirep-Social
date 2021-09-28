@@ -60,7 +60,7 @@ const Feed = () => {
             const filteredPosts = shownPosts.filter((p) => diffDays(today, p.post_time) <= text2Days[feed[2]]);
             const otherPosts = shownPosts.filter((p) => diffDays(today, p.post_time) > text2Days[feed[2]]);
             otherPosts.sort((a, b) => a.post_time > b.post_time? -1 : 1);
-            
+
             if (feed[1] === 0) { /// sort by comments count
                 if (feed[0] === 0) {
                     filteredPosts.sort((a, b) => a.comments.length > b.comments.length? -1 : 1);
@@ -106,7 +106,7 @@ const Feed = () => {
 
     return (
         <div>
-            Popular
+            {/* Popular */}
             <div className="feed-row">
                 <div className="toggle-switch">
                     <label className="switch">

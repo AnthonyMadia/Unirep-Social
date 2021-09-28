@@ -77,7 +77,6 @@ const PostField = () => {
 
     return (
         <div className="post-field">
-            <div className="post-title">Post</div>
             {isPostFieldActive && user && user.identity ?
                 <WritingField 
                     type={DataType.Post} 
