@@ -41,7 +41,7 @@ const HistoryList = ({ histories }: Props) => {
                     <div>
                         <div className="divider"></div>
                         <div className="list-title">Received</div>
-                        { histories.map(history => <HistoryWidget history={history} />)}
+                        { histories.map((history, i) => <HistoryWidget history={history} key={i}/>)}
                     </div> : <div></div>}
             </div>
         </div>

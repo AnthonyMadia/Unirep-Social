@@ -47,7 +47,7 @@ const UserHistory = () => {
         <div className="user-page-main-content">
             {
                 user !== null? 
-                    Array.from(Array(user.current_epoch + 1).keys()).map(i => <HistoryList histories={getHistoryByEpoch(i)} />) 
+                    Array.from(Array(user.current_epoch + 1).keys()).map(i => <HistoryList histories={getHistoryByEpoch(i)} key={i} />) 
                     : <div></div>
             }
         </div>
