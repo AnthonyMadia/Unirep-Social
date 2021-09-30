@@ -14,6 +14,7 @@ const UserHistory = () => {
             downvote: 5,
             epoch: 0,
             time: 1632856173370,
+            data_id: "6153686b4208f5321f8b5bb3",
         }, {
             action: ActionType.Vote,
             epoch_key: 'a67bdd93',
@@ -21,6 +22,7 @@ const UserHistory = () => {
             downvote: 0,
             epoch: 0,
             time: 1632992149530,
+            data_id: "6153686b4208f5321f8b5bb3",
         }, {
             action: ActionType.UST,
             epoch_key: 'UniRep',
@@ -28,6 +30,7 @@ const UserHistory = () => {
             downvote: 0,
             epoch: 1,
             time: 1633010400000,
+            data_id: "0",
         }, {
             action: ActionType.Comment,
             epoch_key: '8deb19b0',
@@ -35,6 +38,7 @@ const UserHistory = () => {
             downvote: 3,
             epoch: 1,
             time: 1633010600000,
+            data_id: "6155c22d4208f5321f8b5bb4"
         }
     ]); 
 

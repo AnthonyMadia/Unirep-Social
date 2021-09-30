@@ -57,6 +57,11 @@
 
         .history-widget {
             display: flex;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #E8D7F8;
+            }
 
             .info {
                 flex: 1;

@@ -1,5 +1,6 @@
 import Jdenticon from 'react-jdenticon';
 import dateformat from 'dateformat';
+import { useHistory } from 'react-router-dom';
 import { History, ActionType } from '../../../constants';
 
 type Props = {
@@ -9,6 +10,7 @@ type Props = {
 const HistoryWidget = ({ history } : Props) => {
 
     const date = dateformat(new Date(history.time), "mmm dd @ hh:MM TT");
+    const routeHistory = useHistory();
 
     const getActionWidget = () => {
         if (history.action === ActionType.UST) {
@@ -32,8 +34,13 @@ const HistoryWidget = ({ history } : Props) => {
         }
     }
 
+    const gotoPage = () => {
+        if (history.data_id === '0') return;
+        routeHistory.push(`/post/${history.data_id}`);
+    }
+
     return (
-        <div className="history-widget">
+        <div className="history-widget" onClick={gotoPage}>
             <div className="info">{date}</div>
             {getActionWidget()}
             <div className="info">

@@ -54,6 +54,7 @@ export interface History {
     downvote: number,
     epoch: number,
     time: number,
+    data_id: string,
 }
 
 export enum PageStatus {
