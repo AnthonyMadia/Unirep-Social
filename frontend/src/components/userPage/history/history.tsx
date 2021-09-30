@@ -1,6 +1,14 @@
+import { History } from '../../../constants';
 
-const History = () => {
-
+type Props = {
+    history: History
 }
 
-export default History;
+const HistoryWidget = ({ history } : Props) => {
+
+    return (
+        <div>history</div>
+    );
+}
+
+export default HistoryWidget;

@@ -6,6 +6,7 @@ export interface User {
     identity: string,
     epoch_keys: string[],
     reputation: number,
+    current_epoch: number,
 }
 
 export interface Vote {
@@ -46,6 +47,15 @@ export interface Post {
     comments: Comment[],
 }
 
+export interface History {
+    action: ActionType,
+    epoch_key: string,
+    upvote: number, 
+    downvote: number,
+    epoch: number,
+    time: number,
+}
+
 export enum PageStatus {
     None = 'none',
     SignUp = 'signup',
@@ -55,6 +65,13 @@ export enum PageStatus {
 export enum DataType {
     Post = 'post',
     Comment = 'comment',
+}
+
+export enum ActionType {
+    Post = 'post',
+    Comment = 'comment',
+    Vote = 'vote',
+    UST = 'ust',
 }
 
 export enum Page {

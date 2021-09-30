@@ -1,1 +1,38 @@
 @import '../../../styles.scss';
+
+.epoch-history {
+    width: 100%;
+    padding: 8px;
+    background: radial-gradient(99.12% 159.6% at 92.94% 95.93%, #E4D3FF 0%, #E5EEFF 62.33%, #EEE1FF 69.62%, #DAD7F8 81.02%);
+    border-radius: 8px;
+    margin-bottom: 10px;
+
+    .epoch-history-white {
+        width: 100%;
+        padding: 16px;
+        background-color: white;
+        border-radius: 8px;
+
+        .epoch-info {
+            display: flex;
+            cursor: pointer;
+
+            .info {
+                margin-right: auto;
+                align-items: flex-start;
+
+                label {
+                    color: $grey2;
+                    font-size: $body-font-size;
+                    margin-right: 16px;
+                }
+
+                img {
+                    width: 20px;
+                    height: 10px;
+                    margin-right: 12px;
+                }
+            }    
+        }
+    }
+}

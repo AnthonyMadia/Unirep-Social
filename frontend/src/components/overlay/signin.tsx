@@ -31,6 +31,7 @@ const SignUp = () => {
                 identity: userInput,
                 epoch_keys: ret.epks,
                 reputation: reputations,
+                current_epoch: ret.currentEpoch,
             });
 
             setShownPosts([...shownPosts].map(p => {
