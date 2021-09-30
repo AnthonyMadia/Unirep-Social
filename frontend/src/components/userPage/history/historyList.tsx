@@ -36,6 +36,9 @@ const HistoryList = ({ histories }: Props) => {
                         <label>Net Gain</label>
                         <span><img src={netGain > 0? "/images/upvote-purple.png":"/images/downvote.png"}/>{netGain}</span>
                     </div>
+                    <div className="arrow">
+                        <img src={expanded? "/images/arrow-up.png" : "/images/arrow-down.png"}/>
+                    </div>
                 </div>
                 { expanded? 
                     <div>
