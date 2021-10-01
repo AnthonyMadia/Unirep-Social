@@ -10,6 +10,8 @@ type MainPageContent = {
     setIsMainPageDownVoteBoxOn: (value: boolean) => void;
     mainPageVoteReceiver: null | Post | Comment;
     setMainPageVoteReceiver: (value: any) => void;
+    postTimeFilter: number,
+    setPostTimeFilter: (value: number) => void;
 }
 
 export const MainPageContext = createContext<MainPageContent>({
@@ -21,4 +23,6 @@ export const MainPageContext = createContext<MainPageContent>({
     setIsMainPageDownVoteBoxOn: () => {},
     mainPageVoteReceiver: null,
     setMainPageVoteReceiver: () => {},
+    postTimeFilter: 1,
+    setPostTimeFilter: () => {},
 });

@@ -1,11 +1,11 @@
 import { createContext } from 'react';
-import { Post, User } from '../constants';
+import { Post, User, PageStatus } from '../constants';
 
 type GlobalContent = {
     user: User | null;
     setUser: (u: User | null) => void;
-    pageStatus: string;
-    setPageStatus: (p: string) => void;
+    pageStatus: PageStatus;
+    setPageStatus: (p: PageStatus) => void;
     shownPosts: Post[];
     setShownPosts: (posts: Post[]) => void;
 }
@@ -13,7 +13,7 @@ type GlobalContent = {
 export const WebContext = createContext<GlobalContent>({
     user: null,
     setUser: () => {},
-    pageStatus: 'none',
+    pageStatus: PageStatus.None,
     setPageStatus: () => {},
     shownPosts: [],
     setShownPosts: () => {},

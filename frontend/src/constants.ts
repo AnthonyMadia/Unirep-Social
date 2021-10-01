@@ -58,40 +58,50 @@ export interface History {
 }
 
 export enum PageStatus {
-    None = 'none',
-    SignUp = 'signup',
-    SignIn = 'signin',
+    None,
+    SignUp,
+    SignIn,
 }
 
 export enum DataType {
-    Post = 'post',
-    Comment = 'comment',
+    Post,
+    Comment,
 }
 
 export enum ActionType {
-    Post = 'post',
-    Comment = 'comment',
-    Vote = 'vote',
-    UST = 'ust',
+    Post,
+    Comment,
+    Vote,
+    UST,
 }
 
 export enum Page {
-    Home = 'home',
-    Post = 'post',
-    User = 'user',
+    Home,
+    Post,
+    User,
 }
 
 export enum ChoiceType {
-    Feed = 'feed',
-    Epk = 'epk',
+    Feed,
+    Epk,
 }
 
 export enum UserPageType {
-    Posts = 'Posts',
-    History = 'History',
-    Settings = 'Settings',
+    Posts,
+    History,
+    Settings,
 }
 
 export interface Params {
     id: string,
 }
+
+export const getDaysByString = (value: string) => {
+    if (value === 'today') return 1;
+    else if (value === 'this week') return 7;
+    else if (value === 'this month') return 30;
+    else if (value === 'this year') return 365;
+    else return 365000;
+}
+
+export const diffDays = (date: number, otherDate: number) => Math.ceil(Math.abs(date - otherDate) / (1000 * 60 * 60 * 24));

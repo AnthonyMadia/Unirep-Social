@@ -1,7 +1,8 @@
 import { useState, useContext } from 'react';
 import { WebContext } from '../../context/WebContext';
+import { MainPageContext } from '../../context/MainPageContext';
 import Dropdown from '../dropdown/dropdown';
-import { ChoiceType, Post } from '../../constants';
+import { ChoiceType, Post, getDaysByString, diffDays } from '../../constants';
 import './feed.scss';
 
 const popularChoices = [
@@ -9,8 +10,6 @@ const popularChoices = [
     ['comments', 'reputation', 'votes', 'up votes'],
     ['today', 'this week', 'this month', 'this year', 'all time']
 ];
-
-const text2Days = [1, 7, 30, 365, 365000];
 
 const timeChoices = [
     ['newest', 'oldest'],
@@ -20,6 +19,7 @@ const timeChoices = [
 const Feed = () => {
     
     const { shownPosts, setShownPosts } = useContext(WebContext);
+    const { setPostTimeFilter } = useContext(MainPageContext);
 
     const [isTime, setIsTime] = useState(false);
     const [popularFeed, setPopularFeed] = useState([0, 2, 0]);
@@ -32,8 +32,6 @@ const Feed = () => {
             setIsTime(false);
         }
     }
-
-    const diffDays = (date: number, otherDate: number) => Math.ceil(Math.abs(date - otherDate) / (1000 * 60 * 60 * 24));
 
     const sort = (feed: any) => {
         let sortedPosts: Post[] = shownPosts;
@@ -57,9 +55,11 @@ const Feed = () => {
             }
         } else { /// sort by popularity
             // get posts in right time, then sort that part, then sort the remaining according to time
+            const restrictDays = getDaysByString(popularChoices[2][feed[2]]) as number;
+            setPostTimeFilter(restrictDays);
             const today = Date.now();
-            const filteredPosts = shownPosts.filter((p) => diffDays(today, p.post_time) <= text2Days[feed[2]]);
-            const otherPosts = shownPosts.filter((p) => diffDays(today, p.post_time) > text2Days[feed[2]]);
+            const filteredPosts = shownPosts.filter((p) => diffDays(today, p.post_time) <= restrictDays);
+            const otherPosts = shownPosts.filter((p) => diffDays(today, p.post_time) > restrictDays);
             otherPosts.sort((a, b) => a.post_time > b.post_time? -1 : 1);
 
             if (feed[1] === 0) { /// sort by comments count
