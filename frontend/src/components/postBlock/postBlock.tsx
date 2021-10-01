@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import Jdenticon from 'react-jdenticon';
 import dateformat from 'dateformat';
 
+import { WebContext } from '../../context/WebContext';
 import { Post, Page } from '../../constants';
 import VotersList from './votersList';
 import CommentField from './commentField';
@@ -19,6 +20,7 @@ type Props = {
 const PostBlock = ({ post, page } : Props) => {
 
     const history = useHistory();
+    const { isLoading } = useContext(WebContext);
 
     const date = dateformat(new Date(post.post_time), "dd/mm/yyyy hh:MM TT");
     const [ showComment, setShowComment ] = useState(false);
@@ -35,7 +37,9 @@ const PostBlock = ({ post, page } : Props) => {
     }
 
     const switchComment = () => {
-        setShowComment((prevState) => !prevState);
+        if (!isLoading) {
+            setShowComment((prevState) => !prevState);
+        }
     }
 
     return (

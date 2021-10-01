@@ -13,11 +13,7 @@ type Props = {
 
 const CommentField = (props: Props) => {
     const [ epkNonce, setEpkNonce ] = useState(0);
-    const { user, setUser, shownPosts, setShownPosts } = useContext(WebContext);
-    const { 
-        isLoading: isMainPageLoading, 
-        setIsLoading: setIsMainPageLoading
-    } = useContext(MainPageContext);
+    const { user, setUser, shownPosts, setShownPosts, isLoading, setIsLoading } = useContext(WebContext);
 
     const preventPropagation = (event: any) => {
         event.stopPropagation();
@@ -74,8 +70,6 @@ const CommentField = (props: Props) => {
                 submit={submitComment} 
                 submitBtnName="Comment"
                 onClick={preventPropagation}
-                isLoading={isMainPageLoading}
-                setIsLoading={setIsMainPageLoading}
             />
         </div>
     );

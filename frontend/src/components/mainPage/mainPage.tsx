@@ -10,14 +10,13 @@ import './mainPage.scss';
 
 const MainPage = () => {
 
-    const { shownPosts } = useContext(WebContext);
+    const { shownPosts, isLoading } = useContext(WebContext);
 
     const [isPostFieldActive, setIsPostFieldActive] = useState(false);
     const [isUpVoteBoxOn, setIsUpVoteBoxOn] = useState(false);
     const [isDownVoteBoxOn, setIsDownVoteBoxOn] = useState(false);
     const [voteReceiver, setVoteReceiver] = useState<any>(null);
     const [postTimeFilter, setPostTimeFilter] = useState(1);
-    const [isLoading, setIsLoading] = useState(false);
 
     const loadMorePosts = () => {
         console.log("load more posts, now posts: " + shownPosts.length);
@@ -39,8 +38,7 @@ const MainPage = () => {
                     isMainPageUpVoteBoxOn: isUpVoteBoxOn, setIsMainPageUpVoteBoxOn: setIsUpVoteBoxOn, 
                     isMainPageDownVoteBoxOn: isDownVoteBoxOn, setIsMainPageDownVoteBoxOn: setIsDownVoteBoxOn,
                     mainPageVoteReceiver: voteReceiver, setMainPageVoteReceiver: setVoteReceiver,
-                    postTimeFilter, setPostTimeFilter, 
-                    isLoading, setIsLoading,}}>
+                    postTimeFilter, setPostTimeFilter}}>
                 <div className="main-content">
                     <PostField page={Page.Home}/>
                     <Feed />

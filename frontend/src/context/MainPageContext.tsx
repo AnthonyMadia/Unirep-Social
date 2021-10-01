@@ -12,8 +12,6 @@ type MainPageContent = {
     setMainPageVoteReceiver: (value: any) => void;
     postTimeFilter: number,
     setPostTimeFilter: (value: number) => void;
-    isLoading: boolean,
-    setIsLoading: (value: boolean) => void;
 }
 
 export const MainPageContext = createContext<MainPageContent>({
@@ -27,6 +25,4 @@ export const MainPageContext = createContext<MainPageContent>({
     setMainPageVoteReceiver: () => {},
     postTimeFilter: 1,
     setPostTimeFilter: () => {},
-    isLoading: false,
-    setIsLoading: () => {},
 });

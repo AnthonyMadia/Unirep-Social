@@ -16,12 +16,10 @@ const PostField = ({ page }: Props) => {
 
     const [epkNonce, setEpkNonce] = useState(0); // maybe it should be the first available epk
 
-    const { user, setUser, shownPosts, setShownPosts } = useContext(WebContext);
+    const { user, setUser, shownPosts, setShownPosts, isLoading, setIsLoading } = useContext(WebContext);
     const { 
         isPostFieldActive: isMainPagePostFieldActive, 
         setIsPostFieldActive: setIsMainPagePostFieldActive,
-        isLoading: isMainPageLoading,
-        setIsLoading: setIsMainPageLoading,
     } = useContext(MainPageContext);
 
     const { 
@@ -40,12 +38,7 @@ const PostField = ({ page }: Props) => {
     const init = () => {
         setIsPostFieldActive(false);
         setEpkNonce(0);
-
-        if (page === Page.Home) {
-            setIsMainPageLoading(false);
-        } else if (page === Page.User) {
-            
-        }
+        setIsLoading(false);
     }
 
     const preventPropagation = (event: any) => {
@@ -108,8 +101,6 @@ const PostField = ({ page }: Props) => {
                     submit={submitPost} 
                     submitBtnName="Post"
                     onClick={preventPropagation}
-                    isLoading={isMainPageLoading}
-                    setIsLoading={setIsMainPageLoading}
                 /> : 
                 <div className="post-field-before">
                     <div className="input-field" onClick={activateInput}>Share something!</div>

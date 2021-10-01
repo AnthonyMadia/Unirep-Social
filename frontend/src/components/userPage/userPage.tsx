@@ -11,9 +11,12 @@ const UserPage = () => {
 
     const [page, setPage] = useState<UserPageType>(UserPageType.Posts);
     const [isPostFieldActive, setIsPostFieldActive] = useState(false);
+    const { isLoading } = useContext(WebContext);
 
     const closeAll = () => {
-        setIsPostFieldActive(false);
+        if (!isLoading) {
+            setIsPostFieldActive(false);
+        }
     }
 
     return (

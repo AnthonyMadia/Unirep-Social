@@ -2,34 +2,45 @@ import React, { useContext, useState } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import { WebContext } from '../../context/WebContext';
 import * as Constants from '../../constants';
-import { Post } from '../../constants';
-import { getUserState } from '../../utils';
 import './header.scss';
 
 const Header = () => {
     const history = useHistory();
 
-    const { user, setUser, setPageStatus, shownPosts, setShownPosts } = useContext(WebContext);
+    const { user, setUser, setPageStatus, shownPosts, setShownPosts, isLoading } = useContext(WebContext);
     const [searchInput, setSearchInput] = useState<string>("");
 
     const signUp = () => {
-        console.log('open sign up! set ' + Constants.PageStatus.SignUp);
-        setPageStatus(Constants.PageStatus.SignUp);
+        if (!isLoading) {
+            console.log('open sign up! set ' + Constants.PageStatus.SignUp);
+            setPageStatus(Constants.PageStatus.SignUp);
+        }  
     }
 
     const signIn = () => {
-        console.log('open sign in! set ' + Constants.PageStatus.SignIn);
-        setPageStatus(Constants.PageStatus.SignIn);
+        if (!isLoading) {
+            console.log('open sign in! set ' + Constants.PageStatus.SignIn);
+            setPageStatus(Constants.PageStatus.SignIn);
+        }   
     }
 
     const logout = () => {
-        setUser(null);
-        setShownPosts([...shownPosts].map(p => {
-            const commentsLogout = p.comments.map(c => {
-                return {...c, isUpvoted: false, isDownvoted: false};
-            });
-            return {...p, isUpvoted: false, isDownvoted: false, comments: commentsLogout};
-        }));
+        if (!isLoading) {
+            setUser(null);
+            setShownPosts([...shownPosts].map(p => {
+                const commentsLogout = p.comments.map(c => {
+                    return {...c, isUpvoted: false, isDownvoted: false};
+                });
+                return {...p, isUpvoted: false, isDownvoted: false, comments: commentsLogout};
+            }));
+            history.push(`/`);
+        }
+    }
+
+    const gotoUserPage = () => {
+        if (!isLoading) {
+            history.push(`/user`);
+        }
     }
 
     const handleSearchInput = (event: any) => {
@@ -51,7 +62,7 @@ const Header = () => {
             </div> */}
             {user && user.identity? 
                 <div className="navButtons">
-                    <div className="lightPurpleButton" onClick={() => history.push(`/user`)}>
+                    <div className="lightPurpleButton" onClick={gotoUserPage}>
                         <img src="/images/user-purple.png" />
                         <span>{user.reputation}</span>
                     </div>

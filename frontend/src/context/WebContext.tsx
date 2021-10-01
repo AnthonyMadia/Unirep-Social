@@ -8,6 +8,8 @@ type GlobalContent = {
     setPageStatus: (p: PageStatus) => void;
     shownPosts: Post[];
     setShownPosts: (posts: Post[]) => void;
+    isLoading: boolean;
+    setIsLoading: (value: boolean) => void;
 }
 
 export const WebContext = createContext<GlobalContent>({
@@ -17,4 +19,6 @@ export const WebContext = createContext<GlobalContent>({
     setPageStatus: () => {},
     shownPosts: [],
     setShownPosts: () => {},
+    isLoading: false,
+    setIsLoading: () => {}
 });

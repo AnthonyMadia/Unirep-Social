@@ -1,4 +1,5 @@
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { useState } from 'react';
 
 import useLocalStorage from './useLocalStorage';
 import * as Constants from './constants';
@@ -16,11 +17,16 @@ const AppRouter = () => {
     const [user, setUser] = useLocalStorage(Constants.userKey, {});
     const [pageStatus, setPageStatus] = useLocalStorage(Constants.pageStatusKey, Constants.PageStatus.None);
     const [shownPosts, setShownPosts] = useLocalStorage(Constants.shownPostsKey, []);
+    const [isLoading, setIsLoading] = useState(false);
 
     return (
         <BrowserRouter>
             <div>
-            <WebContext.Provider value={{user, setUser, pageStatus, setPageStatus, shownPosts, setShownPosts}}>
+            <WebContext.Provider value={{
+                    user, setUser, 
+                    pageStatus, setPageStatus, 
+                    shownPosts, setShownPosts, 
+                    isLoading, setIsLoading}}>
                 <Header />
                 
                 <Switch>

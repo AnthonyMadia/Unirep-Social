@@ -5,8 +5,14 @@ import { UserPageType } from '../../constants';
 
 const UserHeader = () => {
     const { page, switchPage } = useContext(UserPageContext);
-    const { user } = useContext(WebContext);
+    const { user, isLoading } = useContext(WebContext);
     const pageSwitches = [UserPageType.Posts, UserPageType.History, UserPageType.Settings];
+
+    const gotoSubPage = (p: UserPageType) => {
+        if (!isLoading) {
+            switchPage(p);
+        }
+    }
 
     return (
         <div className="user-page-header">
@@ -20,7 +26,7 @@ const UserHeader = () => {
                 </div>
             </div>
             <div className="page-switches">
-                { pageSwitches.map(p => <div className={p === page? "switch chosen":"switch"} key={p} onClick={() => switchPage(p)}>{p}</div>)}
+                { pageSwitches.map(p => <div className={p === page? "switch chosen":"switch"} key={p} onClick={() => gotoSubPage(p)}>{p}</div>)}
             </div>
         </div>
     );
