@@ -25,7 +25,7 @@ const PostsList = ({ posts }: Props) => {
                     />
                 ))
             ) : <p>No posts are available. Load other popular posts.</p>}
-            { chosenPosts.length > 0? <div>End of available posts. Load other popular posts.</div> : <div></div>}
+            { chosenPosts.length > 0? <div className="split-text">- End of available posts. Load other popular posts. -</div> : <div></div>}
             {
                 otherPosts.map((post) => (
                     <PostBlock 

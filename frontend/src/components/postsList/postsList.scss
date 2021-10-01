@@ -3,4 +3,11 @@
 .post-list {
     width: 100%;
     margin-top: 20px;
+
+    .split-text {
+        width: 100%;
+        text-align: center;
+        margin: 20px auto;
+        color: $dark-grey;
+    }
 }
