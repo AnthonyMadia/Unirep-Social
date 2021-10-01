@@ -38,7 +38,7 @@ const CommentField = (props: Props) => {
                     epoch_key: user.epoch_keys[epkNonce],
                     username: 'username',
                     post_time: Date.now(),
-                    reputation,
+                    reputation: +reputation,
                 };
                 const filteredPosts = shownPosts.filter((p) => p.id != props.post?.id)
                 let comments = props.post.comments.length > 0? [c, ...props.post.comments] : [c];

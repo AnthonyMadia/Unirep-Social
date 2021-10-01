@@ -75,7 +75,7 @@ const PostField = ({ page }: Props) => {
                     epoch_key: ret.epk,
                     username: 'username',
                     post_time: Date.now(),
-                    reputation,
+                    reputation: +reputation,
                     comments: [],
                 }
                 init();
