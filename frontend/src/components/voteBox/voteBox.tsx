@@ -12,17 +12,19 @@ type Props = {
 }
 const VoteBox = (props: Props) => {
 
-    const { user, setUser, shownPosts, setShownPosts } = useContext(WebContext);
+    const { user, setUser, shownPosts, setShownPosts, setIsLoading } = useContext(WebContext);
     const { setIsMainPageUpVoteBoxOn: setIsUpVoteBoxOn, setIsMainPageDownVoteBoxOn: setIsDownVoteBoxOn, setMainPageVoteReceiver: setVoteReceiver } = useContext(MainPageContext);
     const [ givenAmount, setGivenAmount ] = useState<undefined|number>(1);
     const [ epkNonce, setEpkNonce ] = useState(0); 
     const [ isDropdown, setIsDropdown ] = useState(false);
+    const [ isBlockLoading, setIsBlockLoading ] = useState(false);
 
     const init = () => {
+        setIsDropdown(false);
+        setIsLoading(false);
+        setVoteReceiver(null);
         setIsUpVoteBoxOn(false);
         setIsDownVoteBoxOn(false);
-        setIsDropdown(false);
-        setVoteReceiver(null);
     }
 
     const doVote = async () => {
@@ -31,6 +33,9 @@ const VoteBox = (props: Props) => {
         } else if (givenAmount === undefined) {
             console.error('no enter any given amount');
         } else {
+            setIsLoading(true);
+            setIsBlockLoading(true);
+
             let ret: any;
             if (props.isUpvote) {
                 ret = await vote(user.identity, givenAmount, 0, props.data.id, props.data.epoch_key, epkNonce);
@@ -122,6 +127,7 @@ const VoteBox = (props: Props) => {
                     {props.isUpvote? (<img src="/images/upvote-purple.png" />):(<img src="/images/downvote-purple.png" />)}
                     {props.isUpvote? (<p>Up Vote</p>):(<p>Down Vote</p>)}
                 </div>
+                { isBlockLoading? <div className="loading-block">Loading...</div> : <div></div>}
             </div>
         </div>
     );

@@ -13,6 +13,7 @@
     .vote-box {
       @include popupBox(275px, 330px, $border-width: 1px, $border-color: $purple1);
       padding: 36px;
+      position: relative;
     }
   
     .vote-margin {

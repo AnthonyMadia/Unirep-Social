@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import Jdenticon from 'react-jdenticon';
 import { Post, Comment, DataType, Page } from '../../constants';
 import './blockHeader.scss';
+import { WebContext } from '../../context/WebContext';
 import { MainPageContext } from '../../context/MainPageContext';
 import { PostPageContext } from '../../context/PostPageContext';
 
@@ -12,6 +13,7 @@ type Props = {
 
 const BlockHeader = ({ data, page }: Props) => {
     
+    const { isLoading } = useContext(WebContext);
     const { setIsMainPageUpVoteBoxOn, setIsMainPageDownVoteBoxOn, setMainPageVoteReceiver } = useContext(MainPageContext);
     const { setIsPostPageUpVoteBoxOn, setIsPostPageDownVoteBoxOn, setPostPageVoteReceiver } = useContext(PostPageContext);
 
@@ -47,22 +49,25 @@ const BlockHeader = ({ data, page }: Props) => {
 
     const openUpvote = (event: any) => {
         event.stopPropagation();
-        setIsUpVoteBoxOn(true);
-        if (data.type === DataType.Post) {
-            setVoteReceiver(data as Post);
-        } else {
-            setVoteReceiver(data as Comment);
+        if (!isLoading) {
+            setIsUpVoteBoxOn(true);
+            if (data.type === DataType.Post) {
+                setVoteReceiver(data as Post);
+            } else {
+                setVoteReceiver(data as Comment);
+            }
         }
-        
     }
 
     const openDownvote = (event: any) => {
         event.stopPropagation();
-        setIsDownVoteBoxOn(true);
-        if (data.type === DataType.Post) {
-            setVoteReceiver(data as Post);
-        } else {
-            setVoteReceiver(data as Comment);
+        if (!isLoading) {
+            setIsDownVoteBoxOn(true);
+            if (data.type === DataType.Post) {
+                setVoteReceiver(data as Post);
+            } else {
+                setVoteReceiver(data as Comment);
+            }
         }
     }
 
