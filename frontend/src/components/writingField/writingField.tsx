@@ -13,6 +13,8 @@ type Props = {
     submit: (rep: number, content: string) => void,
     submitBtnName: string,
     onClick: (event: any) => void,
+    isLoading: boolean,
+    setIsLoading: (value: boolean) => void,
 }
 
 const WritingField = (props: Props) => {
@@ -24,11 +26,6 @@ const WritingField = (props: Props) => {
     const [ content, setContent ] = useState('');
     const [ errorMsg, setErrorMsg ] = useState('');
     const [ isDropdown, setIsDropdown ] = useState(false);
-
-    const switchDropdown = (event: any) => {
-        props.onClick(event);
-        setIsDropdown(!isDropdown);
-    }
 
     const changeReputation = (event: any) => {
         if (event.target.value === '') {
@@ -61,6 +58,7 @@ const WritingField = (props: Props) => {
         } else if (content.length === 0) {
             setErrorMsg('Please share something in order to post');
         } else {
+            props.setIsLoading(true);
             props.submit(reputation, content);
         }
     }
@@ -103,6 +101,7 @@ const WritingField = (props: Props) => {
                     "Posting will use " + defaultRep + " reputation points" : 
                     "Commenting will use " + defaultRep + " reputation points" }
             </div>
+            { props.isLoading? <div className="loading-block">Loading...</div> : <div></div>}
         </div>
     );
 }

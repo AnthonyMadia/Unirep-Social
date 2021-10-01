@@ -79,7 +79,7 @@ const PostBlock = ({ post, page } : Props) => {
                     <span>Comment</span>
                 </div>
                 { showComment? 
-                    <CommentField post={post} closeComment={() => setShowComment(false)}/> : <div></div>
+                    <CommentField post={post} closeComment={() => setShowComment(false)} page={page}/> : <div></div>
                 }
             </div>
             { post.comments.length > 0? 

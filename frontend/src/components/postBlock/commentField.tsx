@@ -1,17 +1,23 @@
 import { leaveComment, getUserState } from '../../utils';
 import { WebContext } from '../../context/WebContext';
+import { MainPageContext } from '../../context/MainPageContext';
 import { useState, useContext } from 'react';
-import { Post, Comment, DataType } from '../../constants';
+import { Post, Comment, DataType, Page } from '../../constants';
 import WritingField from '../writingField/writingField';
 
 type Props = {
     post: Post,
     closeComment: () => void,
+    page: Page,
 }
 
 const CommentField = (props: Props) => {
     const [ epkNonce, setEpkNonce ] = useState(0);
     const { user, setUser, shownPosts, setShownPosts } = useContext(WebContext);
+    const { 
+        isLoading: isMainPageLoading, 
+        setIsLoading: setIsMainPageLoading
+    } = useContext(MainPageContext);
 
     const preventPropagation = (event: any) => {
         event.stopPropagation();
@@ -68,6 +74,8 @@ const CommentField = (props: Props) => {
                 submit={submitComment} 
                 submitBtnName="Comment"
                 onClick={preventPropagation}
+                isLoading={isMainPageLoading}
+                setIsLoading={setIsMainPageLoading}
             />
         </div>
     );

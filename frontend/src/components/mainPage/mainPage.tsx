@@ -17,16 +17,19 @@ const MainPage = () => {
     const [isDownVoteBoxOn, setIsDownVoteBoxOn] = useState(false);
     const [voteReceiver, setVoteReceiver] = useState<any>(null);
     const [postTimeFilter, setPostTimeFilter] = useState(1);
+    const [isLoading, setIsLoading] = useState(false);
 
     const loadMorePosts = () => {
         console.log("load more posts, now posts: " + shownPosts.length);
     }
 
     const closeAll = () => {
-        setIsPostFieldActive(false);
-        setIsUpVoteBoxOn(false);
-        setIsDownVoteBoxOn(false);
-        setVoteReceiver(null);
+        if (!isLoading) {
+            setIsPostFieldActive(false);
+            setIsUpVoteBoxOn(false);
+            setIsDownVoteBoxOn(false);
+            setVoteReceiver(null);
+        }
     }
 
     return (
@@ -36,7 +39,8 @@ const MainPage = () => {
                     isMainPageUpVoteBoxOn: isUpVoteBoxOn, setIsMainPageUpVoteBoxOn: setIsUpVoteBoxOn, 
                     isMainPageDownVoteBoxOn: isDownVoteBoxOn, setIsMainPageDownVoteBoxOn: setIsDownVoteBoxOn,
                     mainPageVoteReceiver: voteReceiver, setMainPageVoteReceiver: setVoteReceiver,
-                    postTimeFilter, setPostTimeFilter}}>
+                    postTimeFilter, setPostTimeFilter, 
+                    isLoading, setIsLoading,}}>
                 <div className="main-content">
                     <PostField page={Page.Home}/>
                     <Feed />

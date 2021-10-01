@@ -19,7 +19,9 @@ const PostField = ({ page }: Props) => {
     const { user, setUser, shownPosts, setShownPosts } = useContext(WebContext);
     const { 
         isPostFieldActive: isMainPagePostFieldActive, 
-        setIsPostFieldActive: setIsMainPagePostFieldActive
+        setIsPostFieldActive: setIsMainPagePostFieldActive,
+        isLoading: isMainPageLoading,
+        setIsLoading: setIsMainPageLoading,
     } = useContext(MainPageContext);
 
     const { 
@@ -38,6 +40,12 @@ const PostField = ({ page }: Props) => {
     const init = () => {
         setIsPostFieldActive(false);
         setEpkNonce(0);
+
+        if (page === Page.Home) {
+            setIsMainPageLoading(false);
+        } else if (page === Page.User) {
+            
+        }
     }
 
     const preventPropagation = (event: any) => {
@@ -78,11 +86,12 @@ const PostField = ({ page }: Props) => {
                     reputation: +reputation,
                     comments: [],
                 }
-                init();
-
+                
                 setShownPosts([newPost, ...shownPosts]);
                 const reputations = (await getUserState(user.identity)).userState.getRep();
                 setUser({...user, reputation: reputations})
+
+                init();
             } else {
                 console.error('publish post error.');
             }
@@ -99,6 +108,8 @@ const PostField = ({ page }: Props) => {
                     submit={submitPost} 
                     submitBtnName="Post"
                     onClick={preventPropagation}
+                    isLoading={isMainPageLoading}
+                    setIsLoading={setIsMainPageLoading}
                 /> : 
                 <div className="post-field-before">
                     <div className="input-field" onClick={activateInput}>Share something!</div>
