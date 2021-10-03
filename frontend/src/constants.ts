@@ -29,6 +29,7 @@ export interface Comment {
     username: string,
     post_time: number,
     reputation: number,
+    isAuthor: boolean,
 }
 
 export interface Post {
@@ -45,6 +46,7 @@ export interface Post {
     post_time: number,
     reputation: number,
     comments: Comment[],
+    isAuthor: boolean,
 }
 
 export interface History {

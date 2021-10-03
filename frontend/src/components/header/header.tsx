@@ -29,9 +29,9 @@ const Header = () => {
             setUser(null);
             setShownPosts([...shownPosts].map(p => {
                 const commentsLogout = p.comments.map(c => {
-                    return {...c, isUpvoted: false, isDownvoted: false};
+                    return {...c, isUpvoted: false, isDownvoted: false, isAuthor: false};
                 });
-                return {...p, isUpvoted: false, isDownvoted: false, comments: commentsLogout};
+                return {...p, isUpvoted: false, isDownvoted: false, isAuthor: false, comments: commentsLogout};
             }));
             history.push(`/`);
         }

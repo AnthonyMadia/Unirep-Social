@@ -60,10 +60,12 @@ const SignUp = () => {
                             }
                         }
                     });
-                    let newComment: Constants.Comment = {...c, isUpvoted: isUpvotedC, isDownvoted: isDownvotedC};
+                    let isAuthorC: boolean = ret.epks.find(_e => _e === c.epoch_key) !== undefined;
+                    let newComment: Constants.Comment = {...c, isUpvoted: isUpvotedC, isDownvoted: isDownvotedC, isAuthor: isAuthorC};
                     return newComment;
                 });
-                let newPost: Constants.Post = {...p, isUpvoted, isDownvoted, comments};
+                let isAuthor: boolean = ret.epks.find(_e => _e === p.epoch_key) !== undefined;
+                let newPost: Constants.Post = {...p, isUpvoted, isDownvoted, isAuthor, comments};
                 return newPost;
             }));
 

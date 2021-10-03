@@ -79,7 +79,7 @@ const BlockHeader = ({ data, page }: Props) => {
             {
                 data.isUpvoted? (
                     <div className="vote vote-purple"><img src="/images/upvote-purple.png"></img>{data.upvote}</div>
-                ) : user && !isLoading? (
+                ) : user && !isLoading && !data.isAuthor? (
                     <div className="vote" onClick={openUpvote}><img src="/images/upvote.png"></img>{data.upvote}</div>
                 ) : (
                     <div className="vote disabled"><img src="/images/upvote.png"></img>{data.upvote}</div>
@@ -88,7 +88,7 @@ const BlockHeader = ({ data, page }: Props) => {
             {
                 data.isDownvoted? (
                     <div className="vote vote-purple"><img src="/images/downvote-purple.png"></img>{data.downvote}</div>
-                ) : user && !isLoading? (
+                ) : user && !isLoading && !data.isAuthor? (
                     <div className="vote" onClick={openDownvote}><img src="/images/downvote.png"></img>{data.downvote}</div>
                 ) : (
                     <div className="vote disabled"><img src="/images/downvote.png"></img>{data.downvote}</div>
