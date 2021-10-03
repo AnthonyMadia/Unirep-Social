@@ -14,7 +14,7 @@ import { WebContext } from './context/WebContext';
 
 const AppRouter = () => {
 
-    const [user, setUser] = useLocalStorage(Constants.userKey, {});
+    const [user, setUser] = useLocalStorage(Constants.userKey, null);
     const [pageStatus, setPageStatus] = useLocalStorage(Constants.pageStatusKey, Constants.PageStatus.None);
     const [shownPosts, setShownPosts] = useLocalStorage(Constants.shownPostsKey, []);
     const [isLoading, setIsLoading] = useState(false);

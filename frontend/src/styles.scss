@@ -50,9 +50,7 @@ $smallest-font-size: 10px;
   vertical-align: middle;
   line-height: $height;
 
-  &:hover {
-    cursor: pointer;
-  }
+  cursor: pointer;
 }
 
 @mixin popupBox($width, $height: auto, $block-color:#fff, $border-width: 0, $border-color: black) {
@@ -77,6 +75,11 @@ $smallest-font-size: 10px;
   line-height: $size * 0.9;
   padding-left: 2.5px;
   padding-right: 2.5px;
+}
+
+@mixin disabled() {
+  background-color: $grey1;
+  cursor: not-allowed;
 }
 // widgets//
 

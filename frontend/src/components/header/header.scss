@@ -95,5 +95,9 @@ header {
           margin-right: 15px;
         }
       }
+
+      .disabled {
+        @include disabled;
+      }
     }
   }

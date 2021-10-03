@@ -39,7 +39,11 @@
 
     .vote-purple {
       color: $purple1;
-      flex: 3;
       border: 1px solid $purple1;
+      cursor: not-allowed !important;
+    }
+
+    .disabled {
+      @include disabled;
     }
   }

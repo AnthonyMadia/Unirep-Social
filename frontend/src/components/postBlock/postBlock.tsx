@@ -20,7 +20,7 @@ type Props = {
 const PostBlock = ({ post, page } : Props) => {
 
     const history = useHistory();
-    const { isLoading } = useContext(WebContext);
+    const { isLoading, user } = useContext(WebContext);
 
     const date = dateformat(new Date(post.post_time), "dd/mm/yyyy hh:MM TT");
     const [ showComment, setShowComment ] = useState(false);
@@ -78,7 +78,7 @@ const PostBlock = ({ post, page } : Props) => {
                 <VotersList votes={post.votes}/> : <div></div>
             }
             <div className="comment-block">
-                <div className={showComment? "comment-btn without-bottom" : "comment-btn"} onClick={switchComment}>
+                <div className={showComment? "comment-btn without-bottom" : user && !isLoading? "comment-btn" : "comment-btn disabled"} onClick={user && !isLoading? switchComment : ()=>{}}>
                     <img src="/images/comment.png"/>
                     <span>Comment</span>
                 </div>

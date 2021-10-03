@@ -62,11 +62,11 @@ const Header = () => {
             </div> */}
             {user && user.identity? 
                 <div className="navButtons">
-                    <div className="lightPurpleButton" onClick={gotoUserPage}>
+                    <div className={isLoading? "lightPurpleButton disabled" : "lightPurpleButton"} onClick={gotoUserPage}>
                         <img src="/images/user-purple.png" />
                         <span>{user.reputation}</span>
                     </div>
-                    <div className="whiteButton" onClick={logout}>Log out</div>
+                    <div className={isLoading? "whiteButton disabled" : "whiteButton"} onClick={logout}>Log out</div>
                 </div> :
                 <div className="navButtons">
                     <div className="purpleButton" onClick={signUp}> Sign Up</div>
