@@ -10,6 +10,8 @@ type GlobalContent = {
     setShownPosts: (posts: Post[]) => void;
     isLoading: boolean;
     setIsLoading: (value: boolean) => void;
+    nextUSTTime: number;
+    setNextUSTTime: (value: number) => void;
 }
 
 export const WebContext = createContext<GlobalContent>({
@@ -20,5 +22,7 @@ export const WebContext = createContext<GlobalContent>({
     shownPosts: [],
     setShownPosts: () => {},
     isLoading: false,
-    setIsLoading: () => {}
+    setIsLoading: () => {},
+    nextUSTTime: 0,
+    setNextUSTTime: () => {},
 });

@@ -7,7 +7,7 @@ import './header.scss';
 const Header = () => {
     const history = useHistory();
 
-    const { user, setUser, setPageStatus, shownPosts, setShownPosts, isLoading } = useContext(WebContext);
+    const { user, setUser, setPageStatus, shownPosts, setShownPosts, isLoading, nextUSTTime, setNextUSTTime } = useContext(WebContext);
     const [searchInput, setSearchInput] = useState<string>("");
 
     const signUp = () => {
@@ -47,6 +47,19 @@ const Header = () => {
         console.log("search input : " + event.target.value);
     }
 
+    const countdownText = () => {
+        let diff = (nextUSTTime - Date.now()) / 1000; // change to seconds instead of milliseconds
+        const days = Math.floor(diff / (24 * 60 * 60));
+        diff = diff - (days * 24 * 60 * 60);
+        const hours = Math.floor(diff / (60 * 60));
+        diff = diff - (hours * 60 * 60);
+        const minutes = Math.floor(diff / 60);
+        const seconds = Math.floor(diff - (minutes * 60));
+        
+        const ret = days + 'd:' + hours + 'h:' + minutes + 'm:' + seconds + 's';
+        return ret;
+    }
+
     return (
         <header>
             <div className="navLinks">
@@ -60,6 +73,7 @@ const Header = () => {
                     <input type="text" name="searchInput" placeholder="Search by keyword, user names or epoch key" onChange={handleSearchInput} />
                 </form>
             </div> */}
+            <div className="timer">{countdownText()}</div>
             {user && user.identity? 
                 <div className="navButtons">
                     <div className={isLoading? "lightPurpleButton disabled" : "lightPurpleButton"} onClick={gotoUserPage}>

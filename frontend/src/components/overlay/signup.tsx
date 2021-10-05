@@ -2,11 +2,11 @@ import React, { useState, useContext } from 'react';
 import { WebContext } from '../../context/WebContext';
 import * as Constants from '../../constants';
 import { FaTwitter } from 'react-icons/fa';
-import { checkInvitationCode, userSignUp, getEpochKeys } from '../../utils';
+import { checkInvitationCode, userSignUp, getEpochKeys, getNextEpochTime } from '../../utils';
 import './overlay.scss';
 
 const SignUp = () => {
-    const { setUser, setPageStatus } = useContext(WebContext);
+    const { setUser, setPageStatus, setNextUSTTime } = useContext(WebContext);
     
     
     // step 0: sign up with twitter / others
@@ -97,6 +97,9 @@ const SignUp = () => {
     const closeBox = async () => {
         setPageStatus(Constants.PageStatus.None);
         setUser({ identity: identity, epoch_keys: epks, reputation: reputations, current_epoch: currentEpoch });
+
+        const nextET = await getNextEpochTime();
+        setNextUSTTime(nextET);
     }
 
     return (

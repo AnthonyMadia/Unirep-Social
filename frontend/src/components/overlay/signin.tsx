@@ -1,11 +1,11 @@
 import React, { useState, useContext } from 'react';
 import { WebContext } from '../../context/WebContext';
 import * as Constants from '../../constants';
-import { userSignIn, getEpochKeys, getUserState } from '../../utils';
+import { userSignIn, getEpochKeys, getUserState, getNextEpochTime } from '../../utils';
 import './overlay.scss';
 
 const SignUp = () => {
-    const { setUser, setPageStatus, shownPosts, setShownPosts } = useContext(WebContext);
+    const { setUser, setPageStatus, shownPosts, setShownPosts, setNextUSTTime } = useContext(WebContext);
     
     const [userInput, setUserInput] = useState<string>("");
     const [errorMsg, setErrorMsg] = useState<string>("");
@@ -70,6 +70,9 @@ const SignUp = () => {
             }));
 
             setPageStatus(Constants.PageStatus.None);
+
+            const nextET = await getNextEpochTime();
+            setNextUSTTime(nextET);
         } else {
             console.log(ret);
         }

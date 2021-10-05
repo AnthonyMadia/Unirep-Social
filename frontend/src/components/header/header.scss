@@ -68,6 +68,14 @@ header {
       }
     }
 
+    .timer {
+      flex: 2;
+      margin: 0px auto;
+      text-align: center;
+      line-height: 32px;
+      font-size: 18px;
+    }
+
     .navButtons {
       flex: 1;
       justify-content: flex-end;

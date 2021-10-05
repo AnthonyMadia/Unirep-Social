@@ -17,6 +17,7 @@ const AppRouter = () => {
     const [user, setUser] = useLocalStorage(Constants.userKey, null);
     const [pageStatus, setPageStatus] = useLocalStorage(Constants.pageStatusKey, Constants.PageStatus.None);
     const [shownPosts, setShownPosts] = useLocalStorage(Constants.shownPostsKey, []);
+    const [nextUSTTime, setNextUSTTime] = useLocalStorage(Constants.nextUSTKey, 0);
     const [isLoading, setIsLoading] = useState(false);
 
     return (
@@ -26,7 +27,8 @@ const AppRouter = () => {
                     user, setUser, 
                     pageStatus, setPageStatus, 
                     shownPosts, setShownPosts, 
-                    isLoading, setIsLoading}}>
+                    isLoading, setIsLoading,
+                    nextUSTTime, setNextUSTTime}}>
                 <Header />
                 
                 <Switch>

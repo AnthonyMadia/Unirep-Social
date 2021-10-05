@@ -301,3 +301,15 @@ export const leaveComment = async(identity: string, content: string, postId: str
     const epochKey = BigInt(add0x(ret.epk))
     return {epk: epochKey.toString(), commentId}
 }
+
+export const getNextEpochTime = async () => {
+    const apiURL = makeURL('epochTransition', {})
+    var ret = 0
+    await fetch(apiURL)
+        .then(response => response.json())
+        .then(function(data){
+            ret = data;
+        });
+    console.log(ret);
+    return ret
+}
