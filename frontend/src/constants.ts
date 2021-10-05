@@ -2,6 +2,11 @@ export const pageStatusKey = "pageStatus";
 export const userKey = "user";
 export const shownPostsKey = "shownPosts";
 
+export const isVotedText = "You\'ve already voted.";
+export const isAuthorText = "You cannot vote on your own post or comment.";
+export const notLoginText = "You have to sign in to perform the action.";
+export const loadingText = "Some action is pending, please wait...";
+
 export interface User {
     identity: string,
     epoch_keys: string[],

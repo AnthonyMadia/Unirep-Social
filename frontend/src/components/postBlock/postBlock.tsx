@@ -4,7 +4,7 @@ import Jdenticon from 'react-jdenticon';
 import dateformat from 'dateformat';
 
 import { WebContext } from '../../context/WebContext';
-import { Post, Page } from '../../constants';
+import { Post, Page, notLoginText, loadingText } from '../../constants';
 import VotersList from './votersList';
 import CommentField from './commentField';
 import CommentBlock from './commentBlock';
@@ -21,6 +21,9 @@ const PostBlock = ({ post, page } : Props) => {
 
     const history = useHistory();
     const { isLoading, user } = useContext(WebContext);
+
+    const [isHover, setIsHover] = useState(false);
+    const [hoverText, setHoverText] = useState<string>('');
 
     const date = dateformat(new Date(post.post_time), "dd/mm/yyyy hh:MM TT");
     const [ showComment, setShowComment ] = useState(false);
@@ -40,6 +43,21 @@ const PostBlock = ({ post, page } : Props) => {
         if (!isLoading) {
             setShowComment((prevState) => !prevState);
         }
+    }
+
+    const onHover = () => {
+        if (isLoading) {
+            setIsHover(true);
+            setHoverText(loadingText);
+        } else if (user === null) {
+            setIsHover(true);
+            setHoverText(notLoginText);
+        } 
+    }
+
+    const onLeave = () => {
+        setIsHover(false);
+        setHoverText('');
     }
 
     return (
@@ -78,13 +96,16 @@ const PostBlock = ({ post, page } : Props) => {
                 <VotersList votes={post.votes}/> : <div></div>
             }
             <div className="comment-block">
-                <div className={showComment? "comment-btn without-bottom" : user && !isLoading? "comment-btn" : "comment-btn disabled"} onClick={user && !isLoading? switchComment : ()=>{}}>
+                <div className={showComment? "comment-btn without-bottom" : user && !isLoading? "comment-btn" : "comment-btn disabled"} 
+                    onClick={user && !isLoading? switchComment : ()=>{}} 
+                    onMouseOver={onHover} onMouseLeave={onLeave}>
                     <img src="/images/comment.png"/>
                     <span>Comment</span>
                 </div>
                 { showComment? 
                     <CommentField post={post} closeComment={() => setShowComment(false)} page={page}/> : <div></div>
                 }
+                { isHover? <div className="hover-box">{hoverText}</div>:<div></div>}
             </div>
             { post.comments.length > 0? 
                 <div className="comments-list">

@@ -142,6 +142,7 @@
       display: flex;
       flex-direction: column;
       padding: 0px 27px;
+      position: relative;
   
       .comment-btn {
         @include myButton(138px, 32px, $radius: 4px, $border: 1px, $border-color: $dark-grey, $font-size: $smaller-font-size);
@@ -175,6 +176,19 @@
         border: 1px solid $dark-grey;
         border-radius: 0px 4px 4px 4px;
         box-shadow: 0px 3px 2px rgba(0, 0, 0, 0.1);
+      }
+
+      .hover-box {
+        position: absolute;
+        top: 12px;
+        left: 20px;
+        width: 200px;
+        z-index: 7;
+        padding: 10px;
+        background-color: rgba(51, 51, 51, 0.8);
+        border-radius: 4px;
+        font-size: $small-font-size;
+        color: white;
       }
     }
   
