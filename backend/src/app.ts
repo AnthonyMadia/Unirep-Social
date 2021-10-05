@@ -5,6 +5,8 @@ import cors from 'cors';
 import ErrorHandler from './ErrorHandler';
 import MasterRouter from './routers/MasterRouter';
 
+import EpochController from './controllers/EpochController';
+
 // load the environment variables from the .env file
 dotenv.config({
   path: '.env'
@@ -41,8 +43,14 @@ global.epochPeriod = 7 * 24 * 60 * 60 * 1000;
 global.invitationCodes = [];
 global.nextEpochTransition = Date.now() + global.epochPeriod + 10000; // delay 10 seconds
 
-function doEpochTransition () {
+const doEpochTransition = async () => {
   console.log('do epoch transition');
+  const _controller = EpochController;
+  try {
+    await _controller.epochTransition();
+  } catch (e) {
+    console.error(e);
+  }
   setTimeout(doEpochTransition, global.epochPeriod);
 }
 
