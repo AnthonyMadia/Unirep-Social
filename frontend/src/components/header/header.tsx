@@ -9,13 +9,17 @@ const Header = () => {
 
     const makeCountdownText = () => {
         const diff = (nextUSTTime - Date.now()) / 1000; // change to seconds instead of milliseconds
-        const days = Math.floor(diff / (60 * 60 * 24));
-        const hours = Math.floor((diff / (60 * 60)) % 24);
-        const minutes = Math.floor((diff / 60) % 60);
-        const seconds = Math.floor(diff % 60);
-        
-        const ret = days + 'd:' + hours + 'h:' + minutes + 'm:' + seconds + 's';
-        return ret;
+        if (diff >= 0) {
+            const days = Math.floor(diff / (60 * 60 * 24));
+            const hours = Math.floor((diff / (60 * 60)) % 24);
+            const minutes = Math.floor((diff / 60) % 60);
+            const seconds = Math.floor(diff % 60);
+            
+            const ret = days + 'd:' + hours + 'h:' + minutes + 'm:' + seconds + 's';
+            return ret;
+        } else {
+            return 'processing user state transition...';
+        }
     }
 
     const { user, setUser, setPageStatus, shownPosts, setShownPosts, isLoading, nextUSTTime } = useContext(WebContext);

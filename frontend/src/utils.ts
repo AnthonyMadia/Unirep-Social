@@ -9,7 +9,9 @@ import Unirep from "./artifacts/contracts/Unirep.sol/Unirep.json"
 
 import { genEpochKey, genUserStateFromContract } from './core/utils'
 import { add0x } from './crypto/SMT'
-import { genVerifyReputationProofAndPublicSignals, getSignalByNameViaSym, verifyProveReputationProof, formatProofForVerifierContract } from './circuits'
+import { genVerifyReputationProofAndPublicSignals, 
+    verifyProveReputationProof, formatProofForVerifierContract, 
+    genVerifyUserStateTransitionProofAndPublicSignals, verifyUserStateTransitionProof} from './circuits'
 
 export const getUserState = async (identity: string) => {
     const provider = new ethers.providers.JsonRpcProvider(config.DEFAULT_ETH_PROVIDER)
@@ -312,4 +314,57 @@ export const getNextEpochTime = async () => {
         });
     console.log(ret);
     return ret
+}
+
+export const userStateTransition = async (identity: string) => {
+    const {userState, id, currentEpoch, treeDepths, numEpochKeyNoncePerEpoch} = await getUserState(identity);
+    const nullifierTreeDepth = (treeDepths["nullifierTreeDepth"]).toNumber()
+    let circuitInputs: any
+
+    console.log('generating proving circuit from contract...')
+    circuitInputs = await userState.genUserStateTransitionCircuitInputs()
+    
+    const results = await genVerifyUserStateTransitionProofAndPublicSignals(stringifyBigInts(circuitInputs));
+    const newGSTLeaf = results['publicSignals'][0]
+    const newState = await userState.genNewUserStateAfterTransition()
+    if (newGSTLeaf != newState.newGSTLeaf.toString()) {
+        console.error('Error: Computed new GST leaf should match')
+        return
+    }
+    
+    const isValid = await verifyUserStateTransitionProof(results['proof'], results['publicSignals'])
+    if (!isValid) {
+        console.error('Error: user state transition proof generated is not valid!')
+        return
+    }
+
+    const fromEpoch = userState.latestTransitionedEpoch
+    const GSTreeRoot = userState.getUnirepStateGSTree(fromEpoch).root
+    const epochTreeRoot = (await userState.getUnirepStateEpochTree(fromEpoch)).getRootHash()
+    const nullifierTreeRoot = (await userState.getUnirepStateNullifierTree()).getRootHash()
+    const attestationNullifiers = userState.getAttestationNullifiers(fromEpoch)
+    const epkNullifiers = userState.getEpochKeyNullifiers(fromEpoch)
+    // Verify nullifiers outputted by circuit are the same as the ones computed off-chain
+    const outputAttestationNullifiers: BigInt[] = []
+    for (let i = 0; i < attestationNullifiers.length; i++) {
+        const outputNullifier = results['publicSignals'][1+i]
+        const modedOutputNullifier = BigInt(outputNullifier) % BigInt(2 ** nullifierTreeDepth)
+        if (modedOutputNullifier != attestationNullifiers[i]) {
+            console.error(`Error: nullifier outputted by circuit(${modedOutputNullifier}) does not match the ${i}-th computed attestation nullifier(${attestationNullifiers[i]})`)
+            return
+        }
+        outputAttestationNullifiers.push(outputNullifier)
+    }
+    const outputEPKNullifiers: BigInt[] = []
+    for (let i = 0; i < epkNullifiers.length; i++) {
+        const outputNullifier = results['publicSignals'][13+i]
+        const modedOutputNullifier = BigInt(outputNullifier) % BigInt(2 ** nullifierTreeDepth)
+        if (modedOutputNullifier != epkNullifiers[i]) {
+            console.error(`Error: nullifier outputted by circuit(${modedOutputNullifier}) does not match the ${i}-th computed attestation nullifier(${epkNullifiers[i]})`)
+            return
+        }
+        outputEPKNullifiers.push(outputNullifier)
+    }
+
+    const proof = formatProofForVerifierContract(results['proof'])
 }
