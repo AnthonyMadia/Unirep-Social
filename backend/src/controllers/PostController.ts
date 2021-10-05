@@ -69,7 +69,7 @@ class PostController {
               data.proof,
               { value: attestingFee, gasLimit: 1000000 }
           )
-      } catch(e) {
+      } catch(e: any) {
           console.error('Error: the transaction failed')
           if (e.message) {
               console.error(e.message)

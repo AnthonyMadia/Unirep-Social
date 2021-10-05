@@ -36,9 +36,17 @@ server.app.use((err: ErrorHandler, req: Request, res: Response, next: NextFuncti
     });
   });
 
-// global variables
+// global variables: actually should be stored in db
+global.epochPeriod = 7 * 24 * 60 * 60 * 1000;
 global.invitationCodes = [];
-global.nextEpochTransition = Date.now() + 7 * 24 * 60 * 60 * 1000;
+global.nextEpochTransition = Date.now() + global.epochPeriod + 10000; // delay 10 seconds
+
+function doEpochTransition () {
+  console.log('do epoch transition');
+  setTimeout(doEpochTransition, global.epochPeriod);
+}
+
+setTimeout(doEpochTransition, global.epochPeriod);
 
 // make server listen on some port
 ((port = process.env.APP_PORT || 5000) => {

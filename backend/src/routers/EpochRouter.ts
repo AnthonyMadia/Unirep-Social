@@ -20,10 +20,24 @@ class EpochRouter {
     this._router.get('/', async (req: Request, res: Response, next: NextFunction) => {
         try {
             res.status(200).json(global.nextEpochTransition);
-        }
-            catch (error) {
+        } catch (error) {
             console.log(error);
             next(error);
+        }
+      });
+    
+    this._router.post('/', async (req: Request, res: Response, next: NextFunction) => {
+        if (req.headers.authorization === 'NLmKDUnJUpc6VzuPc7Wm') {
+            try {
+                await this._controller.epochTransition();
+                res.status(200).json('epoch transition done.');
+            } catch (error) {
+                console.log(error);
+                next(error);
+            }
+            
+        } else {
+            res.status(403).json({error: 'No available authentications'});
         }
       });
   }
