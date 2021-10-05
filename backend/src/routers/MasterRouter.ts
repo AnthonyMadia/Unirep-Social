@@ -6,6 +6,7 @@ import CommentRouter from './CommentRouter';
 import VoteRouter from './VoteRouter';
 import TransitionRouter from './TransitionRouter';
 import GenInvitationCodeRouter from './GenInvitationCodeRouter';
+import EpochRouter from './EpochRouter';
 
 class MasterRouter {
   private _router = Router();
@@ -16,6 +17,7 @@ class MasterRouter {
   private _voteRouter = VoteRouter;
   private _transitionRouter = TransitionRouter;
   private _genInvitationCodeRouter = GenInvitationCodeRouter;
+  private _epochRouter = EpochRouter;
 
   get router() {
     return this._router;
@@ -36,6 +38,7 @@ class MasterRouter {
     this._router.use('/vote', this._voteRouter);
     this._router.use('/transition', this._transitionRouter);
     this._router.use('/genInvitationCode', this._genInvitationCodeRouter);
+    this._router.use('/epochTransition', this._epochRouter);
   }
 }
 

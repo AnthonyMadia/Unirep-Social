@@ -38,6 +38,7 @@ server.app.use((err: ErrorHandler, req: Request, res: Response, next: NextFuncti
 
 // global variables
 global.invitationCodes = [];
+global.nextEpochTransition = Date.now() + 7 * 24 * 60 * 60 * 1000;
 
 // make server listen on some port
 ((port = process.env.APP_PORT || 5000) => {
