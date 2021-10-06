@@ -2,14 +2,35 @@ import React, { useContext, useState, useEffect } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import { WebContext } from '../../context/WebContext';
 import * as Constants from '../../constants';
-import { userStateTransition } from '../../utils';
+import { userStateTransition, getNextEpochTime } from '../../utils';
 import './header.scss';
 
 const Header = () => {
     const history = useHistory();
+    const [isUSTing, setIsUSTing] = useState(false);
+    const { user, setUser, setPageStatus, shownPosts, setShownPosts, isLoading, setIsLoading, nextUSTTime, setNextUSTTime } = useContext(WebContext);
+    const [searchInput, setSearchInput] = useState<string>("");
+
+    const doUST = async () => {
+        if (user !== null) {
+            setIsUSTing(true);
+            setIsLoading(true);
+            const ret = await userStateTransition(user.identity);
+            console.log(ret);
+            
+            const next = await getNextEpochTime();
+            setNextUSTTime(next);
+            setIsUSTing(false);
+            setIsLoading(false);
+        }
+        return;
+    }
 
     const makeCountdownText = () => {
+        if (user === null) return '';
+        
         const diff = (nextUSTTime - Date.now()) / 1000; // change to seconds instead of milliseconds
+        
         if (diff >= 0) {
             const days = Math.floor(diff / (60 * 60 * 24));
             const hours = Math.floor((diff / (60 * 60)) % 24);
@@ -19,17 +40,20 @@ const Header = () => {
             const ret = days + 'd:' + hours + 'h:' + minutes + 'm:' + seconds + 's';
             return ret;
         } else {
-            return 'processing user state transition...';
+            if (!isUSTing) {
+                doUST();
+            }
+            return 'processing user state transition...' + Math.floor((Date.now() - nextUSTTime) / 1000) + 's';
         }
     }
 
-    const { user, setUser, setPageStatus, shownPosts, setShownPosts, isLoading, nextUSTTime } = useContext(WebContext);
-    const [searchInput, setSearchInput] = useState<string>("");
     const [countdownText, setCountdownText] = useState(makeCountdownText());
 
     useEffect(
         () => {
-            const timer = setTimeout(() => setCountdownText(makeCountdownText()), 1000);
+            const timer = setTimeout(() => {
+                setCountdownText(makeCountdownText());
+            }, 1000);
 
             return () => {
                 clearTimeout(timer);
@@ -61,6 +85,7 @@ const Header = () => {
                 });
                 return {...p, isUpvoted: false, isDownvoted: false, isAuthor: false, comments: commentsLogout};
             }));
+            setNextUSTTime(0);
             history.push(`/`);
         }
     }
@@ -73,12 +98,6 @@ const Header = () => {
 
     const handleSearchInput = (event: any) => {
         console.log("search input : " + event.target.value);
-    }
-
-    const testUST = async () => {
-        if (user !== null) {
-            await userStateTransition(user.identity);
-        }
     }
 
     return (
@@ -94,7 +113,7 @@ const Header = () => {
                     <input type="text" name="searchInput" placeholder="Search by keyword, user names or epoch key" onChange={handleSearchInput} />
                 </form>
             </div> */}
-            <div className="timer" onClick={testUST}>{countdownText}</div>
+            <div className="timer">{countdownText}</div>
             {user && user.identity? 
                 <div className="navButtons">
                     <div className={isLoading? "lightPurpleButton disabled" : "lightPurpleButton"} onClick={gotoUserPage}>

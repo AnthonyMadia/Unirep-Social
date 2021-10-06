@@ -40,6 +40,8 @@ server.app.use((err: ErrorHandler, req: Request, res: Response, next: NextFuncti
 
 // global variables: actually should be stored in db
 global.epochPeriod = 7 * 24 * 60 * 60 * 1000;
+// global.epochPeriod = 2 * 60 * 1000;
+
 global.invitationCodes = [];
 global.nextEpochTransition = Date.now() + global.epochPeriod + 10000; // delay 10 seconds
 
