@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import { WebContext } from '../../context/WebContext';
 import * as Constants from '../../constants';
-import { userStateTransition, getNextEpochTime } from '../../utils';
+import { userStateTransition, getNextEpochTime, getEpochKeys } from '../../utils';
 import './header.scss';
 
 const Header = () => {
@@ -20,6 +20,8 @@ const Header = () => {
             
             const next = await getNextEpochTime();
             setNextUSTTime(next);
+            const ret2 = await getEpochKeys(user.identity);
+            setUser({...user, epoch_keys: ret2.epks})
             setIsUSTing(false);
             setIsLoading(false);
         }

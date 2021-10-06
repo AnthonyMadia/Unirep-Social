@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { WebContext } from '../../context/WebContext';
 import * as Constants from '../../constants';
-import { userSignIn, getEpochKeys, getUserState, getNextEpochTime } from '../../utils';
+import { userSignIn, getEpochKeys, getUserState, getNextEpochTime, userStateTransition } from '../../utils';
 import './overlay.scss';
 
 const SignUp = () => {
@@ -24,8 +24,15 @@ const SignUp = () => {
         const ret = await userSignIn(userInput);
         
         if (ret) {
-            const reputations = (await getUserState(userInput)).userState.getRep();
+            const userState = (await getUserState(userInput)).userState;
+            const reputations = userState.getRep();
+            const userEpoch = userState.latestTransitionedEpoch;
             const ret = await getEpochKeys(userInput);
+
+            if (userEpoch !== ret.currentEpoch) {
+                const ret = await userStateTransition(userInput);
+                console.log(ret);
+            }
 
             setUser({
                 identity: userInput,
