@@ -53,10 +53,8 @@ const Header = () => {
 
     useEffect(
         () => {
-            let calculate : number = -1;
             const timer = setTimeout(() => {
                 setCountdownText(makeCountdownText());
-                calculate = calculate * -1;
             }, 1000);
 
             return () => clearTimeout(timer);
