@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import { WebContext } from '../../context/WebContext';
 import * as Constants from '../../constants';
+import { userStateTransition } from '../../utils';
 import './header.scss';
 
 const Header = () => {
@@ -74,6 +75,12 @@ const Header = () => {
         console.log("search input : " + event.target.value);
     }
 
+    const testUST = async () => {
+        if (user !== null) {
+            await userStateTransition(user.identity);
+        }
+    }
+
     return (
         <header>
             <div className="navLinks">
@@ -87,7 +94,7 @@ const Header = () => {
                     <input type="text" name="searchInput" placeholder="Search by keyword, user names or epoch key" onChange={handleSearchInput} />
                 </form>
             </div> */}
-            <div className="timer">{countdownText}</div>
+            <div className="timer" onClick={testUST}>{countdownText}</div>
             {user && user.identity? 
                 <div className="navButtons">
                     <div className={isLoading? "lightPurpleButton disabled" : "lightPurpleButton"} onClick={gotoUserPage}>

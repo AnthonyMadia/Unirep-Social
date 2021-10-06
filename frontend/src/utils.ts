@@ -301,7 +301,7 @@ export const leaveComment = async(identity: string, content: string, postId: str
         });
 
     const epochKey = BigInt(add0x(ret.epk))
-    return {epk: epochKey.toString(), commentId}
+    return {epk: epochKey.toString(), commentId, transaction}
 }
 
 export const getNextEpochTime = async () => {
@@ -318,7 +318,7 @@ export const getNextEpochTime = async () => {
 
 export const userStateTransition = async (identity: string) => {
     const {userState, id, currentEpoch, treeDepths, numEpochKeyNoncePerEpoch} = await getUserState(identity);
-    const nullifierTreeDepth = (treeDepths["nullifierTreeDepth"]).toNumber()
+    const nullifierTreeDepth = treeDepths["nullifierTreeDepth"]
     let circuitInputs: any
 
     console.log('generating proving circuit from contract...')
@@ -367,4 +367,36 @@ export const userStateTransition = async (identity: string) => {
     }
 
     const proof = formatProofForVerifierContract(results['proof'])
+    const apiURL = makeURL('userStateTransition', {})
+    const data = {
+        newGSTLeaf,
+        outputAttestationNullifiers,
+        outputEPKNullifiers,
+        fromEpoch,
+        GSTreeRoot,
+        epochTreeRoot,
+        nullifierTreeRoot,
+        proof
+    }
+
+    const stringifiedData = JSON.stringify(data, (key, value) => 
+       typeof value === "bigint" ? value.toString() + "n" : value
+    )
+    console.log('before vote api: ' + stringifiedData)
+
+    let transaction: string = ''
+    let toEpoch: number = 0
+    await fetch(apiURL, {
+        headers: header,
+        body: stringifiedData,
+        method: 'POST',
+    }).then(response => response.json())
+       .then(function(data){
+           console.log(JSON.stringify(data))
+           transaction = data.transaction
+           toEpoch = data.currentEpoch
+    });
+
+    
+    return {transaction, toEpoch} 
 }

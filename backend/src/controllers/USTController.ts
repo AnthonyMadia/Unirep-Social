@@ -55,7 +55,7 @@ class USTController {
 
         console.log('Transaction hash:', tx.hash)
         console.log(`User transitioned from epoch ${data.fromEpoch} to epoch ${currentEpoch}`)  
-        return {transactionHash: tx.hash, currentEpoch}
+        return {transaction: tx.hash, currentEpoch}
     }
   }
 
