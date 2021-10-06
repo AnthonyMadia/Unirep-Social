@@ -24,14 +24,15 @@ const SignUp = () => {
         const ret = await userSignIn(userInput);
         
         if (ret) {
-            const userState = (await getUserState(userInput)).userState;
+            const ret = await getEpochKeys(userInput);
+            const userState = ret.userState;
             const reputations = userState.getRep();
             const userEpoch = userState.latestTransitionedEpoch;
-            const ret = await getEpochKeys(userInput);
 
             if (userEpoch !== ret.currentEpoch) {
-                const ret = await userStateTransition(userInput);
-                console.log(ret);
+                console.log('user epoch is not the same as current epoch, do user state transition, ' + userEpoch + ' != ' + ret.currentEpoch);
+                const ret1 = await userStateTransition(userInput);
+                console.log(ret1);
             }
 
             setUser({

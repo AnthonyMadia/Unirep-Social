@@ -14,6 +14,7 @@ import { genVerifyReputationProofAndPublicSignals,
     genVerifyUserStateTransitionProofAndPublicSignals, verifyUserStateTransitionProof} from './circuits'
 
 export const getUserState = async (identity: string) => {
+    console.log('get user state');
     const provider = new ethers.providers.JsonRpcProvider(config.DEFAULT_ETH_PROVIDER)
 
     const unirepSocialContract = new ethers.Contract(

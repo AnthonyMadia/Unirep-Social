@@ -17,7 +17,7 @@ const AppRouter = () => {
     const [user, setUser] = useLocalStorage(Constants.userKey, null);
     const [pageStatus, setPageStatus] = useLocalStorage(Constants.pageStatusKey, Constants.PageStatus.None);
     const [shownPosts, setShownPosts] = useLocalStorage(Constants.shownPostsKey, []);
-    const [nextUSTTime, setNextUSTTime] = useLocalStorage(Constants.nextUSTKey, 0);
+    const [nextUSTTime, setNextUSTTime] = useLocalStorage(Constants.nextUSTKey, 4789220745000);
     const [isLoading, setIsLoading] = useState(false);
 
     return (

@@ -21,7 +21,7 @@ const Header = () => {
             const next = await getNextEpochTime();
             setNextUSTTime(next);
             const ret2 = await getEpochKeys(user.identity);
-            setUser({...user, epoch_keys: ret2.epks})
+            setUser({...user, epoch_keys: ret2.epks, reputation: ret2.userState.getRep()})
             setIsUSTing(false);
             setIsLoading(false);
         }
@@ -87,7 +87,7 @@ const Header = () => {
                 });
                 return {...p, isUpvoted: false, isDownvoted: false, isAuthor: false, comments: commentsLogout};
             }));
-            setNextUSTTime(0);
+            setNextUSTTime(4789220745000);
             history.push(`/`);
         }
     }

@@ -23,6 +23,6 @@ export const WebContext = createContext<GlobalContent>({
     setShownPosts: () => {},
     isLoading: false,
     setIsLoading: () => {},
-    nextUSTTime: 0,
+    nextUSTTime: 4789220745000,
     setNextUSTTime: () => {},
 });
