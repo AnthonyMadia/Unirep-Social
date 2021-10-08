@@ -35,6 +35,7 @@ class CommentController {
       )
 
       const attestingFee = await unirepContract.attestingFee()
+      const currentEpoch = await unirepContract.currentEpoch()
 
       const newComment: IComment = new Comment({
         content: data.content,
@@ -58,7 +59,7 @@ class CommentController {
               data.proof,
               { value: attestingFee, gasLimit: 1000000 }
           )
-      } catch(e) {
+      } catch(e: any) {
           console.error('Error: the transaction failed')
           if (e.message) {
               console.error(e.message)
@@ -66,7 +67,7 @@ class CommentController {
           return
       }
 
-      return {transaction: tx.hash, commentId: newComment._id.toString()}
+      return {transaction: tx.hash, commentId: newComment._id.toString(), currentEpoch: Number(currentEpoch)}
     }
   }
 

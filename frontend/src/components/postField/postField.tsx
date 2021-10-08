@@ -79,6 +79,7 @@ const PostField = ({ page }: Props) => {
                     reputation: +reputation,
                     comments: [],
                     isAuthor: true,
+                    current_epoch: ret.currentEpoch
                 }
                 
                 setShownPosts([newPost, ...shownPosts]);

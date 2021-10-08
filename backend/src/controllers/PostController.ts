@@ -44,6 +44,7 @@ class PostController {
           Unirep.abi,
           provider,
       )
+      const currentEpoch = await unirepContract.currentEpoch()
       
       const newpost: IPost = new Post({
         content: data.content,
@@ -77,7 +78,7 @@ class PostController {
           return
       }
       
-      return {transaction: tx.hash, postId: newpost._id};
+      return {transaction: tx.hash, postId: newpost._id, currentEpoch: Number(currentEpoch)};
     }
   }
 

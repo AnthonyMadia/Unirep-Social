@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import Jdenticon from 'react-jdenticon';
-import { Post, Comment, DataType, Page, isVotedText, isAuthorText, notLoginText, loadingText } from '../../constants';
+import { Post, Comment, DataType, Page, isVotedText, isAuthorText, notLoginText, loadingText, expiredText } from '../../constants';
 import './blockHeader.scss';
 import { WebContext } from '../../context/WebContext';
 import { MainPageContext } from '../../context/MainPageContext';
@@ -19,6 +19,7 @@ const BlockHeader = ({ data, page }: Props) => {
 
     const [isHover, setIsHover] = useState<null|string>(null); // null, purple1, purple2, grey1, grey2
     const [hoverText, setHoverText] = useState<string>('');
+    const isSameEpoch: boolean = user?.current_epoch === data.current_epoch;
 
     const setIsUpVoteBoxOn = (value: boolean) => {
         if (page === Page.Home) {
@@ -85,6 +86,8 @@ const BlockHeader = ({ data, page }: Props) => {
                 setHoverText(notLoginText);
             } else if (data.isAuthor) {
                 setHoverText(isAuthorText);
+            } else if (!isSameEpoch) {
+                setHoverText(expiredText);
             }
         }
     }
@@ -103,7 +106,7 @@ const BlockHeader = ({ data, page }: Props) => {
                 {
                     data.isUpvoted? (
                         <div className="vote vote-purple" onMouseOver={() => setOnHover('purple1')} onMouseLeave={setOnLeave}><img src="/images/upvote-purple.png" />{data.upvote}</div>
-                    ) : user && !isLoading && !data.isAuthor? (
+                    ) : user && !isLoading && !data.isAuthor && isSameEpoch? (
                         <div className="vote" onClick={openUpvote}><img src="/images/upvote.png"/>{data.upvote}</div>
                     ) : (
                         <div className="vote disabled" onMouseOver={() => setOnHover('grey1')} onMouseLeave={setOnLeave}><img src="/images/upvote.png"/>{data.upvote}</div>
@@ -117,7 +120,7 @@ const BlockHeader = ({ data, page }: Props) => {
                 {
                     data.isDownvoted? (
                         <div className="vote vote-purple" onMouseOver={() => setOnHover('purple2')} onMouseLeave={setOnLeave}><img src="/images/downvote-purple.png"/>{data.downvote}</div>
-                    ) : user && !isLoading && !data.isAuthor? (
+                    ) : user && !isLoading && !data.isAuthor && isSameEpoch? (
                         <div className="vote" onClick={openDownvote}><img src="/images/downvote.png"/>{data.downvote}</div>
                     ) : (
                         <div className="vote disabled" onMouseOver={() => setOnHover('grey2')} onMouseLeave={setOnLeave}><img src="/images/downvote.png"/>{data.downvote}</div>

@@ -205,6 +205,7 @@ export const publishPost = async (content: string, epkNonce: number, identity: s
      
      let transaction: string = ''
      let postId: string = ''
+     let currentEpoch: number = 0
      await fetch(apiURL, {
          headers: header,
          body: stringifiedData,
@@ -214,9 +215,10 @@ export const publishPost = async (content: string, epkNonce: number, identity: s
             console.log(JSON.stringify(data))
             transaction = data.transaction
             postId = data.postId
+            currentEpoch = data.currentEpoch
         });
     
-    return {epk: ret.epk, transaction, postId}
+    return {epk: ret.epk, transaction, postId, currentEpoch}
 }
 
 export const vote = async(identity: string, upvote: number, downvote: number, postId: string, receiver: string, epkNonce: number = 0, minRep: number = 0) => {
@@ -290,6 +292,7 @@ export const leaveComment = async(identity: string, content: string, postId: str
      
      let transaction: string = ''
      let commentId: string = ''
+     let currentEpoch: number = 0
      await fetch(apiURL, {
          headers: header,
          body: stringifiedData,
@@ -299,10 +302,11 @@ export const leaveComment = async(identity: string, content: string, postId: str
             console.log(JSON.stringify(data))
             transaction = data.transaction
             commentId = data.commentId
+            currentEpoch = data.currentEpoch
         });
 
     const epochKey = BigInt(add0x(ret.epk))
-    return {epk: epochKey.toString(), commentId, transaction}
+    return {epk: epochKey.toString(), commentId, transaction, currentEpoch}
 }
 
 export const getNextEpochTime = async () => {

@@ -5,8 +5,9 @@ export const nextUSTKey = 'nextUSTTime';
 
 export const isVotedText = "You\'ve already voted.";
 export const isAuthorText = "You cannot vote on your own post or comment.";
-export const notLoginText = "You have to sign in to perform the action.";
+export const notLoginText = "Sign in to participate.";
 export const loadingText = "Some action is pending, please wait...";
+export const expiredText = "You cannot vote on posts with expired epoch key."
 
 export interface User {
     identity: string,
@@ -36,6 +37,7 @@ export interface Comment {
     post_time: number,
     reputation: number,
     isAuthor: boolean,
+    current_epoch: number,
 }
 
 export interface Post {
@@ -53,6 +55,7 @@ export interface Post {
     reputation: number,
     comments: Comment[],
     isAuthor: boolean,
+    current_epoch: number,
 }
 
 export interface History {
