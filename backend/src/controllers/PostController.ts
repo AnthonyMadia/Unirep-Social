@@ -57,6 +57,8 @@ class PostController {
         status: 0
       });
 
+      await newpost.save(err => console.log(err));
+
       const attestingFee = await unirepContract.attestingFee()
 
       let tx

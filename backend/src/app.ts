@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
+import mongoose, { Schema } from 'mongoose';
 
 import ErrorHandler from './ErrorHandler';
 import MasterRouter from './routers/MasterRouter';
@@ -62,3 +63,13 @@ setTimeout(doEpochTransition, global.epochPeriod);
 ((port = process.env.APP_PORT || 5000) => {
   server.app.listen(port, () => console.log(`> Listening on port ${port}`));
 })();
+
+var mongoDB = 'mongodb://127.0.0.1:27017/unirep_social';
+mongoose.connect(mongoDB);
+// Get Mongoose to use the global promise library
+mongoose.Promise = global.Promise;
+//Get the default connection
+var db = mongoose.connection;
+
+//Bind connection to error event (to get notification of connection errors)
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));

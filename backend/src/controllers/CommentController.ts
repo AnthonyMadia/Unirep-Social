@@ -47,6 +47,8 @@ class CommentController {
         status: 0
       });
 
+      await newComment.save(err => console.log(err));
+
       let tx
       try {
           tx = await unirepSocialContract.leaveComment(
