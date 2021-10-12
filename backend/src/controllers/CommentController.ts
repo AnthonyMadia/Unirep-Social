@@ -5,6 +5,7 @@ import Unirep from "../artifacts/contracts/Unirep.sol/Unirep.json";
 import UnirepSocial from '../artifacts/contracts/UnirepSocial.sol/UnirepSocial.json';
 import { ethers } from 'ethers';
 import Comment, { IComment } from "../database/models/comment";
+import Post from '../database/models/post';
 
 class CommentController {
     defaultMethod() {
@@ -38,16 +39,24 @@ class CommentController {
       const currentEpoch = await unirepContract.currentEpoch()
 
       const newComment: IComment = new Comment({
-        content: data.content,
-        // TODO: hashedContent
+        postId: data.postId,
+        content: data.content, // TODO: hashedContent
         epochKey: data.epk,
+        epoch: currentEpoch,
         epkProof: data.proof.map((n)=>add0x(BigInt(n).toString(16))),
         proveMinRep: data.minRep !== 0 ? true : false,
         minRep: Number(data.minRep),
+        posRep: 0,
+        negRep: 0,
         status: 0
       });
 
       await newComment.save(err => console.log(err));
+      Post.findByIdAndUpdate(
+        data.postId, 
+        { "$push": { "comments": newComment._id.toString() } },
+        { "new": true, "upsert": true }, 
+        (err) => console.log('update comments of post error: ' + err));
 
       let tx
       try {

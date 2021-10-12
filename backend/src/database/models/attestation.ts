@@ -1,26 +1,57 @@
-import * as mongoose from 'mongoose';
-import { Schema, Document } from 'mongoose';
+import { hash5 } from 'maci-crypto'
 
-export interface IAttestation {
-  transactionHash: string;
-  epoch: number
-  attester: string
-  attesterId: string
-  posRep: string
-  negRep: string
-  graffiti: string
-  overwriteGraffiti: boolean
+interface IAttestation {
+    attesterId: BigInt;
+    posRep: BigInt;
+    negRep: BigInt;
+    graffiti: BigInt;
+    overwriteGraffiti: boolean;
 }
 
-export interface IAttestations extends Document {
-  epochKey: string
-  attestations: Array<IAttestation>
+class Attestation implements IAttestation {
+    public attesterId: BigInt
+    public posRep: BigInt
+    public negRep: BigInt
+    public graffiti: BigInt
+    public overwriteGraffiti: boolean
+
+    constructor(
+        _attesterId: BigInt,
+        _posRep: BigInt,
+        _negRep: BigInt,
+        _graffiti: BigInt,
+        _overwriteGraffiti: boolean,
+    ) {
+        this.attesterId = _attesterId
+        this.posRep = _posRep
+        this.negRep = _negRep
+        this.graffiti = _graffiti
+        this.overwriteGraffiti = _overwriteGraffiti
+    }
+
+    public hash = (): BigInt => {
+        return hash5([
+            this.attesterId,
+            this.posRep,
+            this.negRep,
+            this.graffiti,
+            BigInt(this.overwriteGraffiti),
+        ])
+    }
+
+    public toJSON = (space = 0): string => {
+        return JSON.stringify(
+            {
+                attesterId: this.attesterId.toString(),
+                posRep: this.posRep.toString(),
+                negRep: this.negRep.toString(),
+                graffiti: this.graffiti.toString(),
+                overwriteGraffiti: this.overwriteGraffiti
+            },
+            null,
+            space
+        )
+    }
 }
-  
-const AttestationsSchema: Schema = new Schema({
-  epochKey: { type: String },
-  attestations: { type: Array },
-}, { collection: 'Attestations' });
 
-
-export default mongoose.model<IAttestations>('Attestations', AttestationsSchema);
+export { Attestation }

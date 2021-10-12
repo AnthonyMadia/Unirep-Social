@@ -46,25 +46,28 @@ class PostController {
       )
       const currentEpoch = await unirepContract.currentEpoch()
       
-      const newpost: IPost = new Post({
+      const newPost: IPost = new Post({
         content: data.content,
         // TODO: hashedContent
         epochKey: data.epk,
+        epoch: currentEpoch,
         epkProof: data.proof.map((n)=>add0x(BigInt(n).toString(16))),
         proveMinRep: data.minRep !== 0 ? true : false,
         minRep: Number(data.minRep),
+        posRep: 0,
+        negRep: 0,
         comments: [],
         status: 0
       });
 
-      await newpost.save(err => console.log(err));
+      await newPost.save(err => console.log(err));
 
       const attestingFee = await unirepContract.attestingFee()
 
       let tx
       try {
           tx = await unirepSocialContract.publishPost(
-              BigInt(add0x(newpost._id.toString())), 
+              BigInt(add0x(newPost._id.toString())), 
               BigInt(add0x(data.epk)),
               data.content, 
               data.nullifiers,
@@ -80,7 +83,7 @@ class PostController {
           return
       }
       
-      return {transaction: tx.hash, postId: newpost._id, currentEpoch: Number(currentEpoch)};
+      return {transaction: tx.hash, postId: newPost._id, currentEpoch: Number(currentEpoch)};
     }
   }
 

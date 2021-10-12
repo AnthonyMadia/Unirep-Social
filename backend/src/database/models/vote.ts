@@ -1,57 +1,27 @@
-import { hash5 } from 'maci-crypto'
+import * as mongoose from 'mongoose';
+import { Schema, Document } from 'mongoose';
 
-interface IAttestation {
-    attesterId: BigInt;
-    posRep: BigInt;
-    negRep: BigInt;
-    graffiti: BigInt;
-    overwriteGraffiti: boolean;
+export interface IVote {
+  transactionHash: string;
+  epoch: number
+  attester: string
+  posRep: string
+  negRep: string
+  graffiti: string
+  overwriteGraffiti: boolean
 }
 
-class Attestation implements IAttestation {
-    public attesterId: BigInt
-    public posRep: BigInt
-    public negRep: BigInt
-    public graffiti: BigInt
-    public overwriteGraffiti: boolean
-
-    constructor(
-        _attesterId: BigInt,
-        _posRep: BigInt,
-        _negRep: BigInt,
-        _graffiti: BigInt,
-        _overwriteGraffiti: boolean,
-    ) {
-        this.attesterId = _attesterId
-        this.posRep = _posRep
-        this.negRep = _negRep
-        this.graffiti = _graffiti
-        this.overwriteGraffiti = _overwriteGraffiti
-    }
-
-    public hash = (): BigInt => {
-        return hash5([
-            this.attesterId,
-            this.posRep,
-            this.negRep,
-            this.graffiti,
-            BigInt(this.overwriteGraffiti),
-        ])
-    }
-
-    public toJSON = (space = 0): string => {
-        return JSON.stringify(
-            {
-                attesterId: this.attesterId.toString(),
-                posRep: this.posRep.toString(),
-                negRep: this.negRep.toString(),
-                graffiti: this.graffiti.toString(),
-                overwriteGraffiti: this.overwriteGraffiti
-            },
-            null,
-            space
-        )
-    }
+export interface IVotes extends Document {
+  epochKey: string
+  attestations: Array<IVote>
 }
+  
+const AttestationsSchema: Schema = new Schema({
+  epochKey: { type: String },
+  attestations: { type: Array },
+}, {
+    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
+});
 
-export { Attestation }
+
+export default mongoose.model<IVotes>('Votes', AttestationsSchema);
