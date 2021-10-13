@@ -60,8 +60,6 @@ class PostController {
         status: 0
       });
 
-      await newPost.save(err => console.log(err));
-
       const attestingFee = await unirepContract.attestingFee()
 
       let tx
@@ -82,6 +80,16 @@ class PostController {
           }
           return
       }
+
+      await newPost.save((err, post) => {
+        console.log('new post error: ' + err);
+        Post.findByIdAndUpdate(
+          post._id.toString(),
+          { transactionHash: tx.hash.toString() },
+          { "new": true, "upsert": false }, 
+          (err) => console.log('update transaction hash of posts error: ' + err)
+        );
+      });
       
       return {transaction: tx.hash, postId: newPost._id, currentEpoch: Number(currentEpoch)};
     }

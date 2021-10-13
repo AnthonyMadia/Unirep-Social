@@ -51,13 +51,6 @@ class CommentController {
         status: 0
       });
 
-      await newComment.save(err => console.log(err));
-      Post.findByIdAndUpdate(
-        data.postId, 
-        { "$push": { "comments": newComment._id.toString() } },
-        { "new": true, "upsert": true }, 
-        (err) => console.log('update comments of post error: ' + err));
-
       let tx
       try {
           tx = await unirepSocialContract.leaveComment(
@@ -77,6 +70,22 @@ class CommentController {
           }
           return
       }
+
+      await newComment.save((err, comment) => {
+        console.log('new comment error: ' + err);
+        Comment.findByIdAndUpdate(
+          comment._id.toString(),
+          { transactionHash: tx.hash.toString() },
+          { "new": true, "upsert": false }, 
+          (err) => console.log('update transaction hash of comments error: ' + err)
+        );
+      });
+
+      Post.findByIdAndUpdate(
+        data.postId, 
+        { "$push": { "comments": newComment._id.toString() } },
+        { "new": true, "upsert": true }, 
+        (err) => console.log('update comments of post error: ' + err));
 
       return {transaction: tx.hash, commentId: newComment._id.toString(), currentEpoch: Number(currentEpoch)}
     }
