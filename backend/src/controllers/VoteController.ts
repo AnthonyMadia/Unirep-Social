@@ -5,6 +5,9 @@ import Unirep from "../artifacts/contracts/Unirep.sol/Unirep.json";
 import UnirepSocial from '../artifacts/contracts/UnirepSocial.sol/UnirepSocial.json';
 import { ethers } from 'ethers';
 import { Attestation } from '../database/models/attestation';
+import { IVote } from '../database/models/vote';
+import Post from '../database/models/post';
+import Comment from '../database/models/comment';
 
 class VoteController {
     defaultMethod() {
@@ -33,10 +36,9 @@ class VoteController {
           Unirep.abi,
           provider,
       )
+      const currentEpoch = await unirepContract.currentEpoch()
 
       const attestingFee = await unirepContract.attestingFee()
-      // const ethAddr = ethers.utils.computeAddress(DEPLOYER_PRIV_KEY)
-      // const attesterId = await unirepContract.attesters(ethAddr)
       const attesterId = await unirepContract.attesters(UNIREP_SOCIAL)
       console.log(attesterId)
       if (attesterId.toNumber() == 0) {
@@ -78,6 +80,32 @@ class VoteController {
           }
           return
       }
+
+      // save to db data
+      const newVote: IVote = {
+        transactionHash: tx.hash.toString(),
+        epoch: currentEpoch.toNumber(),
+        attester: data.epk,
+        posRep: data.upvote,
+        negRep: data.downvote,
+        graffiti: data.graffiti.toString(),
+        overwriteGraffiti: data.overwriteGraffiti,
+      };
+
+      if (data.isPost) {
+        Post.findByIdAndUpdate(
+          data.postId, 
+          { "$push": { "votes": newVote } },
+          { "new": true, "upsert": false }, 
+          (err) => console.log('update votes of post error: ' + err));
+      } else {
+        Comment.findByIdAndUpdate(
+          data.postId, 
+          { "$push": { "votes": newVote } },
+          { "new": true, "upsert": false }, 
+          (err) => console.log('update votes of comment error: ' + err));
+      }
+      
 
       return {transaction: tx.hash};
     }

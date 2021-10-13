@@ -30,6 +30,7 @@ export interface IComment extends Document {
     minRep: { type: Number },
     posRep: { type: Number, required: true },
     negRep: { type: Number, required: true },
+    votes: { type: [ ] },
     status: { type: Number, required: true },
   }, { 
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },

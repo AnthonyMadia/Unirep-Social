@@ -2,11 +2,11 @@ import * as mongoose from 'mongoose';
 import { Schema, Document } from 'mongoose';
 
 export interface IVote {
-  transactionHash: string;
+  transactionHash: string
   epoch: number
   attester: string
-  posRep: string
-  negRep: string
+  posRep: number
+  negRep: number
   graffiti: string
   overwriteGraffiti: boolean
 }

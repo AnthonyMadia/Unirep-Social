@@ -38,10 +38,10 @@ const VoteBox = (props: Props) => {
 
             let ret: any;
             if (props.isUpvote) {
-                ret = await vote(user.identity, givenAmount, 0, props.data.id, props.data.epoch_key, epkNonce);
+                ret = await vote(user.identity, givenAmount, 0, props.data.id, props.data.epoch_key, epkNonce, 0, false);
                 console.log('upvote ret: ' + JSON.stringify(ret))
             } else {
-                ret = await vote(user.identity, 0, givenAmount, props.data.id, props.data.epoch_key, epkNonce);
+                ret = await vote(user.identity, 0, givenAmount, props.data.id, props.data.epoch_key, epkNonce, 0, false);
                 console.log('downvote ret: ' + JSON.stringify(ret))
             }
 

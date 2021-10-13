@@ -221,7 +221,7 @@ export const publishPost = async (content: string, epkNonce: number, identity: s
     return {epk: ret.epk, transaction, postId, currentEpoch}
 }
 
-export const vote = async(identity: string, upvote: number, downvote: number, postId: string, receiver: string, epkNonce: number = 0, minRep: number = 0) => {
+export const vote = async(identity: string, upvote: number, downvote: number, postId: string, receiver: string, epkNonce: number = 0, minRep: number = 0, isPost: boolean = true) => {
     // upvote / downvote user 
     const graffiti = BigInt(0)
     const overwriteGraffiti = false
@@ -232,6 +232,8 @@ export const vote = async(identity: string, upvote: number, downvote: number, po
         console.error('genProof error, ret is undefined.')
         return
     }
+
+    console.error(postId)
 
     // send publicsignals, proof, voted post id, receiver epoch key, graffiti to backend  
     const apiURL = makeURL('vote', {})
@@ -245,7 +247,9 @@ export const vote = async(identity: string, upvote: number, downvote: number, po
        minRep,
        nullifiers: ret.nullifiers,
        publicSignals: ret.publicSignals,
-       receiver
+       receiver,
+       postId,
+       isPost
     }
     const stringifiedData = JSON.stringify(data, (key, value) => 
        typeof value === "bigint" ? value.toString() + "n" : value
@@ -264,7 +268,7 @@ export const vote = async(identity: string, upvote: number, downvote: number, po
        });
 
     const epochKey = BigInt(add0x(ret.epk))
-    return {epk: epochKey.toString(), transaction} 
+    return {epk: ret.epk, transaction} 
 }
 
 export const leaveComment = async(identity: string, content: string, postId: string, epkNonce: number = 0, minRep: number = 0) => {
